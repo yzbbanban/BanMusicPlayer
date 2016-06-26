@@ -7,6 +7,6 @@ import java.util.*;
  * Created by YZBbanban on 16/6/23.
  */
 public interface INetMusicCallback {
-    void findAllMusic(List<Music> musics);
+    void findAllMusic(Object data);
 
 }

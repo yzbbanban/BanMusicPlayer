@@ -6,7 +6,7 @@ package com.wangban.yzbbanban.banmusicplayer.entity;
 import java.util.*;
 public class QuestResultDetial {
     private int error_code;
-    private List<Songinfo> songinfo;
+    private List<SongInfo> songinfo;
     private List<SongUrl> songurl;
 
     public QuestResultDetial() {
@@ -20,11 +20,11 @@ public class QuestResultDetial {
         this.error_code = error_code;
     }
 
-    public List<Songinfo> getSonginfo() {
+    public List<SongInfo> getSonginfo() {
         return songinfo;
     }
 
-    public void setSonginfo(List<Songinfo> songinfo) {
+    public void setSonginfo(List<SongInfo> songinfo) {
         this.songinfo = songinfo;
     }
 

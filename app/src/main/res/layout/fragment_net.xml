@@ -16,11 +16,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
-            android:textSize="14sp"
-            android:hint="请输入您要搜索的内容"
             android:background="@drawable/shape_edit_search"
-            />
+            android:hint="请输入您要搜索的内容"
+            android:padding="5dp"
+            android:textSize="14sp" />
 
         <ImageButton
             android:id="@+id/btn_local_music"
@@ -34,36 +33,59 @@
 
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/rg_list_select"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
 
-        <RadioButton
-            android:id="@+id/rbtn_music_list"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:checked="true"
-            android:gravity="center"
-            android:text="排行榜"
-            android:textColor="@drawable/select_net_list_text_color" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/rbtn_radio_list"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:text="电台"
-            android:textColor="@drawable/select_net_list_text_color" />
-    </RadioGroup>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/net_viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="排行榜"
+                android:textColor="@color/colorOrage"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/colorOTLightGrey"></View>
+
+            <include layout="@layout/fragment_net_top_list"></include>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/colorOTLightGrey"></View>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="电台"
+                android:textColor="@color/colorOrage"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/colorOTLightGrey"></View>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
 </LinearLayout>

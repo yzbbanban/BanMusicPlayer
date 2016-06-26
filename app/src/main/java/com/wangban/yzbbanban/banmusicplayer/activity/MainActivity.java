@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setData();
         setListener();
     }
-    private Object lastFragment;
-    private int lastPosition;
+
 
 
     private void setListener() {
@@ -56,16 +55,16 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbtn_net_music:
-                        selectFragment(0);
+                        MainActivity.this.selectFragment(0);
                         break;
                     case R.id.rbtn_local_music:
-                        selectFragment(1);
+                        MainActivity.this.selectFragment(1);
                         break;
                     case R.id.rbtn_image:
-                        selectFragment(2);
+                        MainActivity.this.selectFragment(2);
                         break;
                     case R.id.rbtn_book:
-                        selectFragment(3);
+                        MainActivity.this.selectFragment(3);
                         break;
 
                 }
@@ -74,13 +73,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private Object lastFragment;
+    private int lastPosition;
     private void selectFragment(int position) {
         //destort another fragment,falg set null
         if (lastFragment != null) {
             adapter.destroyItem(flContainer, lastPosition, lastFragment);
             lastFragment = null;
         }
-
         //set local frgment
         Object fragment = adapter.instantiateItem(flContainer, position);
         //
@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                return 4;
+                return fragments.size();
             }
         };
 
-        selectFragment(1);
+        MainActivity.this.selectFragment(0);
 
 
     }

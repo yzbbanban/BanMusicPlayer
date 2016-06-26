@@ -4,10 +4,10 @@ package com.wangban.yzbbanban.banmusicplayer.entity;
  * Created by YZBbanban on 16/6/23.
  */
 public class Billboard {
-    private int billboard_no;
-    private int billboard_songnum;
-    private int billboard_type;
-    private int havemore;
+    private String billboard_no;
+    private String billboard_songnum;
+    private String billboard_type;
+    private String havemore;
     private String comment;
     private String name;
     private String pic_s210;
@@ -20,7 +20,7 @@ public class Billboard {
     public Billboard() {
     }
 
-    public Billboard(int billboard_no, int billboard_songnum, int billboard_type, int havemore, String comment, String name, String pic_s210, String pic_s260, String pic_s444, String pic_s640, String update_date, String web_url) {
+    public Billboard(String billboard_no, String billboard_songnum, String billboard_type, String havemore, String comment, String name, String pic_s210, String pic_s260, String pic_s444, String pic_s640, String update_date, String web_url) {
         this.billboard_no = billboard_no;
         this.billboard_songnum = billboard_songnum;
         this.billboard_type = billboard_type;
@@ -35,35 +35,35 @@ public class Billboard {
         this.web_url = web_url;
     }
 
-    public int getBillboard_no() {
+    public String getBillboard_no() {
         return billboard_no;
     }
 
-    public void setBillboard_no(int billboard_no) {
+    public void setBillboard_no(String billboard_no) {
         this.billboard_no = billboard_no;
     }
 
-    public int getBillboard_songnum() {
+    public String getBillboard_songnum() {
         return billboard_songnum;
     }
 
-    public void setBillboard_songnum(int billboard_songnum) {
+    public void setBillboard_songnum(String billboard_songnum) {
         this.billboard_songnum = billboard_songnum;
     }
 
-    public int getBillboard_type() {
+    public String getBillboard_type() {
         return billboard_type;
     }
 
-    public void setBillboard_type(int billboard_type) {
+    public void setBillboard_type(String billboard_type) {
         this.billboard_type = billboard_type;
     }
 
-    public int getHavemore() {
+    public String getHavemore() {
         return havemore;
     }
 
-    public void setHavemore(int havemore) {
+    public void setHavemore(String havemore) {
         this.havemore = havemore;
     }
 
@@ -130,5 +130,4 @@ public class Billboard {
     public void setWeb_url(String web_url) {
         this.web_url = web_url;
     }
-
 }

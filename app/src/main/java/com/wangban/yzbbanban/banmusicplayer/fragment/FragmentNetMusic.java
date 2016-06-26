@@ -1,17 +1,24 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
+import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 
 /**
  * Created by YZBbanban on 16/6/23.
@@ -21,23 +28,31 @@ import org.xutils.x;
 
 import java.util.*;
 
-public class FragmentNetMusic extends Fragment {
-    @ViewInject(R.id.rg_list_select)
-    private RadioGroup radioGroupList;
-    @ViewInject(R.id.net_viewPager)
-    private ViewPager netViewPager;
-    @ViewInject(R.id.rbtn_music_list)
-    private RadioButton rbtnMusicList;
-    @ViewInject(R.id.rbtn_radio_list)
-    private RadioButton rbtnRadioList;
-    private FragmentPagerAdapter adapter;
-    private List<Fragment> fragments;
+public class FragmentNetMusic extends Fragment implements  View.OnClickListener, Consts {
+    @ViewInject(R.id.ibtn_new_list)
+    private ImageButton ibtnNewList;
+    @ViewInject(R.id.ibtn_hot_list)
+    private ImageButton ibtnHotList;
+    @ViewInject(R.id.ibtn_hito_list)
+    private ImageButton ibtnHitoList;
+    @ViewInject(R.id.ibtn_ktv_list)
+    private ImageButton ibtnKtvList;
 
+    public FragmentNetMusic() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: fragmentNetMusic");
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_net, null);
+        Log.i(TAG, "onCreateView: fragmentNetMusic");
         x.view().inject(this, view);
         setData();
         setListeners();
@@ -45,67 +60,35 @@ public class FragmentNetMusic extends Fragment {
     }
 
     private void setListeners() {
-        radioGroupList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                switch (checkedId) {
-                    case R.id.rbtn_music_list:
-                        netViewPager.setCurrentItem(0);
-                        break;
-                    case R.id.rbtn_radio_list:
-                        netViewPager.setCurrentItem(1);
-                        break;
-                }
-            }
-        });
-
-        netViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                ((RadioButton)radioGroupList.getChildAt(position)).setChecked(true);
-//                switch (position) {
-//                    case 0:
-//                        rbtnMusicList.setChecked(true);
-//                        break;
-//                    case 1:
-//                        rbtnRadioList.setChecked(true);
-//                        break;
-//                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
+        ibtnNewList.setOnClickListener(this);
+        ibtnHotList.setOnClickListener(this);
+        ibtnHitoList.setOnClickListener(this);
+        ibtnKtvList.setOnClickListener(this);
     }
 
     private void setData() {
 
-        fragments = new ArrayList<Fragment>();
-        fragments.add(new FragmentNetMusicList());
-        fragments.add(new FragmentNetRadioList());
-        adapter = new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
-        };
-        netViewPager.setAdapter(adapter);
-        //netViewPager.setOffscreenPageLimit(3);
     }
 
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ibtn_new_list:
+                startActivity(new Intent(this.getActivity(), DetialMusicActivity.class));
+                Log.i(TAG, "onClick: new");
+                break;
+            case R.id.ibtn_hot_list:
+                Log.i(TAG, "onClick: hot");
+                break;
+            case R.id.ibtn_hito_list:
+                Log.i(TAG, "onClick: hito");
+                break;
+            case R.id.ibtn_ktv_list:
+                Log.i(TAG, "onClick: ktv");
+                break;
+
+        }
+    }
 }

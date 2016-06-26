@@ -24,7 +24,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/iv_new_list"
+                    android:id="@+id/ibtn_new_list"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -89,7 +89,7 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/iv_hot_list"
+                        android:id="@+id/ibtn_hot_list"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"
@@ -154,7 +154,7 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/iv_hito_list"
+                        android:id="@+id/ibtn_hito_list"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"
@@ -220,7 +220,7 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/iv_ktv_list"
+                        android:id="@+id/ibtn_ktv_list"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"
