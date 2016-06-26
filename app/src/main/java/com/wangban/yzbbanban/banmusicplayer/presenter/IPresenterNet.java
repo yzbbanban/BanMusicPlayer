@@ -7,6 +7,9 @@ import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
  */
 public interface IPresenterNet {
 
-    void loadAllMusics();
+    void loadNewMusics();
+    void loadHotMusics();
+    void loadBillboardMusics();
+    void loadKTVMusics();
 
 }

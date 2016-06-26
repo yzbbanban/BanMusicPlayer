@@ -11,10 +11,19 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
+        <ImageButton
+            android:id="@+id/ibtn_music_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:src="@drawable/search_edit_top_img" />
+
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit_search"
             android:hint="请输入您要搜索的内容"
@@ -36,8 +45,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,6 +72,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/colorOTLightGrey"></View>
 
 

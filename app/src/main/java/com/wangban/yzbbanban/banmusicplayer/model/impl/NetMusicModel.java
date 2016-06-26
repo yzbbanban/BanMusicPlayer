@@ -22,8 +22,29 @@ public class NetMusicModel implements INetMusicModel ,Consts{
 
 
     @Override
-    public void findAllMusic(final INetMusicCallback callback) {
+    public void findAllNewMusic(INetMusicCallback callback) {
         String url =NEW_MUSIC_LIST;
+        jsonPaser(url,callback);
+    }
+
+    @Override
+    public void findAllHotMusic(INetMusicCallback callback) {
+        String url =HOT_MUSIC_LIST;
+        jsonPaser(url,callback);
+    }
+
+    @Override
+    public void findAllBillboardMusic(INetMusicCallback callback) {
+        String url =BILLBOARD_MUSIC_LIST;
+        jsonPaser(url,callback);
+    }
+
+    @Override
+    public void findAllKtvMusic(INetMusicCallback callback) {
+        String url =KTV_MUSIC_LIST;
+        jsonPaser(url,callback);
+    }
+    private void jsonPaser(String url,final INetMusicCallback callback){
         StringRequest request = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

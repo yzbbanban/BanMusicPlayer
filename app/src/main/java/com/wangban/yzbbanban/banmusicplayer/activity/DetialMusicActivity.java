@@ -1,5 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +12,8 @@ import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
-import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetImpl;
+import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
+import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 
 import org.xutils.view.annotation.ViewInject;
@@ -27,20 +29,17 @@ public class DetialMusicActivity extends AppCompatActivity implements View.OnCli
     private Toolbar toolbar;
     @ViewInject(R.id.btn_music_list_back)
     private Button btnMusciListBack;
-    private IPresenterNet presenterNet;
+    private IPresenterNetDetial presenterNetDetial;
     private MusicListAdapter musicListAdapter;
     private List<Music> musics;
-
-    public DetialMusicActivity() {
-        presenterNet=new PresenterNetImpl(this);
-    }
+    private int type;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detial_music);
         x.view().inject(this);
-       // presenterNet=new PresenterNetImpl(this);
         setSupportActionBar(toolbar);
 
         setData();
@@ -49,9 +48,10 @@ public class DetialMusicActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setData() {
-        presenterNet=new PresenterNetImpl(this);
-        presenterNet.loadAllMusics();
-
+        intent =getIntent();
+        type=intent.getIntExtra("type",1);
+        presenterNetDetial=new PresenterNetDetialImpl(this,type);
+        presenterNetDetial.loadAllMusics();
     }
 
     private void setListeners() {
@@ -75,6 +75,7 @@ public class DetialMusicActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()){
             case R.id.btn_music_list_back:
                 finish();
+                overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
                 break;
 
         }

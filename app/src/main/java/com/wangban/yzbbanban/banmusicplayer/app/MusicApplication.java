@@ -8,12 +8,18 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
+import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 
 import org.xutils.x;
 
 import java.util.ArrayList;
-
+import java.util.*;
 public class MusicApplication extends Application{
+    /**
+     * 创建 MusicPlayer
+     */
+    private static MusicPlayer musicPlayer;
 
     private ArrayList<DetialImage> images;
     private int position;
@@ -23,6 +29,7 @@ public class MusicApplication extends Application{
         super.onCreate();
         x.Ext.init(this);
         queue= Volley.newRequestQueue(this);
+        musicPlayer=new MusicPlayer();
     }
     public static RequestQueue getQueue(){
         return queue;
@@ -41,5 +48,13 @@ public class MusicApplication extends Application{
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    /**
+     * 直接获取 musicplayer
+     * @return
+     */
+    public static MusicPlayer getMusicPlayer(){
+        return musicPlayer;
     }
 }

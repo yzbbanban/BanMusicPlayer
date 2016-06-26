@@ -8,6 +8,11 @@ import android.os.Environment;
 public interface Consts {
     int HANDLER_PICDAL_SUCCESS = 1;
     String NEW_MUSIC_LIST="http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=1&offset=0&size=50";
+    String HOT_MUSIC_LIST="http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=2&offset=0&size=50";
+    String BILLBOARD_MUSIC_LIST="http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=8&offset=0&size=50";
+    String KTV_MUSIC_LIST="http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=6&offset=0&size=50";
+
+
     String YOUNG = "http://m.xxxiao.com/cat/shaonv";
 
     String BEAUTY_PATH = Environment.getExternalStorageDirectory() + "/DCIM/";
@@ -16,6 +21,11 @@ public interface Consts {
 
     String TAG = "supergirl";
     String TAG2 = "superman";
+
+    int NEW=100;
+    int HOT=200;
+    int BILLBOARD=300;
+    int KTV=400;
 
     int HANDLER_LOAD_BITMAP_SUCCESSS = 1;
     int HANDLER_SAVE_IMGER_TO_SD = 3;
