@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/rg_player_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorOTDarkGrey"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbtn_net_music"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/select_net"
+            android:gravity="center"
+            android:text="发现"
+            android:textColor="@drawable/select_net_text_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rbtn_local_music"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/select_music_play"
+            android:gravity="center"
+            android:text="音乐"
+            android:textColor="@drawable/select_play_text_color"
+            android:textSize="12sp"
+            android:typeface="normal" />
+
+        <RadioButton
+            android:id="@+id/rbtn_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/select_image"
+            android:gravity="center"
+            android:text="图库"
+            android:textColor="@drawable/select_imge_text_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rbtn_book"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/select_book"
+            android:gravity="center"
+            android:text="书籍"
+            android:textColor="@drawable/select_book_text_color"
+            android:textSize="12sp" />
+
+
+    </RadioGroup>
+
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rg_player_bottom"></FrameLayout>
+
+
+</RelativeLayout>
