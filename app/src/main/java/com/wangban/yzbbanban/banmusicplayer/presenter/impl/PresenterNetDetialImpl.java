@@ -2,12 +2,10 @@ package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
-import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
-import com.wangban.yzbbanban.banmusicplayer.model.impl.NetMusicModel;
-import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
+import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
+import com.wangban.yzbbanban.banmusicplayer.model.impl.NetDetialModelImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
-import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
 import java.util.List;
 
@@ -15,63 +13,36 @@ import java.util.List;
  * Created by YZBbanban on 16/6/26.
  */
 public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
-    private IViewNet view;
-    private INetMusicModel model;
+    private IViewNetDetial view;
+    private INetDetialModel model;
     private int type;
 
-    public PresenterNetDetialImpl(IViewNet view, int type) {
+
+    public PresenterNetDetialImpl(IViewNetDetial view, int type) {
         this.view = view;
         this.type = type;
-        model = new NetMusicModel();
+        model = new NetDetialModelImpl();
 
     }
 
     @Override
     public void loadAllMusics() {
+        List<Music> musics = null;
         switch (type) {
             case NEW:
-                model.findAllNewMusic(new INetMusicCallback() {
-                    @Override
-                    public void findAllMusic(Object data) {
-                        List<Music> musics = (List<Music>) data;
-                        view.setMusicData(musics);
-                        view.showMusicData();
-                    }
-                });
+                musics = (List<Music>) model.findAllNewMusic();
                 break;
             case HOT:
-                model.findAllHotMusic(new INetMusicCallback() {
-                    @Override
-                    public void findAllMusic(Object data) {
-                        List<Music> musics = (List<Music>) data;
-                        view.setMusicData(musics);
-                        view.showMusicData();
-                    }
-                });
+                musics = (List<Music>) model.findAllHotMusic();
                 break;
             case BILLBOARD:
-                model.findAllBillboardMusic(new INetMusicCallback() {
-                    @Override
-                    public void findAllMusic(Object data) {
-                        List<Music> musics = (List<Music>) data;
-                        view.setMusicData(musics);
-                        view.showMusicData();
-                    }
-                });
+                musics = (List<Music>) model.findAllBillMusic();
                 break;
             case KTV:
-                model.findAllKtvMusic(new INetMusicCallback() {
-                    @Override
-                    public void findAllMusic(Object data) {
-                        List<Music> musics = (List<Music>) data;
-                        view.setMusicData(musics);
-                        view.showMusicData();
-                    }
-                });
+                musics = (List<Music>) model.findAllKtvMusic();
                 break;
-
         }
-
-
+        view.setMusicData(musics);
+        view.showMusicData();
     }
 }

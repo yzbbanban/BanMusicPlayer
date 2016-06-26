@@ -1,19 +1,23 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
+import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.NetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
-
+import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
+import java.util.*;
 /**
  * Created by YZBbanban on 16/6/26.
  */
-public class PresenterNet implements IPresenterNet{
+public class PresenterNetImpl implements IPresenterNet{
 
     private INetMusicModel model;
-
-    public PresenterNet() {
+    private IViewNet view;
+    public PresenterNetImpl(IViewNet view) {
+        this.view=view;
         model=new NetMusicModel();
+
     }
 
     @Override
@@ -21,7 +25,8 @@ public class PresenterNet implements IPresenterNet{
         model.findAllNewMusic(new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-
+                List<Music> musics= (List<Music>) data;
+                view.setNewText(musics);
             }
         });
     }
@@ -31,7 +36,8 @@ public class PresenterNet implements IPresenterNet{
         model.findAllHotMusic(new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-
+                List<Music> musics= (List<Music>) data;
+                view.setHotText(musics);
             }
         });
     }
@@ -41,7 +47,8 @@ public class PresenterNet implements IPresenterNet{
         model.findAllBillboardMusic(new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-
+                List<Music> musics= (List<Music>) data;
+                view.setBillText(musics);
             }
         });
     }
@@ -51,7 +58,8 @@ public class PresenterNet implements IPresenterNet{
         model.findAllKtvMusic(new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-
+                List<Music> musics= (List<Music>) data;
+                view.setKtvText(musics);
             }
         });
     }

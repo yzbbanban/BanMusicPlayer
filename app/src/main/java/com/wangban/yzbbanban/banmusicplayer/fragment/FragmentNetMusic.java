@@ -4,22 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
+import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetImpl;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 
 /**
@@ -28,9 +25,9 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.*;
+import java.util.List;
 
-public class FragmentNetMusic extends Fragment implements View.OnClickListener, Consts {
+public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClickListener, Consts {
     @ViewInject(R.id.ibtn_new_list)
     private ImageButton ibtnNewList;
     @ViewInject(R.id.ibtn_hot_list)
@@ -72,23 +69,28 @@ public class FragmentNetMusic extends Fragment implements View.OnClickListener, 
 
     private Intent intent;
     private int type;
+    private List<Music> newList;
+    private List<Music> hotList;
+    private List<Music> billboardList;
+    private List<Music> ktvList;
 
+    private IPresenterNet iPresenterNet;
 
     public FragmentNetMusic() {
-
+        iPresenterNet = new PresenterNetImpl(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume: fragmentNetMusic");
+        //Log.i(TAG, "onResume: fragmentNetMusic");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_net, null);
-        Log.i(TAG, "onCreateView: fragmentNetMusic");
+        //Log.i(TAG, "onCreateView: fragmentNetMusic");
         x.view().inject(this, view);
         setData();
         setListeners();
@@ -103,9 +105,10 @@ public class FragmentNetMusic extends Fragment implements View.OnClickListener, 
     }
 
     private void setData() {
-
-
-
+        iPresenterNet.loadNewMusics();
+        iPresenterNet.loadHotMusics();
+        iPresenterNet.loadBillboardMusics();
+        iPresenterNet.loadKTVMusics();
     }
 
     @Override
@@ -126,7 +129,7 @@ public class FragmentNetMusic extends Fragment implements View.OnClickListener, 
             case R.id.ibtn_billboard_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = BILLBOARD;
-//                Log.i(TAG, "onClick: hito");
+//                Log.i(TAG, "onClick: billboard");
                 break;
             case R.id.ibtn_ktv_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
@@ -136,5 +139,33 @@ public class FragmentNetMusic extends Fragment implements View.OnClickListener, 
         }
         intent.putExtra("type", type);
         startActivity(intent);
+    }
+
+    @Override
+    public void setNewText(List<Music> musics) {
+        tvNewFirst.setText(musics.get(0).getTitle());
+        tvNewSecond.setText(musics.get(1).getTitle());
+        tvNewThird.setText(musics.get(2).getTitle());
+    }
+
+    @Override
+    public void setHotText(List<Music> musics) {
+        tvHotFirst.setText(musics.get(0).getTitle());
+        tvHotSecond.setText(musics.get(1).getTitle());
+        tvHotThird.setText(musics.get(2).getTitle());
+    }
+
+    @Override
+    public void setBillText(List<Music> musics) {
+        tvBillFirst.setText(musics.get(0).getTitle());
+        tvBillSecond.setText(musics.get(1).getTitle());
+        tvBillThird.setText(musics.get(2).getTitle());
+    }
+
+    @Override
+    public void setKtvText(List<Music> musics) {
+        tvKtvFirst.setText(musics.get(0).getTitle());
+        tvKtvSecond.setText(musics.get(1).getTitle());
+        tvKtvThird.setText(musics.get(2).getTitle());
     }
 }

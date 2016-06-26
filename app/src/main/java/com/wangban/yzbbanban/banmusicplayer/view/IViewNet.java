@@ -6,6 +6,8 @@ import java.util.*;
  * Created by YZBbanban on 16/6/26.
  */
 public interface IViewNet {
-    void setMusicData(List<Music> musics);
-    void showMusicData();
+    void setNewText(List<Music> musics);
+    void setHotText(List<Music> musics);
+    void setBillText(List<Music> musics);
+    void setKtvText(List<Music> musics);
 }

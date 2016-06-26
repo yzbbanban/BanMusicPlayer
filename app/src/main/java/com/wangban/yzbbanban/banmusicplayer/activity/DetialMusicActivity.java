@@ -11,10 +11,9 @@ import android.widget.ListView;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
-import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
-import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -22,7 +21,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetialMusicActivity extends AppCompatActivity implements View.OnClickListener, IViewNet{
+public class DetialMusicActivity extends AppCompatActivity implements View.OnClickListener, IViewNetDetial {
     @ViewInject(R.id.lv_detial_music)
     private ListView listView;
     @ViewInject(R.id.toolbar)
