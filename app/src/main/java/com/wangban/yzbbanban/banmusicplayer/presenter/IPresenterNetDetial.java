@@ -5,6 +5,6 @@ package com.wangban.yzbbanban.banmusicplayer.presenter;
  */
 public interface IPresenterNetDetial {
     void loadAllMusics();
-
+    void setSongUrl(String songUrl);
 
 }

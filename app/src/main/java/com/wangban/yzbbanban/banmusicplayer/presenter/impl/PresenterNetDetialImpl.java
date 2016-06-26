@@ -25,6 +25,9 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
 
     }
 
+    /**
+     * 根据类型获取 music
+     */
     @Override
     public void loadAllMusics() {
         List<Music> musics = null;
@@ -45,4 +48,15 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
         view.setMusicData(musics);
         view.showMusicData();
     }
+
+
+
+    @Override
+    public void setSongUrl(String songId) {
+        model.setSongUrl(songId);
+
+
+    }
+
+
 }

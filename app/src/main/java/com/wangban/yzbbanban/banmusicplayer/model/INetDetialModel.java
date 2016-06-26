@@ -13,6 +13,8 @@ public interface INetDetialModel {
 
     void getPreviousPosition();
 
+    void setSongUrl(String songId);
+
     Object findAllNewMusic();
 
     Object findAllHotMusic();

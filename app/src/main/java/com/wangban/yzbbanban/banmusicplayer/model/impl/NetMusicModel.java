@@ -12,8 +12,13 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QueryResult;
+import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultDetial;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongUrl;
+import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
+import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
 import java.util.*;
 
@@ -24,6 +29,7 @@ public class NetMusicModel implements INetMusicModel, Consts {
     private MusicPlayer musicPlayer;
     private List<Music> musics;
 
+
     public NetMusicModel() {
         musicPlayer = MusicApplication.getMusicPlayer();
         musics = new ArrayList<Music>();
@@ -31,26 +37,26 @@ public class NetMusicModel implements INetMusicModel, Consts {
 
     @Override
     public void findAllNewMusic(INetMusicCallback callback) {
-        String url = NEW_MUSIC_LIST;
+        String url = UrlFactory.NEW_MUSIC_LIST;
         jsonPaser(NEW, url, callback);
     }
 
     @Override
     public void findAllHotMusic(INetMusicCallback callback) {
-        String url = HOT_MUSIC_LIST;
+        String url = UrlFactory.HOT_MUSIC_LIST;
         jsonPaser(HOT, url, callback);
     }
 
     @Override
     public void findAllBillboardMusic(INetMusicCallback callback) {
-        String url = BILLBOARD_MUSIC_LIST;
+        String url = UrlFactory.BILLBOARD_MUSIC_LIST;
         jsonPaser(BILLBOARD, url, callback);
     }
 
     @Override
     public void findAllKtvMusic(INetMusicCallback callback) {
         musics = musicPlayer.getKtvList();
-        String url = KTV_MUSIC_LIST;
+        String url = UrlFactory.KTV_MUSIC_LIST;
         jsonPaser(KTV, url, callback);
     }
 
@@ -82,9 +88,12 @@ public class NetMusicModel implements INetMusicModel, Consts {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "onErrorResponse: 获取失败");
             }
         });
 
         MusicApplication.getQueue().add(request);
     }
+
+
 }

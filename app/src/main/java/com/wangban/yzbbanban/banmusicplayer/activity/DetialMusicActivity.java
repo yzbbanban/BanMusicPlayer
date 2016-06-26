@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
+import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
@@ -21,7 +25,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetialMusicActivity extends AppCompatActivity implements View.OnClickListener, IViewNetDetial {
+public class DetialMusicActivity extends AppCompatActivity implements Consts,View.OnClickListener, IViewNetDetial {
     @ViewInject(R.id.lv_detial_music)
     private ListView listView;
     @ViewInject(R.id.toolbar)
@@ -55,6 +59,16 @@ public class DetialMusicActivity extends AppCompatActivity implements View.OnCli
 
     private void setListeners() {
         btnMusciListBack.setOnClickListener(this);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(DetialMusicActivity.this,""+musics.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+                //Log.i(TAG, "onItemClick: "+"歌曲地址: "+musics.get(position).getSong_id());
+                //设置 song_id
+            presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+
+            }
+        });
 
     }
 
