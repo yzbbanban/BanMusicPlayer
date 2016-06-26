@@ -3,8 +3,6 @@ package com.wangban.yzbbanban.banmusicplayer.entity;
 /**
  * Created by YZBbanban on 16/6/26.
  */
-
-
 public class SongInfo {
     private String pic_huge;
     private String album_1000_1000;
@@ -284,4 +282,3 @@ public class SongInfo {
     }
 
 }
-
