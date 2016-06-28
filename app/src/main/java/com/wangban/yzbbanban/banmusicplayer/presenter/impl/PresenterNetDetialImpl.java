@@ -1,8 +1,11 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
+import android.util.Log;
+
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
+import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.NetDetialModelImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
@@ -53,8 +56,14 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
 
     @Override
     public void setSongUrl(String songId) {
-        model.setSongUrl(songId);
-
+        model.setSongUrl(songId, new INetMusicCallback() {
+            @Override
+            public void findAllMusic(Object data) {
+                Log.i(TAG, "findAllMusic: "+data);
+                String url= (String) data;
+                view.playMusic(url);
+            }
+        });
 
     }
 

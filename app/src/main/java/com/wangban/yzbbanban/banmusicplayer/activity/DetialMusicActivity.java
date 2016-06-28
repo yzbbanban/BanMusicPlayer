@@ -25,7 +25,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetialMusicActivity extends AppCompatActivity implements Consts,View.OnClickListener, IViewNetDetial {
+public class DetialMusicActivity extends AppCompatActivity implements Consts, View.OnClickListener, IViewNetDetial {
     @ViewInject(R.id.lv_detial_music)
     private ListView listView;
     @ViewInject(R.id.toolbar)
@@ -51,9 +51,9 @@ public class DetialMusicActivity extends AppCompatActivity implements Consts,Vie
     }
 
     private void setData() {
-        intent =getIntent();
-        type=intent.getIntExtra("type",1);
-        presenterNetDetial=new PresenterNetDetialImpl(this,type);
+        intent = getIntent();
+        type = intent.getIntExtra("type", 1);
+        presenterNetDetial = new PresenterNetDetialImpl(this, type);
         presenterNetDetial.loadAllMusics();
     }
 
@@ -63,9 +63,10 @@ public class DetialMusicActivity extends AppCompatActivity implements Consts,Vie
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(DetialMusicActivity.this,""+musics.get(position).getTitle(),Toast.LENGTH_SHORT).show();
-                //Log.i(TAG, "onItemClick: "+"歌曲地址: "+musics.get(position).getSong_id());
                 //设置 song_id
-            presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+                Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
+                presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+
 
             }
         });
@@ -74,21 +75,29 @@ public class DetialMusicActivity extends AppCompatActivity implements Consts,Vie
 
     @Override
     public void setMusicData(List<Music> musics) {
-       this.musics=musics;
+        this.musics = musics;
     }
 
     @Override
     public void showMusicData() {
-        musicListAdapter=new MusicListAdapter(this, (ArrayList<Music>) musics);
+        musicListAdapter = new MusicListAdapter(this, (ArrayList<Music>) musics);
         listView.setAdapter(musicListAdapter);
     }
 
     @Override
+    public void playMusic(String url) {
+
+        //Toast.makeText(this, "播放音乐" + url, Toast.LENGTH_SHORT).show();
+        
+
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_music_list_back:
                 finish();
-                overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
 
         }

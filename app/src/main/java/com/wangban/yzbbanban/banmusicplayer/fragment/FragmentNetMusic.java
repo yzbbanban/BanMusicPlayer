@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
@@ -28,14 +29,14 @@ import org.xutils.x;
 import java.util.List;
 
 public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClickListener, Consts {
-    @ViewInject(R.id.ibtn_new_list)
-    private ImageButton ibtnNewList;
-    @ViewInject(R.id.ibtn_hot_list)
-    private ImageButton ibtnHotList;
-    @ViewInject(R.id.ibtn_billboard_list)
-    private ImageButton ibtnBillboardList;
-    @ViewInject(R.id.ibtn_ktv_list)
-    private ImageButton ibtnKtvList;
+    @ViewInject(R.id.ll_new_list)
+    private LinearLayout llNewList;
+    @ViewInject(R.id.ll_hot_list)
+    private LinearLayout llHotList;
+    @ViewInject(R.id.ll_billboard_list)
+    private LinearLayout llBillboardList;
+    @ViewInject(R.id.ll_ktv_list)
+    private LinearLayout llKtvList;
     @ViewInject(R.id.et_search)
     private EditText etSearch;
     //new
@@ -98,10 +99,10 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     }
 
     private void setListeners() {
-        ibtnNewList.setOnClickListener(this);
-        ibtnHotList.setOnClickListener(this);
-        ibtnBillboardList.setOnClickListener(this);
-        ibtnKtvList.setOnClickListener(this);
+        llNewList.setOnClickListener(this);
+        llHotList.setOnClickListener(this);
+        llBillboardList.setOnClickListener(this);
+        llKtvList.setOnClickListener(this);
     }
 
     private void setData() {
@@ -115,23 +116,23 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.ibtn_new_list:
+            case R.id.ll_new_list:
 
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = NEW;
 //                Log.i(TAG, "onClick: new");
                 break;
-            case R.id.ibtn_hot_list:
+            case R.id.ll_hot_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = HOT;
 //                Log.i(TAG, "onClick: hot");
                 break;
-            case R.id.ibtn_billboard_list:
+            case R.id.ll_billboard_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = BILLBOARD;
 //                Log.i(TAG, "onClick: billboard");
                 break;
-            case R.id.ibtn_ktv_list:
+            case R.id.ll_ktv_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = KTV;
 //                Log.i(TAG, "onClick: ktv");

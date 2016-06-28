@@ -2,7 +2,6 @@ package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -12,10 +11,6 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QueryResult;
-import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultDetial;
-import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
-import com.wangban.yzbbanban.banmusicplayer.entity.SongUrl;
-import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;

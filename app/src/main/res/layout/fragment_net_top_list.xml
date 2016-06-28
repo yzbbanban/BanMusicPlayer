@@ -19,6 +19,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_new_list"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:orientation="horizontal">
@@ -44,7 +45,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="我好像在哪见过你"
+                        android:text=""
                         android:textColor="@color/colorGrey" />
 
                     <TextView
@@ -53,7 +54,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="刚刚好"
+                        android:text=""
                         android:textColor="@color/colorGrey" />
 
                     <TextView
@@ -62,7 +63,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="皆非"
+                        android:text=""
                         android:textColor="@color/colorGrey" />
 
                 </LinearLayout>
@@ -77,6 +78,7 @@
                 android:background="@color/colorOTDarkGrey"></View>
 
             <LinearLayout
+                android:id="@+id/ll_hot_list"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -109,7 +111,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="我好像在哪见过你"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                         <TextView
@@ -118,7 +120,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="刚刚好"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                         <TextView
@@ -127,7 +129,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="皆非"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                     </LinearLayout>
@@ -142,6 +144,7 @@
                 android:background="@color/colorOTDarkGrey"></View>
 
             <LinearLayout
+                android:id="@+id/ll_billboard_list"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -174,7 +177,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="我好像在哪见过你"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                         <TextView
@@ -183,7 +186,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="刚刚好"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                         <TextView
@@ -192,7 +195,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="皆非"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                     </LinearLayout>
@@ -215,6 +218,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/ll_ktv_list"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:orientation="horizontal">
@@ -240,7 +244,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="我好像在哪见过你"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                         <TextView
@@ -249,7 +253,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="刚刚好"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                         <TextView
@@ -258,7 +262,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="皆非"
+                            android:text=""
                             android:textColor="@color/colorGrey" />
 
                     </LinearLayout>

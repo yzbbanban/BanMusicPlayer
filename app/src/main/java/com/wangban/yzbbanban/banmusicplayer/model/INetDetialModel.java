@@ -13,7 +13,7 @@ public interface INetDetialModel {
 
     void getPreviousPosition();
 
-    void setSongUrl(String songId);
+    void setSongUrl(String songId,INetMusicCallback callback);
 
     Object findAllNewMusic();
 

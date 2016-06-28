@@ -14,6 +14,8 @@ public interface Consts {
 
     String BEAUTY_PATH = Environment.getExternalStorageDirectory() + "/DCIM/";
 
+
+
     int MAX_SIZE = 250;
 
     String TAG = "supergirl";

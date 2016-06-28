@@ -26,6 +26,8 @@
             android:name=".activity.DetialMusicActivity"
             android:label="@string/activity_detial_music"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service android:name=".service.MusicSevice"></service>
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ public class Url {
     private int file_duration;
     private int file_size;
     private int original;
-    private int preload;
+    private double preload;
     private int is_udition_url;
     private int free;
     private int song_file_id;
@@ -102,11 +102,11 @@ public class Url {
         this.original = original;
     }
 
-    public int getPreload() {
+    public double getPreload() {
         return preload;
     }
 
-    public void setPreload(int preload) {
+    public void setPreload(double preload) {
         this.preload = preload;
     }
 

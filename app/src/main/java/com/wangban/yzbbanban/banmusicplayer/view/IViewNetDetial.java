@@ -8,4 +8,6 @@ import java.util.*;
 public interface IViewNetDetial {
     void setMusicData(List<Music> musics);
     void showMusicData();
+    void playMusic(String url);
+
 }
