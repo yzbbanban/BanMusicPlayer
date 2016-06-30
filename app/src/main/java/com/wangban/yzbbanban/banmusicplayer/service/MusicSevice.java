@@ -19,7 +19,9 @@ public class MusicSevice extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        player = new MediaPlayer();
+        if (player == null) {
+            player = new MediaPlayer();
+        }
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -29,13 +31,21 @@ public class MusicSevice extends Service {
 
     }
 
+
+    @Override
+    public void onDestroy() {
+        player.release();
+        player=null;
+        super.onDestroy();
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return new MusicBinder();
     }
 
-    private class MusicBinder extends Binder {
+    public class MusicBinder extends Binder {
         public void playOrPause() {
             if (player.isPlaying()) {
                 player.pause();

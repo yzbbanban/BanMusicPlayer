@@ -2,7 +2,6 @@ package com.wangban.yzbbanban.banmusicplayer.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -37,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentPagerAdapter adapter;
 
+
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         x.view().inject(this);
         setData();
+
         setListener();
     }
+
+
 
 
 

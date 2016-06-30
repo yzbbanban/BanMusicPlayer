@@ -52,10 +52,7 @@ public class NetDetialModelImpl implements INetDetialModel ,Consts{
                 Log.i(TAG, "onResponse: "+response);
                 Gson gson=new Gson();
                 QuestResultDetial resultDetial=gson.fromJson(response,QuestResultDetial.class);
-
                 String path=resultDetial.getSongurl().getUrl().get(0).getShow_link();
-
-
                 callback.findAllMusic(path);
             }
         }, new Response.ErrorListener() {

@@ -10,6 +10,7 @@ import com.android.volley.toolbox.Volley;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
+import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 
 import org.xutils.x;
 
@@ -18,7 +19,11 @@ import java.util.*;
 public class MusicApplication extends Application{
     /**
      * 创建 MusicPlayer
+     *
      */
+    private static MusicApplication context;
+
+
     private static MusicPlayer musicPlayer;
 
     private ArrayList<DetialImage> images;
@@ -56,5 +61,8 @@ public class MusicApplication extends Application{
      */
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
+    }
+    public static MusicApplication getContext(MusicSevice.MusicBinder m){
+        return context;
     }
 }

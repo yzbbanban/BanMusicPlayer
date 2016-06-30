@@ -1,9 +1,14 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +84,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
 
     public FragmentNetMusic() {
         iPresenterNet = new PresenterNetImpl(this);
+
     }
 
     @Override
@@ -95,8 +101,10 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         x.view().inject(this, view);
         setData();
         setListeners();
+
         return view;
     }
+
 
     private void setListeners() {
         llNewList.setOnClickListener(this);
@@ -114,7 +122,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.ll_new_list:
 
