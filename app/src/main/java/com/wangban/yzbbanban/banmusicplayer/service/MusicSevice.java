@@ -58,10 +58,7 @@ public class MusicSevice extends Service implements Consts{
             try {
                 //player = new MediaPlayer();
                 Log.i(TAG, "playMusic: "+url);
-                MusicApplication
-                        .getContext()
-                        .getPlayer()
-                        .reset();
+                MusicApplication.getContext().getPlayer().reset();
                 MusicApplication.getContext().getPlayer().setDataSource(url);
                 MusicApplication.getContext().getPlayer().prepareAsync();
             } catch (IOException e) {

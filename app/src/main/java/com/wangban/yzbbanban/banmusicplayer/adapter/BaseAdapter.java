@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by YZBbanban on 16/6/5.
  */
-public abstract  class BaseAdapter<T> extends android.widget.BaseAdapter{
+public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     private Context context;
     private ArrayList<T> data;
     private LayoutInflater layoutInflater;
@@ -33,7 +33,7 @@ public abstract  class BaseAdapter<T> extends android.widget.BaseAdapter{
 
     public List<T> getData() {
         if (data == null) {
-            data=new ArrayList<T>();
+            data = new ArrayList<T>();
         }
         return data;
     }
@@ -47,12 +47,16 @@ public abstract  class BaseAdapter<T> extends android.widget.BaseAdapter{
     }
 
     private void setLayoutInflater() {
-        layoutInflater=LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        if (data.size() > 0) {
+            return data.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override

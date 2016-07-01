@@ -1,11 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
-import android.app.Service;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,12 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
-import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
+import com.wangban.yzbbanban.banmusicplayer.activity.DetialNewMusicActivity;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
@@ -125,27 +120,28 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         switch (v.getId()) {
             case R.id.ll_new_list:
 
-                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
                 type = NEW;
 //                Log.i(TAG, "onClick: new");
                 break;
             case R.id.ll_hot_list:
-                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
                 type = HOT;
 //                Log.i(TAG, "onClick: hot");
                 break;
             case R.id.ll_billboard_list:
-                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
                 type = BILLBOARD;
 //                Log.i(TAG, "onClick: billboard");
                 break;
             case R.id.ll_ktv_list:
-                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
                 type = KTV;
 //                Log.i(TAG, "onClick: ktv");
                 break;
         }
         intent.putExtra("type", type);
+        Log.i(TAG, "Fragment onClick: "+type);
         startActivity(intent);
     }
 

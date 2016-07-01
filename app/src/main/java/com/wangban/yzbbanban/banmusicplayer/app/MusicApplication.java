@@ -37,6 +37,7 @@ public class MusicApplication extends Application{
         context=this;
         queue= Volley.newRequestQueue(this);
         musicPlayer=new MusicPlayer();
+        player=new MediaPlayer();
     }
 
     public  MediaPlayer getPlayer() {

@@ -1,5 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
@@ -50,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    protected void onResume() {
+        Intent intent=getIntent();
+        int type=intent.getIntExtra("Fragment",0);
+        if (type==-1){
+            MainActivity.this.selectFragment(0);
+        }
+        super.onResume();
+    }
 
     private void setListener() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

@@ -21,7 +21,7 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        bindService();
     }
     private void bindService() {
         Intent service = new Intent(this, MusicSevice.class);
@@ -43,8 +43,8 @@ public class BaseActivity extends AppCompatActivity  {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unbindService(conn);
+        super.onDestroy();
 
     }
 
