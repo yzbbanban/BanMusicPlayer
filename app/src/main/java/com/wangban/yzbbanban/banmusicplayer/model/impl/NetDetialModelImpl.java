@@ -21,15 +21,16 @@ import java.util.*;
 
 /**
  * Created by YZBbanban on 16/6/26.
+ * 获取歌曲数据信息
  */
-public class NetDetialModelImpl implements INetDetialModel ,Consts{
+public class NetDetialModelImpl implements INetDetialModel, Consts {
     private MusicPlayer musicPlayer;
     private List<Music> musics;
     private List<SongInfo> songInfos;
 
     public NetDetialModelImpl() {
         musicPlayer = MusicApplication.getMusicPlayer();
-        musics=new ArrayList<Music>();
+        musics = new ArrayList<Music>();
     }
 
     @Override
@@ -44,16 +45,21 @@ public class NetDetialModelImpl implements INetDetialModel ,Consts{
 
     @Override
     public void setSongUrl(String songId, final INetMusicCallback callback) {
-        String url=UrlFactory.songUrl(songId);
+        String url = UrlFactory.songUrl(songId);
 
-        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i(TAG, "onResponse: "+response);
-                Gson gson=new Gson();
-                QuestResultDetial resultDetial=gson.fromJson(response,QuestResultDetial.class);
-                String path=resultDetial.getSongurl().getUrl().get(0).getShow_link();
-                callback.findAllMusic(path);
+                try {
+                    //Log.i(TAG, "onResponse: "+response);
+                    Gson gson = new Gson();
+                    QuestResultDetial resultDetial = gson.fromJson(response, QuestResultDetial.class);
+                    String path = resultDetial.getSongurl().getUrl().get(0).getShow_link();
+                    callback.findAllMusic(path);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -67,29 +73,30 @@ public class NetDetialModelImpl implements INetDetialModel ,Consts{
 
     /**
      * 从 Application 中创建的 musics 中取出
+     *
      * @return
      */
     @Override
     public Object findAllNewMusic() {
-        musics=musicPlayer.getNewList();
+        musics = musicPlayer.getNewList();
         return musics;
     }
 
     @Override
     public Object findAllHotMusic() {
-        musics=musicPlayer.getHotList();
+        musics = musicPlayer.getHotList();
         return musics;
     }
 
     @Override
     public Object findAllBillMusic() {
-        musics=musicPlayer.getBillboardList();
+        musics = musicPlayer.getBillboardList();
         return musics;
     }
 
     @Override
     public Object findAllKtvMusic() {
-        musics=musicPlayer.getKtvList();
+        musics = musicPlayer.getKtvList();
         return musics;
     }
 

@@ -13,6 +13,7 @@ import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 
 /**
  * Created by YZBbanban on 16/6/30.
+ * 用于需要绑定 service 的 activity
  */
 public class BaseActivity extends AppCompatActivity  {
     private MusicSevice.MusicBinder musicBinder;
@@ -23,6 +24,10 @@ public class BaseActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         bindService();
     }
+
+    /**
+     * 绑定 service
+     */
     private void bindService() {
         Intent service = new Intent(this, MusicSevice.class);
         conn = new ServiceConnection() {
@@ -40,7 +45,9 @@ public class BaseActivity extends AppCompatActivity  {
         bindService(service, conn, Service.BIND_AUTO_CREATE);
     }
 
-
+    /**
+     * 销毁 activity时解除绑定
+     */
     @Override
     protected void onDestroy() {
         unbindService(conn);

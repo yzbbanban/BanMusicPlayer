@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
-import com.wangban.yzbbanban.banmusicplayer.activity.DetialNewMusicActivity;
+import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
@@ -120,22 +120,22 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         switch (v.getId()) {
             case R.id.ll_new_list:
 
-                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = NEW;
 //                Log.i(TAG, "onClick: new");
                 break;
             case R.id.ll_hot_list:
-                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = HOT;
 //                Log.i(TAG, "onClick: hot");
                 break;
             case R.id.ll_billboard_list:
-                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = BILLBOARD;
 //                Log.i(TAG, "onClick: billboard");
                 break;
             case R.id.ll_ktv_list:
-                intent = new Intent(this.getActivity(), DetialNewMusicActivity.class);
+                intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = KTV;
 //                Log.i(TAG, "onClick: ktv");
                 break;

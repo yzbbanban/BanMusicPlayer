@@ -48,10 +48,11 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
                 musics = (List<Music>) model.findAllKtvMusic();
                 break;
         }
-        view.setMusicData(musics);
-        view.showMusicData();
+        if (musics != null) {
+            view.setMusicData(musics);
+            view.showMusicData();
+        }
     }
-
 
 
     @Override
@@ -59,8 +60,8 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
         model.setSongUrl(songId, new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-                Log.i(TAG, "findAllMusic: "+data);
-                String url= (String) data;
+                Log.i(TAG, "findAllMusic: " + data);
+                String url = (String) data;
                 view.playMusic(url);
             }
         });

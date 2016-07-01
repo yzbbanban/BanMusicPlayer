@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by YZBbanban on 16/6/5.
+ * 父类 adapter
  */
 public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     private Context context;
@@ -52,7 +53,7 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
 
     @Override
     public int getCount() {
-        if (data.size() > 0) {
+        if (data != null && data.size() > 0) {
             return data.size();
         } else {
             return 0;

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DetialNewMusicActivity"
+            android:name=".activity.DetialMusicActivity"
             android:label="@string/activity_detial_music"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"></activity>

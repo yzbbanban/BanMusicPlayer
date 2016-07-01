@@ -28,7 +28,7 @@ import java.util.List;
 
 import static com.wangban.yzbbanban.banmusicplayer.service.MusicSevice.MusicBinder;
 
-public class DetialNewMusicActivity extends BaseActivity implements Consts, View.OnClickListener, IViewNetDetial {
+public class DetialMusicActivity extends BaseActivity implements Consts, View.OnClickListener, IViewNetDetial {
     @ViewInject(R.id.lv_detial_music)
     private ListView listView;
     @ViewInject(R.id.toolbar)
@@ -94,7 +94,11 @@ public class DetialNewMusicActivity extends BaseActivity implements Consts, View
 
     @Override
     public void setMusicData(List<Music> musics) {
-        this.musics = musics;
+        if (musics != null) {
+            this.musics = musics;
+        }else {
+            return;
+        }
     }
 
     @Override
@@ -106,7 +110,7 @@ public class DetialNewMusicActivity extends BaseActivity implements Consts, View
     @Override
     public void playMusic(String musicPath) {
 
-       // Log.i(TAG, "playMusic: 执行2");
+        // Log.i(TAG, "playMusic: 执行2");
         musicBinder.playMusic(musicPath);
     }
 

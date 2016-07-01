@@ -19,6 +19,7 @@ import java.util.*;
 
 /**
  * Created by YZBbanban on 16/6/23.
+ * 获取百度 Api 接口中的数据
  */
 public class NetMusicModel implements INetMusicModel, Consts {
     private MusicPlayer musicPlayer;
