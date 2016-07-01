@@ -4,6 +4,7 @@ package com.wangban.yzbbanban.banmusicplayer.app;
  * Created by YZBbanban on 16/6/23.
  */
 import android.app.Application;
+import android.media.MediaPlayer;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -23,7 +24,7 @@ public class MusicApplication extends Application{
      */
     private static MusicApplication context;
 
-
+    private MediaPlayer player;
     private static MusicPlayer musicPlayer;
 
     private ArrayList<DetialImage> images;
@@ -33,9 +34,19 @@ public class MusicApplication extends Application{
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
+        context=this;
         queue= Volley.newRequestQueue(this);
         musicPlayer=new MusicPlayer();
     }
+
+    public  MediaPlayer getPlayer() {
+        return player;
+    }
+
+    public  void setPlayer(MediaPlayer player) {
+        this.player = player;
+    }
+
     public static RequestQueue getQueue(){
         return queue;
     }
@@ -62,7 +73,7 @@ public class MusicApplication extends Application{
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
-    public static MusicApplication getContext(MusicSevice.MusicBinder m){
+    public static MusicApplication getContext(){
         return context;
     }
 }

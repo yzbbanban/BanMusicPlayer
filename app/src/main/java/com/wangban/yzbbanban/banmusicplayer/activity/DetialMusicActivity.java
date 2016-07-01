@@ -20,7 +20,6 @@ import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
-import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentNetMusic;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
@@ -31,8 +30,8 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class DetialMusicActivity extends AppCompatActivity implements Consts, View.OnClickListener, IViewNetDetial {
+import static com.wangban.yzbbanban.banmusicplayer.service.MusicSevice.MusicBinder;
+public class DetialMusicActivity extends BaseActivity implements Consts, View.OnClickListener, IViewNetDetial {
     @ViewInject(R.id.lv_detial_music)
     private ListView listView;
     @ViewInject(R.id.toolbar)
@@ -45,7 +44,7 @@ public class DetialMusicActivity extends AppCompatActivity implements Consts, Vi
     private int type;
     private Intent intent;
     private MusicSevice.MusicBinder musicBinder;
-    private ServiceConnection conn;
+//    private ServiceConnection conn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,27 +52,29 @@ public class DetialMusicActivity extends AppCompatActivity implements Consts, Vi
         setContentView(R.layout.activity_detial_music);
         x.view().inject(this);
         setSupportActionBar(toolbar);
-        bindService();
+        musicBinder=new MusicBinder();
+       // bindService();
+
         setData();
         setListeners();
     }
 
-    private void bindService() {
-        Intent service = new Intent(this, MusicSevice.class);
-        conn = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                musicBinder = (MusicSevice.MusicBinder) service;
-
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-
-            }
-        };
-        bindService(service, conn, Service.BIND_AUTO_CREATE);
-    }
+//    private void bindService() {
+//        Intent service = new Intent(this, MusicSevice.class);
+//        conn = new ServiceConnection() {
+//            @Override
+//            public void onServiceConnected(ComponentName name, IBinder service) {
+//                musicBinder = (MusicSevice.MusicBinder) service;
+//
+//            }
+//
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+//
+//            }
+//        };
+//        bindService(service, conn, Service.BIND_AUTO_CREATE);
+//    }
 
     private void setData() {
         intent = getIntent();
@@ -100,7 +101,7 @@ public class DetialMusicActivity extends AppCompatActivity implements Consts, Vi
 
     @Override
     protected void onDestroy() {
-        unbindService(conn);
+        //unbindService(conn);
         super.onDestroy();
 
     }

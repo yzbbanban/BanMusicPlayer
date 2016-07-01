@@ -8,21 +8,20 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
+import android.app.Activity;
+import android.util.Log;
+
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
+import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 
 /**
  * Created by YZBbanban on 16/6/27.
  */
-public class MusicSevice extends Service {
-    private MediaPlayer player;
-
-
+public class MusicSevice extends Service implements Consts{
     @Override
     public void onCreate() {
         super.onCreate();
-        if (player == null) {
-            player = new MediaPlayer();
-        }
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        MusicApplication.getContext().getPlayer().setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
@@ -32,10 +31,11 @@ public class MusicSevice extends Service {
     }
 
 
+
+
     @Override
     public void onDestroy() {
-        player.release();
-        player=null;
+        MusicApplication.getContext().getPlayer().release();
         super.onDestroy();
     }
 
@@ -45,24 +45,30 @@ public class MusicSevice extends Service {
         return new MusicBinder();
     }
 
-    public class MusicBinder extends Binder {
-        public void playOrPause() {
-            if (player.isPlaying()) {
-                player.pause();
+    public static class MusicBinder extends Binder {
+        public static void playOrPause() {
+            if ( MusicApplication.getContext().getPlayer().isPlaying()) {
+                MusicApplication.getContext().getPlayer().pause();
             } else {
-                player.start();
+                MusicApplication.getContext().getPlayer().start();
             }
         }
 
         public void playMusic(String url) {
             try {
-                player.reset();
-                player.setDataSource(url);
-                player.prepareAsync();
+                //player = new MediaPlayer();
+                Log.i(TAG, "playMusic: "+url);
+                MusicApplication
+                        .getContext()
+                        .getPlayer()
+                        .reset();
+                MusicApplication.getContext().getPlayer().setDataSource(url);
+                MusicApplication.getContext().getPlayer().prepareAsync();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
     }
+
 }
