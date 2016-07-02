@@ -75,7 +75,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
     private BroadcastReceiver receiver;
     private IPresenterLrc presenterLrc;
 
-    
+
 
     public PlayActivity() {
         super();
