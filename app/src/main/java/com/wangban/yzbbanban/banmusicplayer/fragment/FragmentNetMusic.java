@@ -1,6 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
@@ -67,6 +70,8 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private TextView tvKtvSecond;
     @ViewInject(R.id.tv_ktv_list_third)
     private TextView tvKtvThird;
+    @ViewInject(R.id.ibtn_local_music)
+    private ImageButton ibtnLocalMusic;
 
     private Intent intent;
     private int type;
@@ -86,6 +91,10 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     public void onResume() {
         super.onResume();
         //Log.i(TAG, "onResume: fragmentNetMusic");
+        if (MusicApplication.getContext().getPlayer().isPlaying()) {
+            AnimationDrawable animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
+            animationDrawable.start();
+        }
     }
 
     @Nullable
@@ -141,7 +150,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
                 break;
         }
         intent.putExtra("type", type);
-        Log.i(TAG, "Fragment onClick: "+type);
+        Log.i(TAG, "Fragment onClick: " + type);
         startActivity(intent);
     }
 

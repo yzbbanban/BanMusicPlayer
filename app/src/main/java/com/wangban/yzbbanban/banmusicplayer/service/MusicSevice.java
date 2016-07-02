@@ -16,6 +16,7 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 
 /**
  * Created by YZBbanban on 16/6/27.
+ * MusicService 的绑定
  */
 public class MusicSevice extends Service implements Consts{
     @Override

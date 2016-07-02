@@ -31,14 +31,14 @@
             android:textSize="14sp" />
 
         <ImageButton
-            android:id="@+id/btn_local_music"
+            android:id="@+id/ibtn_local_music"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:background="@null"
+            android:background="@anim/play"
             android:scaleType="centerCrop"
-            android:src="@drawable/select_local_play_music" />
+             />
 
     </LinearLayout>
 

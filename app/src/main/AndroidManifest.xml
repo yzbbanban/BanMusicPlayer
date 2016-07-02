@@ -15,8 +15,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleInstance"
-            >
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,9 +26,11 @@
             android:name=".activity.DetialMusicActivity"
             android:label="@string/activity_detial_music"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".service.MusicSevice"></service>
+        <service android:name=".service.MusicSevice" />
+
+        <activity android:name=".activity.PlayActivity"></activity>
     </application>
 
 </manifest>
