@@ -148,8 +148,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
     }
 
     private void setData() {
-        Intent intent = getIntent();
-        music = (Music) intent.getSerializableExtra(PUT_MUSIC);
+        music = MusicApplication.getMusic();
         presenterLrc.loadLrc(music.getLrclink());
         // Log.i(TAG, "setData: "+music.getTitle());
 
@@ -161,7 +160,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ibtn_player_back_main:
-                startActivity(new Intent(this, DetialMusicActivity.class));
+                finish();
+//                startActivity(new Intent(this, DetialMusicActivity.class));
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
 

@@ -10,7 +10,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- * Created by yungcs on 2016/1/7.
+ * Created by YZBbanban on 2016/6/28.
  */
 public class NestedListView extends ListView implements View.OnTouchListener,
         AbsListView.OnScrollListener {
