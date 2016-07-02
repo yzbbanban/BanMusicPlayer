@@ -26,7 +26,7 @@ public class MusicApplication extends Application{
 
     private MediaPlayer player;
     private static MusicPlayer musicPlayer;
-
+    private static Music music;
     private ArrayList<DetialImage> images;
     private int position;
     private static RequestQueue queue;
@@ -38,6 +38,14 @@ public class MusicApplication extends Application{
         queue= Volley.newRequestQueue(this);
         musicPlayer=new MusicPlayer();
         player=new MediaPlayer();
+    }
+
+    public static Music getMusic() {
+        return music;
+    }
+
+    public static void setMusic(Music music) {
+        MusicApplication.music = music;
     }
 
     public  MediaPlayer getPlayer() {

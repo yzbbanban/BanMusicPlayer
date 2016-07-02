@@ -87,6 +87,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         x.view().inject(this);
+
         setData();
         setView();
         setListenter();
@@ -101,13 +102,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
         registerReceiver(receiver, intentFilter);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        setData();
-        setView();
-        super.onNewIntent(intent);
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        setIntent(intent);
+//        setData();
+//        setView();
+//        super.onNewIntent(intent);
+//    }
 
     @Override
     protected void onDestroy() {
@@ -118,6 +119,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
 
     @Override
     protected void onResume() {
+        setData();
+        setView();
         super.onResume();
         //Log.i(TAG, "onResume: " + music.getTitle());
     }

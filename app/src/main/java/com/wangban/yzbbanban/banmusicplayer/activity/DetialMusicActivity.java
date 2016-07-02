@@ -79,8 +79,10 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
                 //Toast.makeText(DetialMusicActivity.this,""+musics.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                 //设置 song_id
                 music=musics.get(position);
+                MusicApplication.setMusic(music);
+                MusicApplication.getMusicPlayer().setPosition(position);
                 Intent intent = new Intent(DetialMusicActivity.this, PlayActivity.class);
-                intent.putExtra(PUT_MUSIC, music);
+               // intent.putExtra(PUT_MUSIC, music);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade,R.anim.hold);
                 //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());

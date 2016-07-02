@@ -118,7 +118,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         x.view().inject(this, view);
         setData();
         setListeners();
-
         return view;
     }
 
@@ -165,8 +164,11 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
             case R.id.ibtn_local_music:
                 if (MusicApplication.getContext().getPlayer().isPlaying()) {
                     intent = new Intent(this.getActivity(), PlayActivity.class);
+                    startActivity(intent);
+                    return;
                 } else {
                     Toast.makeText(getActivity(), "当前没有播放歌曲", Toast.LENGTH_SHORT).show();
+                    return;
                 }
         }
         intent.putExtra("type", type);
