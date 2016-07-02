@@ -75,6 +75,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
     private BroadcastReceiver receiver;
     private IPresenterLrc presenterLrc;
 
+    
+
     public PlayActivity() {
         super();
         imageLoader = new ImageLoader(MusicApplication.getQueue(), new BitmapCache());
@@ -87,7 +89,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         x.view().inject(this);
-
+        ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
         setData();
         setView();
         setListenter();
