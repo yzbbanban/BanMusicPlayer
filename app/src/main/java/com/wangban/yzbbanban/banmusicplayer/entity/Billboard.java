@@ -1,5 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by YZBbanban on 16/6/23.
  */

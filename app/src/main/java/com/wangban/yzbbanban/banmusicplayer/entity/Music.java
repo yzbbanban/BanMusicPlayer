@@ -1,11 +1,12 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * ����һ�׸�
  */
-public class Music {
+public class Music implements Serializable{
     private String artist_id;
     private String language;
     private String pic_big;

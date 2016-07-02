@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
+import com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
@@ -90,12 +92,23 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     @Override
     public void onResume() {
         super.onResume();
+        AnimationDrawable animationDrawable = null;
         //Log.i(TAG, "onResume: fragmentNetMusic");
         if (MusicApplication.getContext().getPlayer().isPlaying()) {
-            AnimationDrawable animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
+            animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
+            animationDrawable.setOneShot(false);
             animationDrawable.start();
+        } else {
+            return;
         }
+//        else {
+//            animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
+//            Log.i(TAG, "onResume: stop 帧动画");
+//            animationDrawable.setOneShot(true);
+//            animationDrawable.start();
+//        }
     }
+
 
     @Nullable
     @Override
@@ -115,6 +128,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         llHotList.setOnClickListener(this);
         llBillboardList.setOnClickListener(this);
         llKtvList.setOnClickListener(this);
+        ibtnLocalMusic.setOnClickListener(this);
     }
 
     private void setData() {
@@ -148,10 +162,18 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
                 type = KTV;
 //                Log.i(TAG, "onClick: ktv");
                 break;
+            case R.id.ibtn_local_music:
+                if (MusicApplication.getContext().getPlayer().isPlaying()) {
+                    intent = new Intent(this.getActivity(), PlayActivity.class);
+                } else {
+                    Toast.makeText(getActivity(), "当前没有播放歌曲", Toast.LENGTH_SHORT).show();
+                }
         }
         intent.putExtra("type", type);
-        Log.i(TAG, "Fragment onClick: " + type);
+        //Log.i(TAG, "Fragment onClick: " + type);
         startActivity(intent);
+        this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
+
     }
 
     @Override

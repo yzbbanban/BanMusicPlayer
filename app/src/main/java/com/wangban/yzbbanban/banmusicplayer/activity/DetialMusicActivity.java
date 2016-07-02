@@ -23,6 +23,7 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     private IPresenterNetDetial presenterNetDetial;
     private MusicListAdapter musicListAdapter;
     private List<Music> musics;
-
+    private Music music;
     private MusicSevice.MusicBinder musicBinder;
 //    private ServiceConnection conn;
 
@@ -77,7 +78,12 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(DetialMusicActivity.this,""+musics.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                 //设置 song_id
-                Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
+                music=musics.get(position);
+                Intent intent = new Intent(DetialMusicActivity.this, PlayActivity.class);
+                intent.putExtra(PUT_MUSIC, music);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade,R.anim.hold);
+                //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
                 presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
 
 
@@ -96,7 +102,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     public void setMusicData(List<Music> musics) {
         if (musics != null) {
             this.musics = musics;
-        }else {
+        } else {
             return;
         }
     }
@@ -112,6 +118,9 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
 
         // Log.i(TAG, "playMusic: 执行2");
         musicBinder.playMusic(musicPath);
+
+
+
     }
 
     @Override

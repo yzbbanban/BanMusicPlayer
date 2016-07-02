@@ -3,10 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_background"
     tools:context="com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity">
 
+    <ImageView
+        android:id="@+id/iv_player_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_background" />
+
     <RelativeLayout
+        android:id="@+id/rl_player_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/shape">
@@ -20,7 +26,7 @@
             />
 
         <ImageButton
-            android:id="@+id/ibtn_back_main"
+            android:id="@+id/ibtn_player_back_main"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -28,7 +34,7 @@
             android:src="@drawable/return_nomal" />
 
         <TextView
-            android:id="@+id/tv_current_music"
+            android:id="@+id/tv_player_current_music"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -43,7 +49,7 @@
             android:textSize="18sp" />
 
         <ImageButton
-            android:id="@+id/ibtn_share"
+            android:id="@+id/ibtn_player_share"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -56,8 +62,20 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_player_lrc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_player_title"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="正在加载歌词。。。"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp" />
+
+
     <ImageButton
-        android:id="@+id/ibtn_revolve_words"
+        android:id="@+id/ibtn_player_revolve_disc"
         android:layout_width="270dp"
         android:layout_height="270dp"
         android:layout_centerInParent="true"
@@ -67,15 +85,22 @@
 
         />
 
+    <com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView
+        android:id="@+id/civ_player_music_image"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/my_logo" />
 
     <RelativeLayout
-        android:id="@+id/rl_item"
+        android:id="@+id/rl_player_item"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true">
 
         <ImageButton
-            android:id="@+id/ibtn_music_play_or_pause"
+            android:id="@+id/ibtn_player_music_play_or_pause"
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
@@ -84,27 +109,27 @@
             android:src="@drawable/pause_nomal" />
 
         <ImageButton
-            android:id="@+id/ibtn_music_next"
+            android:id="@+id/ibtn_player_music_next"
             android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@id/ibtn_music_play_or_pause"
+            android:layout_toRightOf="@id/ibtn_player_music_play_or_pause"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/selctor_next" />
 
         <ImageButton
-            android:id="@+id/ibtn_music_previous"
+            android:id="@+id/ibtn_player_music_previous"
             android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@id/ibtn_music_play_or_pause"
+            android:layout_toLeftOf="@id/ibtn_player_music_play_or_pause"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/selctor_previous" />
 
         <ImageButton
-            android:id="@+id/ibtn_play_state"
+            android:id="@+id/ibtn_player_play_state"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
@@ -113,7 +138,7 @@
             android:scaleType="centerInside" />
 
         <ImageButton
-            android:id="@+id/ibtn_music_list"
+            android:id="@+id/ibtn_player_music_list"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -126,10 +151,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_seekbar"
+        android:id="@+id/rl_player_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/rl_item">
+        android:layout_above="@id/rl_player_item">
 
 
         <LinearLayout
@@ -139,7 +164,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_current_time"
+                android:id="@+id/tv_player_current_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -147,16 +172,16 @@
                 android:textColor="@color/colorWhite" />
 
             <SeekBar
-                android:id="@+id/sb_progross"
+                android:id="@+id/sb_player_progross"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_current_music"
+                android:layout_below="@id/tv_player_current_music"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_duration_time"
+                android:id="@+id/tv_player_duration_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"

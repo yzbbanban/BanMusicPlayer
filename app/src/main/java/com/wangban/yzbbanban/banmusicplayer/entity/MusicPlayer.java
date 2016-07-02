@@ -1,22 +1,31 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 
+import java.io.Serializable;
 import java.util.*;
 /**
  * Created by YZBbanban on 16/6/26.
  * 用来存放数据，集合，以及音乐的位置操作
  */
 
-public class MusicPlayer implements Consts{
+public class MusicPlayer implements Serializable,Consts{
     private List<Music> newList;
     private List<Music> hotList;
     private List<Music> billboardList;
     private List<Music> ktvList;
+    private List<LrcLine> lrc;
     //播放位置
     private int position;
 
     public MusicPlayer() {
 
+    }
+    public List<LrcLine> getLrc() {
+        return lrc;
+    }
+
+    public void setLrc(List<LrcLine> lrc) {
+        this.lrc = lrc;
     }
 
     public List<Music> getNewList() {
@@ -104,5 +113,7 @@ public class MusicPlayer implements Consts{
 
         return music;
     }
+
+
 
 }
