@@ -27,18 +27,22 @@ import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
+import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterLrcImpl;
+import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
+import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;
 
-public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
+public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNetDetial, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
 
     @ViewInject(R.id.ibtn_player_back_main)
     private ImageButton ibtnBackMain;
@@ -71,6 +75,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
     @ViewInject(R.id.iv_player_background)
     private ImageView ivBackground;
 
+    private Animation animation;
+
     private Music music;
     private ImageLoader imageLoader;
 
@@ -82,6 +88,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
     private List<Music> musics;
 
     private MusicPlayer musicPlayerControl;
+
+    private IPresenterNetDetial presenterNetDetial;
+
+
+    int position;
 
     public PlayActivity() {
         super();
@@ -152,22 +163,45 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
         String imagePath = music.getPic_big();
         ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
         imageLoader.get(imagePath, imageListener);
-        //disc 内部图片的播放动画
-        Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
-        LinearInterpolator i = new LinearInterpolator();
-        animation1.setInterpolator(i);
-        ibtnRevoleDisc.startAnimation(animation1);
-        //disc 的播放动画
-        Animation animation2 = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
-        LinearInterpolator i2 = new LinearInterpolator();
-        animation2.setInterpolator(i2);
-        civMusicImage.startAnimation(animation2);
-        //设置播放按钮样式
-        if (player != null && player.isPlaying()) {
+        //显示动画
+        discRecycle();
+
+
+    }
+
+    /**
+     * 设置播放按钮样式
+     */
+    private void playPauseModel() {
+        if ( player.isPlaying()) {
             ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
         } else {
             ibtnMusicPlayPause.setBackgroundResource(R.drawable.pause_nomal);
         }
+    }
+
+    /**
+     * 动画显示
+     */
+    private void discRecycle() {
+
+        //disc 内部图片的播放动画
+        animation = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
+        LinearInterpolator i = new LinearInterpolator();
+        animation.setInterpolator(i);
+        ibtnRevoleDisc.startAnimation(animation);
+
+        //disc 的播放动画
+        animation = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
+        LinearInterpolator i2 = new LinearInterpolator();
+        animation.setInterpolator(i2);
+        civMusicImage.startAnimation(animation);
+
+    }
+
+    private void removecRecycle() {
+        ibtnRevoleDisc.clearAnimation();
+        civMusicImage.clearAnimation();
 
     }
 
@@ -186,28 +220,35 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
      * 配置 Lrc 歌词数据
      */
     private void setData() {
+        int musicListType = 0;
         musicPlayerControl = MusicApplication.getMusicPlayer();
-        int musicListType = musicPlayerControl.getMusicListType();
-        switch (musicListType) {
-            case NEW:
-                musics = musicPlayerControl.getNewList();
-                break;
-            case HOT:
-                musics = musicPlayerControl.getHotList();
-                break;
-            case BILLBOARD:
-                musics = musicPlayerControl.getBillboardList();
-                break;
-            case KTV:
-                musics = musicPlayerControl.getKtvList();
-                break;
+        musicListType = musicPlayerControl.getMusicListType();
+        presenterNetDetial = new PresenterNetDetialImpl(this, musicListType);
+        if (musicListType != 0) {
+            switch (musicListType) {
+                case NEW:
+                    musics = musicPlayerControl.getNewList();
+                    break;
+                case HOT:
+                    musics = musicPlayerControl.getHotList();
+                    break;
+                case BILLBOARD:
+                    musics = musicPlayerControl.getBillboardList();
+                    break;
+                case KTV:
+                    musics = musicPlayerControl.getKtvList();
+                    break;
 
+            }
+            //获取播放的音乐位置
+            int positionList = MusicApplication.getMusicPlayer().getPosition();
+            music = musics.get(positionList);
+            //获取歌词数据
+            presenterLrc.loadLrc(music.getLrclink());
+            // Log.i(TAG, "setData: "+music.getTitle());
+        } else {
+            return;
         }
-        int position = MusicApplication.getMusicPlayer().getPosition();
-        music = musics.get(position);
-        presenterLrc.loadLrc(music.getLrclink());
-        // Log.i(TAG, "setData: "+music.getTitle());
-
 
     }
 
@@ -227,18 +268,35 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
                 break;
             //暂停播放按钮
             case R.id.ibtn_player_music_play_or_pause:
-
+                if (player.isPlaying()) {
+                    MusicSevice.MusicBinder.playOrPause();
+                    ibtnMusicPlayPause.setBackgroundResource(R.drawable.pause_nomal);
+                    removecRecycle();
+                } else {
+                    MusicSevice.MusicBinder.playOrPause();
+                    ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
+                    discRecycle();
+                }
                 break;
             //上一曲按钮
             case R.id.ibtn_player_music_previous:
+                musicPlayerControl.preMusic();
+                setPositionToPlay();
 
                 break;
             //下一曲按钮
             case R.id.ibtn_player_music_next:
-
+                musicPlayerControl.nextMusic();
+                setPositionToPlay();
                 break;
         }
     }
+
+    private void setPositionToPlay() {
+        position = MusicApplication.getMusicPlayer().getPosition();
+        presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+    }
+
 
     /**
      * 设置歌词数据源
@@ -248,7 +306,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
     @Override
     public void setLrc(List<LrcLine> lrcs) {
         musicPlayerControl.setLrc(lrcs);
-
+        playPauseModel();
     }
 
     /**
@@ -277,6 +335,27 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
     }
 
     /**
+     * 无用
+     */
+    @Override
+    public void setMusicData(List<Music> musics) {
+
+    }
+
+    /**
+     * 无用
+     */
+    @Override
+    public void showMusicData() {
+
+    }
+
+    @Override
+    public void playMusic(String url) {
+        MusicSevice.MusicBinder.playMusic(url);
+    }
+
+    /**
      * 设置接收广播的数据
      */
     private class MusicBroadCastReceiver extends BroadcastReceiver {
@@ -290,6 +369,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar
             }
             //当时进度更新状态时
             else if (ACTION_UPDATE_PROGRESS.equals(action)) {
+
+                setView();
                 int currentTime = intent.getIntExtra("current", 0);
                 int totalTime = intent.getIntExtra("total", 0);
                 tvDurationTime.setText(DateFormatUtil.getDate(totalTime));

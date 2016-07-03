@@ -40,8 +40,6 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     private MusicListAdapter musicListAdapter;
     private List<Music> musics;
     private Music music;
-    private MusicSevice.MusicBinder musicBinder;
-
     private int musicListType;
 
     @Override
@@ -50,7 +48,6 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
         setContentView(R.layout.activity_detial_music);
         x.view().inject(this);
         setSupportActionBar(toolbar);
-        musicBinder = new MusicBinder();
         setData();
         setListeners();
     }
@@ -123,7 +120,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     public void playMusic(String musicPath) {
 
         // Log.i(TAG, "playMusic: 执行2");
-        musicBinder.playMusic(musicPath);
+        MusicBinder.playMusic(musicPath);
 
 
 

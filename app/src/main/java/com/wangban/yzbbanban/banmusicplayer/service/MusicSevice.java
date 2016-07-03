@@ -24,6 +24,8 @@ public class MusicSevice extends Service implements Consts {
     private MediaPlayer player;
     private Thread thread;
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -64,7 +66,9 @@ public class MusicSevice extends Service implements Consts {
         }
     }
 
-
+    /**
+     * 销毁 service 时执行的操作
+     */
     @Override
     public void onDestroy() {
         player.release();
@@ -73,13 +77,22 @@ public class MusicSevice extends Service implements Consts {
         super.onDestroy();
     }
 
+    /**
+     * 绑定 service 时执行的操作
+     * @param intent
+     * @return
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return new MusicBinder();
     }
 
+    /**
+     * 绑定 service 的 Binder，替他类通过访问此方法，调用 MediaPlayer 的方法
+     */
     public static class MusicBinder extends Binder {
+        //暂停音乐
         public static void playOrPause() {
             if (MusicApplication.getContext().getPlayer().isPlaying()) {
                 MusicApplication.getContext().getPlayer().pause();
@@ -87,8 +100,8 @@ public class MusicSevice extends Service implements Consts {
                 MusicApplication.getContext().getPlayer().start();
             }
         }
-
-        public void playMusic(String url) {
+        //播放音乐
+        public static void playMusic(String url) {
             try {
                 //player = new MediaPlayer();
                 Log.i(TAG, "playMusic: " + url);

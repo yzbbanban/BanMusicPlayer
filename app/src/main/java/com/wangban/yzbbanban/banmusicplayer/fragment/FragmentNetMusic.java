@@ -108,7 +108,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
             animationDrawable.setOneShot(false);
             animationDrawable.start();
         } else {
-            return;
+            ibtnLocalMusic.clearAnimation();
         }
 //        else {
 //            animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
@@ -188,12 +188,11 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
                 break;
             case R.id.ibtn_local_music:
                 if (MusicApplication.getContext().getPlayer().isPlaying()) {
-                    intent = new Intent(this.getActivity(), PlayActivity.class);
-                    startActivity(intent);
-                    this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
+                    intentPlayActivity();
                     return;
                 } else {
                     Toast.makeText(getActivity(), "当前没有播放歌曲", Toast.LENGTH_SHORT).show();
+                    intentPlayActivity();
                     return;
                 }
         }
@@ -201,6 +200,12 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
 
+    }
+
+    private void intentPlayActivity(){
+        intent = new Intent(this.getActivity(), PlayActivity.class);
+        startActivity(intent);
+        this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
     }
 
     /**
