@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentPagerAdapter adapter;
 
 
-
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Intent intent=getIntent();
-        int type=intent.getIntExtra("Fragment",0);
-        if (type==-1){
-            MainActivity.this.selectFragment(0);
+        Intent intent = getIntent();
+        if (intent != null) {
+            int type = intent.getIntExtra("Fragment", 0);
+            if (type == -1) {
+                MainActivity.this.selectFragment(0);
+            }
+
         }
         super.onResume();
     }
@@ -85,8 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private Object lastFragment;
     private int lastPosition;
+
     private void selectFragment(int position) {
         //destort another fragment,falg set null
         if (lastFragment != null) {

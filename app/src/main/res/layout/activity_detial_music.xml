@@ -9,9 +9,9 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
-        android:background="@color/colorOrage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
+        android:background="@color/colorOrage"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -27,8 +27,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 android:background="@color/colorOrage"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <Button
@@ -46,12 +46,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detial_music" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
 
-    </RelativeLayout>
+    <include layout="@layout/content_detial_music" />
 
 </android.support.design.widget.CoordinatorLayout>

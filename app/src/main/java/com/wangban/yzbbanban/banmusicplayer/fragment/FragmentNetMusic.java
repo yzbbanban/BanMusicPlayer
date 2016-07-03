@@ -21,6 +21,7 @@ import com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetImpl;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
@@ -84,11 +85,19 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
 
     private IPresenterNet iPresenterNet;
 
+    /**
+     * 创建 music 控制器
+     */
+    private MusicPlayer musicPlayerContrl;
+
     public FragmentNetMusic() {
         iPresenterNet = new PresenterNetImpl(this);
 
     }
 
+    /**
+     * 重新加载时，加载数据
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -121,7 +130,9 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         return view;
     }
 
-
+    /**
+     * 设置监听器
+     */
     private void setListeners() {
         llNewList.setOnClickListener(this);
         llHotList.setOnClickListener(this);
@@ -130,13 +141,23 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         ibtnLocalMusic.setOnClickListener(this);
     }
 
+
+    /**
+     * 设置数据源
+     */
     private void setData() {
+        musicPlayerContrl = MusicApplication.getMusicPlayer();
         iPresenterNet.loadNewMusics();
         iPresenterNet.loadHotMusics();
         iPresenterNet.loadBillboardMusics();
         iPresenterNet.loadKTVMusics();
     }
 
+    /**
+     * 设置点击事件，显示相应数据的列表
+     *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -144,45 +165,55 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
 
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = NEW;
+                musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: new");
                 break;
             case R.id.ll_hot_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = HOT;
+                musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: hot");
                 break;
             case R.id.ll_billboard_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = BILLBOARD;
+                musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: billboard");
                 break;
             case R.id.ll_ktv_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = KTV;
+                musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: ktv");
                 break;
             case R.id.ibtn_local_music:
                 if (MusicApplication.getContext().getPlayer().isPlaying()) {
                     intent = new Intent(this.getActivity(), PlayActivity.class);
                     startActivity(intent);
+                    this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
                     return;
                 } else {
                     Toast.makeText(getActivity(), "当前没有播放歌曲", Toast.LENGTH_SHORT).show();
                     return;
                 }
         }
-        intent.putExtra("type", type);
-        //Log.i(TAG, "Fragment onClick: " + type);
+        Log.i(TAG, "Fragment onClick: " + type);
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
 
     }
 
+    /**
+     * 设置界面显示的第一、二、三首曲名
+     *
+     * @param musics
+     */
     @Override
     public void setNewText(List<Music> musics) {
         tvNewFirst.setText(musics.get(0).getTitle());
         tvNewSecond.setText(musics.get(1).getTitle());
         tvNewThird.setText(musics.get(2).getTitle());
+        MusicApplication.getMusicPlayer().setNewList(musics);
     }
 
     @Override
@@ -190,6 +221,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         tvHotFirst.setText(musics.get(0).getTitle());
         tvHotSecond.setText(musics.get(1).getTitle());
         tvHotThird.setText(musics.get(2).getTitle());
+        MusicApplication.getMusicPlayer().setHotList(musics);
     }
 
     @Override
@@ -197,6 +229,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         tvBillFirst.setText(musics.get(0).getTitle());
         tvBillSecond.setText(musics.get(1).getTitle());
         tvBillThird.setText(musics.get(2).getTitle());
+        MusicApplication.getMusicPlayer().setBillboardList(musics);
     }
 
     @Override
@@ -204,5 +237,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         tvKtvFirst.setText(musics.get(0).getTitle());
         tvKtvSecond.setText(musics.get(1).getTitle());
         tvKtvThird.setText(musics.get(2).getTitle());
+        MusicApplication.getMusicPlayer().setKtvList(musics);
     }
 }

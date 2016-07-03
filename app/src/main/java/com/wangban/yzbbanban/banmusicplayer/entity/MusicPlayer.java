@@ -1,14 +1,16 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
+
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 
 import java.io.Serializable;
 import java.util.*;
+
 /**
  * Created by YZBbanban on 16/6/26.
- * 用来存放数据，集合，以及音乐的位置操作
+ * 用来存放数据，集合，以及音乐的位置操作，为 music 的控制器
  */
 
-public class MusicPlayer implements Serializable,Consts{
+public class MusicPlayer implements Serializable, Consts {
     private List<Music> newList;
     private List<Music> hotList;
     private List<Music> billboardList;
@@ -16,10 +18,12 @@ public class MusicPlayer implements Serializable,Consts{
     private List<LrcLine> lrc;
     //播放位置
     private int position;
+    private int musicListType;
 
     public MusicPlayer() {
 
     }
+
     public List<LrcLine> getLrc() {
         return lrc;
     }
@@ -75,8 +79,8 @@ public class MusicPlayer implements Serializable,Consts{
     }
 
     // 换下一首
-    public void nextMusic(int type) {
-        switch (type) {
+    public void nextMusic() {
+        switch (musicListType) {
             case NEW:
                 position = position == newList.size() - 1 ? 0 : position + 1;
                 break;
@@ -95,25 +99,32 @@ public class MusicPlayer implements Serializable,Consts{
 
     // 获取当前音乐
     public Music getCurrentMusic(int type) {
-        Music music=new Music();
+        Music music = new Music();
         switch (type) {
             case NEW:
-                music=newList.get(position);
+                music = newList.get(position);
                 break;
             case HOT:
-                music=hotList.get(position);
+                music = hotList.get(position);
                 break;
             case BILLBOARD:
-                music=billboardList.get(position);
+                music = billboardList.get(position);
                 break;
             case KTV:
-                music=ktvList.get(position);
+                music = ktvList.get(position);
                 break;
         }
 
         return music;
     }
 
+    //设置当前播放列表类型
+    public void setMusicListType(int musicListType) {
+        this.musicListType = musicListType;
 
+    }
+    public int getMusicListType(){
+        return musicListType;
+    }
 
 }

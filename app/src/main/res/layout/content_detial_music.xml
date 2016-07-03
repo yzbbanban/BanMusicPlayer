@@ -8,11 +8,11 @@
     tools:context=".activity.DetialMusicActivity"
     tools:showIn="@layout/activity_detial_music">
 
-
     <com.wangban.yzbbanban.banmusicplayer.ui.NestedListView
         android:id="@+id/lv_detial_music"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.wangban.yzbbanban.banmusicplayer.ui.NestedListView>
+        android:layout_height="match_parent"
+        android:padding="5dp"></com.wangban.yzbbanban.banmusicplayer.ui.NestedListView>
 
 
 </android.support.v4.widget.NestedScrollView>

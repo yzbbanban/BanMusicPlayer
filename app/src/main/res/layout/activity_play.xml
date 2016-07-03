@@ -9,7 +9,9 @@
         android:id="@+id/iv_player_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_background" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/my_logo"
+        android:background="@null" />
 
     <RelativeLayout
         android:id="@+id/rl_player_title"
@@ -106,7 +108,7 @@
             android:layout_centerHorizontal="true"
             android:background="@null"
             android:scaleType="centerInside"
-            android:src="@drawable/pause_nomal" />
+            android:src="@drawable/selctor_play_pause" />
 
         <ImageButton
             android:id="@+id/ibtn_player_music_next"
@@ -116,7 +118,7 @@
             android:layout_toRightOf="@id/ibtn_player_music_play_or_pause"
             android:background="@null"
             android:scaleType="centerInside"
-            android:src="@drawable/selctor_next" />
+            android:src="@drawable/pause_nomal" />
 
         <ImageButton
             android:id="@+id/ibtn_player_music_previous"

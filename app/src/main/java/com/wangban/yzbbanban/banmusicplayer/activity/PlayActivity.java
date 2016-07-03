@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaExtractor;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +38,7 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class PlayActivity extends AppCompatActivity implements IViewLrc, View.OnClickListener, Consts {
+public class PlayActivity extends AppCompatActivity implements IViewLrc, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
 
     @ViewInject(R.id.ibtn_player_back_main)
     private ImageButton ibtnBackMain;
@@ -75,7 +77,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
     private BroadcastReceiver receiver;
     private IPresenterLrc presenterLrc;
 
+    private MediaPlayer player = MusicApplication.getContext().getPlayer();
 
+    private List<Music> musics;
+
+    private MusicPlayer musicPlayerControl;
 
     public PlayActivity() {
         super();
@@ -96,6 +102,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
         registComponent();
     }
 
+    /**
+     * 注册接收的广播
+     */
     private void registComponent() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_START_PLAY);
@@ -112,6 +121,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
 //        super.onNewIntent(intent);
 //    }
 
+    /**
+     * 当 activity 销毁时执行取消注册广播
+     */
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
@@ -119,6 +131,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
 
     }
 
+    /**
+     * activity重新加载时 更新界面
+     */
     @Override
     protected void onResume() {
         setData();
@@ -127,64 +142,154 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, View.On
         //Log.i(TAG, "onResume: " + music.getTitle());
     }
 
+    /**
+     * 设置控件
+     */
     private void setView() {
+        //设置播放的歌曲名
         tvCurrentMusic.setText(music.getTitle());
+        //设置播放歌曲的图片信息
         String imagePath = music.getPic_big();
         ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
         imageLoader.get(imagePath, imageListener);
-
+        //disc 内部图片的播放动画
         Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
         LinearInterpolator i = new LinearInterpolator();
         animation1.setInterpolator(i);
         ibtnRevoleDisc.startAnimation(animation1);
-
+        //disc 的播放动画
         Animation animation2 = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
         LinearInterpolator i2 = new LinearInterpolator();
         animation2.setInterpolator(i2);
         civMusicImage.startAnimation(animation2);
+        //设置播放按钮样式
+        if (player != null && player.isPlaying()) {
+            ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
+        } else {
+            ibtnMusicPlayPause.setBackgroundResource(R.drawable.pause_nomal);
+        }
 
     }
 
+    /**
+     * 设置监听器
+     */
     private void setListenter() {
         ibtnBackMain.setOnClickListener(this);
+        ibtnMusicNext.setOnClickListener(this);
+        ibtnMusicPlayPause.setOnClickListener(this);
+        ibtnMusicPrevious.setOnClickListener(this);
+        sbProgress.setOnSeekBarChangeListener(this);
     }
 
+    /**
+     * 配置 Lrc 歌词数据
+     */
     private void setData() {
-        music = MusicApplication.getMusic();
+        musicPlayerControl = MusicApplication.getMusicPlayer();
+        int musicListType = musicPlayerControl.getMusicListType();
+        switch (musicListType) {
+            case NEW:
+                musics = musicPlayerControl.getNewList();
+                break;
+            case HOT:
+                musics = musicPlayerControl.getHotList();
+                break;
+            case BILLBOARD:
+                musics = musicPlayerControl.getBillboardList();
+                break;
+            case KTV:
+                musics = musicPlayerControl.getKtvList();
+                break;
+
+        }
+        int position = MusicApplication.getMusicPlayer().getPosition();
+        music = musics.get(position);
         presenterLrc.loadLrc(music.getLrclink());
         // Log.i(TAG, "setData: "+music.getTitle());
 
 
     }
 
-
+    /**
+     * 点击事件
+     *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //返回按钮
             case R.id.ibtn_player_back_main:
                 finish();
 //                startActivity(new Intent(this, DetialMusicActivity.class));
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
+            //暂停播放按钮
+            case R.id.ibtn_player_music_play_or_pause:
 
+                break;
+            //上一曲按钮
+            case R.id.ibtn_player_music_previous:
+
+                break;
+            //下一曲按钮
+            case R.id.ibtn_player_music_next:
+
+                break;
+        }
+    }
+
+    /**
+     * 设置歌词数据源
+     *
+     * @param lrcs
+     */
+    @Override
+    public void setLrc(List<LrcLine> lrcs) {
+        musicPlayerControl.setLrc(lrcs);
+
+    }
+
+    /**
+     * 设置进度条
+     *
+     * @param seekBar
+     * @param progress
+     * @param fromUser
+     */
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser) {
+            player.seekTo(progress);
         }
     }
 
     @Override
-    public void setLrc(List<LrcLine> lrcs) {
-        MusicPlayer musicPlayer = MusicApplication.getMusicPlayer();
-        musicPlayer.setLrc(lrcs);
+    public void onStartTrackingTouch(SeekBar seekBar) {
 
     }
 
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+
+    }
+
+    /**
+     * 设置接收广播的数据
+     */
     private class MusicBroadCastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            //当接收的是播放状态广播室
             if (ACTION_START_PLAY.equals(action)) {
 
-            } else if (ACTION_UPDATE_PROGRESS.equals(action)) {
+            }
+            //当时进度更新状态时
+            else if (ACTION_UPDATE_PROGRESS.equals(action)) {
                 int currentTime = intent.getIntExtra("current", 0);
                 int totalTime = intent.getIntExtra("total", 0);
                 tvDurationTime.setText(DateFormatUtil.getDate(totalTime));

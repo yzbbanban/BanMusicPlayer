@@ -51,6 +51,7 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         unbindService(conn);
+
         super.onDestroy();
 
     }

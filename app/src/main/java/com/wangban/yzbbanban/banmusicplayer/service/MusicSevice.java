@@ -22,6 +22,8 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 public class MusicSevice extends Service implements Consts {
     private boolean isLoop = true;
     private MediaPlayer player;
+    private Thread thread;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,8 +37,8 @@ public class MusicSevice extends Service implements Consts {
             }
         });
         //启动工作线程  每1秒给Activity发一次广播
-        new WorkThread().start();
-
+        thread = new WorkThread();
+        thread.start();
     }
 
     //每1秒给Activity发一次广播
@@ -50,12 +52,14 @@ public class MusicSevice extends Service implements Consts {
                     e.printStackTrace();
                 }
                 //发送广播
-                if (player.isPlaying()) {
+                if (player != null && player.isPlaying()) {
                     Intent i = new Intent(ACTION_UPDATE_PROGRESS);
                     i.putExtra("current", player.getCurrentPosition());
                     i.putExtra("total", player.getDuration());
                     sendBroadcast(i);
                 }
+
+
             }
         }
     }
@@ -63,7 +67,9 @@ public class MusicSevice extends Service implements Consts {
 
     @Override
     public void onDestroy() {
-        MusicApplication.getContext().getPlayer().release();
+        player.release();
+        player=null;
+        thread = null;
         super.onDestroy();
     }
 
@@ -94,6 +100,8 @@ public class MusicSevice extends Service implements Consts {
             }
 
         }
+
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.wangban.yzbbanban.banmusicplayer.app;
 /**
  * Created by YZBbanban on 16/6/23.
  */
+
 import android.app.Application;
 import android.media.MediaPlayer;
 
@@ -17,48 +18,69 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.*;
-public class MusicApplication extends Application{
+
+public class MusicApplication extends Application {
     /**
      * 创建 MusicPlayer
-     *
      */
     private static MusicApplication context;
 
     private MediaPlayer player;
     private static MusicPlayer musicPlayer;
-    private static Music music;
+//  private static Music music;
     private ArrayList<DetialImage> images;
-    private int position;
     private static RequestQueue queue;
+
     @Override
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
-        context=this;
-        queue= Volley.newRequestQueue(this);
-        musicPlayer=new MusicPlayer();
-        player=new MediaPlayer();
+        context = this;
+        queue = Volley.newRequestQueue(this);
+        musicPlayer = new MusicPlayer();
+        player = new MediaPlayer();
     }
 
-    public static Music getMusic() {
-        return music;
-    }
 
-    public static void setMusic(Music music) {
-        MusicApplication.music = music;
-    }
+//    /**
+//     * 用于设置当前音乐数据，用过播放取出数据，交给展示界面
+//     * @return
+//     */
+//    public static Music getMusic() {
+//        return music;
+//    }
+//
+//    public static void setMusic(Music music) {
+//        MusicApplication.music = music;
+//    }
 
-    public  MediaPlayer getPlayer() {
+    /**
+     * 创建唯一的 MediaPlayer
+     *
+     * @return
+     */
+    public MediaPlayer getPlayer() {
         return player;
     }
 
-    public  void setPlayer(MediaPlayer player) {
+    public void setPlayer(MediaPlayer player) {
         this.player = player;
     }
 
-    public static RequestQueue getQueue(){
+    /**
+     * 创建 volley 队列
+     *
+     * @return
+     */
+    public static RequestQueue getQueue() {
         return queue;
     }
+
+    /**
+     * 图片数据源
+     *
+     * @return
+     */
     public ArrayList<DetialImage> getImageData() {
         return images;
     }
@@ -67,22 +89,16 @@ public class MusicApplication extends Application{
         this.images = images;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     /**
-     * 直接获取 musicplayer
+     * 直接获取 musicplayer用于操作记录的音乐数据，以及列表中的位置
+     *
      * @return
      */
-    public static MusicPlayer getMusicPlayer(){
+    public static MusicPlayer getMusicPlayer() {
         return musicPlayer;
     }
-    public static MusicApplication getContext(){
+
+    public static MusicApplication getContext() {
         return context;
     }
 }

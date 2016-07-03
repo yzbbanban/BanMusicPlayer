@@ -41,7 +41,8 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     private List<Music> musics;
     private Music music;
     private MusicSevice.MusicBinder musicBinder;
-//    private ServiceConnection conn;
+
+    private int musicListType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,14 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
         x.view().inject(this);
         setSupportActionBar(toolbar);
         musicBinder = new MusicBinder();
-
         setData();
         setListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        setData();
+        super.onResume();
     }
 
     @Override
@@ -64,8 +70,9 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
 
     private void setData() {
         MusicApplication.getMusicPlayer().getNewList();
-        Intent intent = getIntent();
-        int type = intent.getIntExtra("type", 1);
+
+        int type = MusicApplication.getMusicPlayer().getMusicListType();
+
         Log.i(TAG, "setdata: 执行" + type);
         presenterNetDetial = new PresenterNetDetialImpl(this, type);
         presenterNetDetial.loadAllMusics();
@@ -78,11 +85,8 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(DetialMusicActivity.this,""+musics.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                 //设置 song_id
-                music=musics.get(position);
-                MusicApplication.setMusic(music);
                 MusicApplication.getMusicPlayer().setPosition(position);
                 Intent intent = new Intent(DetialMusicActivity.this, PlayActivity.class);
-               // intent.putExtra(PUT_MUSIC, music);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade,R.anim.hold);
                 //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
