@@ -8,5 +8,6 @@ public interface INetMusicModel {
     void findAllHotMusic(INetMusicCallback callback);
     void findAllBillboardMusic(INetMusicCallback callback);
     void findAllKtvMusic(INetMusicCallback callback);
+    void findAllSearchMusic(String songName,INetMusicCallback callback);
 
 }

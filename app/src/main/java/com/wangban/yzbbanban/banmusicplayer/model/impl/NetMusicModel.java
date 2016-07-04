@@ -56,6 +56,23 @@ public class NetMusicModel implements INetMusicModel, Consts {
         jsonPaser(KTV, url, callback);
     }
 
+    @Override
+    public void findAllSearchMusic(String songName, INetMusicCallback callback) {
+        String url = UrlFactory.searchSongList(songName);
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "onErrorResponse: 获取失败");
+            }
+        });
+    }
+
     private void jsonPaser(final int type, String url, final INetMusicCallback callback) {
         StringRequest request = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
             @Override

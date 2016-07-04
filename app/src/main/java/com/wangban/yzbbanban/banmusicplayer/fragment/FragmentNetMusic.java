@@ -5,19 +5,20 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
 import com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity;
+import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
@@ -32,6 +33,7 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClickListener, Consts {
@@ -45,6 +47,8 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private LinearLayout llKtvList;
     @ViewInject(R.id.et_search)
     private EditText etSearch;
+    @ViewInject(R.id.lv_search_music)
+    private ListView lvSearchMusic;
     //new
     @ViewInject(R.id.tv_new_list_first)
     private TextView tvNewFirst;
@@ -83,7 +87,9 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private List<Music> billboardList;
     private List<Music> ktvList;
 
-    private IPresenterNet iPresenterNet;
+    private MusicListAdapter musicListAdapter;
+
+    private IPresenterNet PresenterNet;
 
     /**
      * 创建 music 控制器
@@ -91,7 +97,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private MusicPlayer musicPlayerContrl;
 
     public FragmentNetMusic() {
-        iPresenterNet = new PresenterNetImpl(this);
+        PresenterNet = new PresenterNetImpl(this);
 
     }
 
@@ -147,10 +153,10 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
      */
     private void setData() {
         musicPlayerContrl = MusicApplication.getMusicPlayer();
-        iPresenterNet.loadNewMusics();
-        iPresenterNet.loadHotMusics();
-        iPresenterNet.loadBillboardMusics();
-        iPresenterNet.loadKTVMusics();
+        PresenterNet.loadNewMusics();
+        PresenterNet.loadHotMusics();
+        PresenterNet.loadBillboardMusics();
+        PresenterNet.loadKTVMusics();
     }
 
     /**
@@ -193,16 +199,23 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
                 } else {
                     Toast.makeText(getActivity(), "当前没有播放歌曲", Toast.LENGTH_SHORT).show();
                     intentPlayActivity();
-                    return;
                 }
+                break;
+            case R.id.ibtn_music_search:
+                lvSearchMusic.setVisibility(View.VISIBLE);
+                String songName=etSearch.getText().toString().trim();
+                PresenterNet.loadSearchMusics(songName);
+                break;
+
+
         }
-        Log.i(TAG, "Fragment onClick: " + type);
+        //Log.i(TAG, "Fragment onClick: " + type);
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
 
     }
 
-    private void intentPlayActivity(){
+    private void intentPlayActivity() {
         intent = new Intent(this.getActivity(), PlayActivity.class);
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
@@ -244,4 +257,12 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         tvKtvThird.setText(musics.get(2).getTitle());
         MusicApplication.getMusicPlayer().setKtvList(musics);
     }
+
+    @Override
+    public void setSerchText(List<Music> musics) {
+        musicListAdapter = new MusicListAdapter(getContext(), (ArrayList<Music>) musics);
+        lvSearchMusic.setAdapter(musicListAdapter);
+    }
+
+
 }

@@ -10,4 +10,5 @@ public interface IViewNet {
     void setHotText(List<Music> musics);
     void setBillText(List<Music> musics);
     void setKtvText(List<Music> musics);
+    void setSerchText(List<Music> musics);
 }

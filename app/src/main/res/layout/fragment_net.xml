@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_net_fragment"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorOrage"
@@ -12,12 +13,12 @@
         android:padding="10dp">
 
         <ImageButton
-            android:focusable="true"
             android:id="@+id/ibtn_music_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@null"
+            android:focusable="true"
             android:src="@drawable/search_edit_top_img" />
 
         <EditText
@@ -39,14 +40,14 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:background="@anim/play"
-            android:scaleType="centerCrop"
-             />
+            android:scaleType="centerCrop" />
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/ll_net_fragment"
         android:scrollbars="none">
 
         <LinearLayout
@@ -92,11 +93,16 @@
                 android:layout_height="5dp"
                 android:background="@color/colorOTLightGrey"></View>
 
-
         </LinearLayout>
 
 
     </ScrollView>
 
-
-</LinearLayout>
+    <ListView
+        android:visibility="gone"
+        android:id="@+id/lv_search_music"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_net_fragment"
+        android:background="@color/colorBackgrondLightWhite"></ListView>
+</RelativeLayout>

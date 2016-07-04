@@ -11,5 +11,6 @@ public interface IPresenterNet {
     void loadHotMusics();
     void loadBillboardMusics();
     void loadKTVMusics();
+    void loadSearchMusics(String songName);
 
 }
