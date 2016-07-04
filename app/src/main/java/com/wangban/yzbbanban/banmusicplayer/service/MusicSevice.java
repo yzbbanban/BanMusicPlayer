@@ -38,6 +38,7 @@ public class MusicSevice extends Service implements Consts {
                 sendBroadcast(i);
             }
         });
+
         //启动工作线程  每1秒给Activity发一次广播
         thread = new WorkThread();
         thread.start();

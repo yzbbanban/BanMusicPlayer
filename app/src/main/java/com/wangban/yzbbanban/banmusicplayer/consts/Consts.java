@@ -24,6 +24,10 @@ public interface Consts {
     int BILLBOARD = 300;
     int KTV = 400;
 
+    int REPEAT=1000;
+    int RANDOM =2000;
+    int RECYCLE=3000;
+
     String PUT_MUSIC = "put_music";
     /**
      * 广播注册

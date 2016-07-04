@@ -13,6 +13,14 @@
         android:scaleType="centerCrop"
         android:src="@drawable/my_logo" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDarkGrey"
+
+
+        ></View>
+
     <RelativeLayout
         android:id="@+id/rl_player_title"
         android:layout_width="match_parent"

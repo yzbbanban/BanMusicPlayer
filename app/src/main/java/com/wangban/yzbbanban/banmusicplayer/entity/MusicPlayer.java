@@ -1,5 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
 
+
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 
 import java.io.Serializable;
@@ -20,8 +21,19 @@ public class MusicPlayer implements Serializable, Consts {
     private int position;
     private int musicListType;
 
+    //播放状态
+    private int playState;
+
     public MusicPlayer() {
 
+    }
+
+    public int getPlayState() {
+        return playState;
+    }
+
+    public void setPlayState(int playState) {
+        this.playState = playState;
     }
 
     public List<LrcLine> getLrc() {
@@ -80,20 +92,57 @@ public class MusicPlayer implements Serializable, Consts {
 
     // 换下一首
     public void nextMusic() {
-        switch (musicListType) {
-            case NEW:
-                position = position == newList.size() - 1 ? 0 : position + 1;
-                break;
-            case HOT:
-                position = position == hotList.size() - 1 ? 0 : position + 1;
-                break;
-            case BILLBOARD:
-                position = position == billboardList.size() - 1 ? 0 : position + 1;
-                break;
-            case KTV:
-                position = position == ktvList.size() - 1 ? 0 : position + 1;
-                break;
+        if (playState == RECYCLE) {
+            switch (musicListType) {
+                case NEW:
+                    position = position == newList.size() - 1 ? 0 : position + 1;
+                    break;
+                case HOT:
+                    position = position == hotList.size() - 1 ? 0 : position + 1;
+                    break;
+                case BILLBOARD:
+                    position = position == billboardList.size() - 1 ? 0 : position + 1;
+                    break;
+                case KTV:
+                    position = position == ktvList.size() - 1 ? 0 : position + 1;
+                    break;
+            }
+        } else if (playState == REPEAT) {
+            switch (musicListType) {
+                case NEW:
+                    position++;
+                    position--;
+                    break;
+                case HOT:
+                    position++;
+                    position--;
+                    break;
+                case BILLBOARD:
+                    position++;
+                    position--;
+                    break;
+                case KTV:
+                    position++;
+                    position--;
+                    break;
+            }
+        } else if (playState == RANDOM) {
+            switch (musicListType) {
+                case NEW:
+                    position = new Random().nextInt(newList.size());
+                    break;
+                case HOT:
+                    position = new Random().nextInt(hotList.size());
+                    break;
+                case BILLBOARD:
+                    position = new Random().nextInt(billboardList.size());
+                    break;
+                case KTV:
+                    position = new Random().nextInt(ktvList.size());
+                    break;
+            }
         }
+
 
     }
 
@@ -123,7 +172,8 @@ public class MusicPlayer implements Serializable, Consts {
         this.musicListType = musicListType;
 
     }
-    public int getMusicListType(){
+
+    public int getMusicListType() {
         return musicListType;
     }
 

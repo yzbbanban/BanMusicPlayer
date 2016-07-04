@@ -4,8 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.AnimationDrawable;
-import android.media.MediaExtractor;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +17,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
@@ -33,6 +36,7 @@ import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImp
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
+import com.wangban.yzbbanban.banmusicplayer.util.BluredBitmap;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
@@ -90,9 +94,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private MusicPlayer musicPlayerControl;
 
     private IPresenterNetDetial presenterNetDetial;
+    //设置背景图片的路径
+    private String url;
 
 
     int position;
+
+    int playState = REPEAT;
 
     public PlayActivity() {
         super();
@@ -107,6 +115,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         setContentView(R.layout.activity_play);
         x.view().inject(this);
         ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
+        MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
+
         setData();
         setView();
         setListenter();
@@ -149,6 +159,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     protected void onResume() {
         setData();
         setView();
+        //显示动画
+        discRecycle();
         super.onResume();
         //Log.i(TAG, "onResume: " + music.getTitle());
     }
@@ -163,17 +175,29 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         String imagePath = music.getPic_big();
         ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
         imageLoader.get(imagePath, imageListener);
-        //显示动画
-        discRecycle();
+        ImageRequest imageRequest = new ImageRequest(
+                url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                Bitmap bitmap = BluredBitmap.createBlurBitmap(response, 10);
 
+                ivBackground.setImageBitmap(bitmap);
 
+            }
+        }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ivBackground.setImageResource(R.drawable.my_logo);
+            }
+        });
+        MusicApplication.getQueue().add(imageRequest);
     }
 
     /**
      * 设置播放按钮样式
      */
     private void playPauseModel() {
-        if ( player.isPlaying()) {
+        if (player.isPlaying()) {
             ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
         } else {
             ibtnMusicPlayPause.setBackgroundResource(R.drawable.pause_nomal);
@@ -213,6 +237,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         ibtnMusicNext.setOnClickListener(this);
         ibtnMusicPlayPause.setOnClickListener(this);
         ibtnMusicPrevious.setOnClickListener(this);
+        ibtnPlayState.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
     }
 
@@ -243,12 +268,22 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             //获取播放的音乐位置
             int positionList = MusicApplication.getMusicPlayer().getPosition();
             music = musics.get(positionList);
+            url = music.getPic_big();
+            Log.i(TAG, "setData: pic_big: " + url);
+            Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
             //获取歌词数据
             presenterLrc.loadLrc(music.getLrclink());
             // Log.i(TAG, "setData: "+music.getTitle());
         } else {
             return;
         }
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                musicPlayerControl.nextMusic();
+                setPositionToPlay();
+            }
+        });
 
     }
 
@@ -263,7 +298,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             //返回按钮
             case R.id.ibtn_player_back_main:
                 finish();
-//                startActivity(new Intent(this, DetialMusicActivity.class));
+//              startActivity(new Intent(this, DetialMusicActivity.class));
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
             //暂停播放按钮
@@ -289,12 +324,34 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 musicPlayerControl.nextMusic();
                 setPositionToPlay();
                 break;
+            //设置播放模式：单曲循环、随机、列表循环
+            case R.id.ibtn_player_play_state:
+                if (playState == REPEAT) {
+                    ibtnPlayState.setBackgroundResource(R.drawable.repeat_play);
+                    Toast.makeText(this, "重复", Toast.LENGTH_SHORT).show();
+                    MusicApplication.getMusicPlayer().setPlayState(REPEAT);
+
+                    playState = RANDOM;
+                } else if (playState == RANDOM) {
+                    ibtnPlayState.setBackgroundResource(R.drawable.randowm_play);
+                    Toast.makeText(this, "随机", Toast.LENGTH_SHORT).show();
+                    MusicApplication.getMusicPlayer().setPlayState(RANDOM);
+                    playState = RECYCLE;
+                } else if (playState == RECYCLE) {
+                    ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
+                    Toast.makeText(this, "循环", Toast.LENGTH_SHORT).show();
+                    MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
+                    playState = REPEAT;
+                }
+
         }
     }
 
     private void setPositionToPlay() {
         position = MusicApplication.getMusicPlayer().getPosition();
         presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+        setData();
+        setView();
     }
 
 
@@ -306,7 +363,6 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     @Override
     public void setLrc(List<LrcLine> lrcs) {
         musicPlayerControl.setLrc(lrcs);
-        playPauseModel();
     }
 
     /**
@@ -353,6 +409,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     @Override
     public void playMusic(String url) {
         MusicSevice.MusicBinder.playMusic(url);
+
     }
 
     /**
@@ -371,6 +428,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             else if (ACTION_UPDATE_PROGRESS.equals(action)) {
 
                 setView();
+                //设置 disc 的旋转
+                if (!player.isPlaying()) {
+                    removecRecycle();
+                }
+                ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
                 int currentTime = intent.getIntExtra("current", 0);
                 int totalTime = intent.getIntExtra("total", 0);
                 tvDurationTime.setText(DateFormatUtil.getDate(totalTime));
