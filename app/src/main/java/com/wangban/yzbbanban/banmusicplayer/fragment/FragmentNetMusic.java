@@ -2,12 +2,15 @@ package com.wangban.yzbbanban.banmusicplayer.fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -18,14 +21,19 @@ import android.widget.Toast;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.DetialMusicActivity;
 import com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity;
-import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
+import com.wangban.yzbbanban.banmusicplayer.adapter.MusicSearchListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
+import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
+import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetImpl;
+import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
 /**
  * Created by YZBbanban on 16/6/23.
@@ -36,7 +44,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClickListener, Consts {
+public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDetial, AdapterView.OnItemClickListener, View.OnClickListener, Consts {
     @ViewInject(R.id.ll_new_list)
     private LinearLayout llNewList;
     @ViewInject(R.id.ll_hot_list)
@@ -79,6 +87,8 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private TextView tvKtvThird;
     @ViewInject(R.id.ibtn_local_music)
     private ImageButton ibtnLocalMusic;
+    @ViewInject(R.id.ibtn_music_search)
+    private ImageButton ibtnMusicSearch;
 
     private Intent intent;
     private int type;
@@ -87,9 +97,11 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private List<Music> billboardList;
     private List<Music> ktvList;
 
-    private MusicListAdapter musicListAdapter;
+    private MusicSearchListAdapter musicSearchListAdapter;
 
-    private IPresenterNet PresenterNet;
+    private IPresenterNet presenterNet;
+
+    private IPresenterNetDetial presenterNetDetial;
 
     /**
      * 创建 music 控制器
@@ -97,7 +109,8 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     private MusicPlayer musicPlayerContrl;
 
     public FragmentNetMusic() {
-        PresenterNet = new PresenterNetImpl(this);
+        presenterNet = new PresenterNetImpl(this);
+        presenterNetDetial = new PresenterNetDetialImpl(this);
 
     }
 
@@ -145,6 +158,9 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
         llBillboardList.setOnClickListener(this);
         llKtvList.setOnClickListener(this);
         ibtnLocalMusic.setOnClickListener(this);
+        ibtnMusicSearch.setOnClickListener(this);
+        lvSearchMusic.setOnItemClickListener(this);
+
     }
 
 
@@ -153,10 +169,10 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
      */
     private void setData() {
         musicPlayerContrl = MusicApplication.getMusicPlayer();
-        PresenterNet.loadNewMusics();
-        PresenterNet.loadHotMusics();
-        PresenterNet.loadBillboardMusics();
-        PresenterNet.loadKTVMusics();
+        presenterNet.loadNewMusics();
+        presenterNet.loadHotMusics();
+        presenterNet.loadBillboardMusics();
+        presenterNet.loadKTVMusics();
     }
 
     /**
@@ -173,24 +189,28 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
                 type = NEW;
                 musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: new");
+                startActivity();
                 break;
             case R.id.ll_hot_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = HOT;
                 musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: hot");
+                startActivity();
                 break;
             case R.id.ll_billboard_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = BILLBOARD;
                 musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: billboard");
+                startActivity();
                 break;
             case R.id.ll_ktv_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = KTV;
                 musicPlayerContrl.setMusicListType(type);
 //                Log.i(TAG, "onClick: ktv");
+                startActivity();
                 break;
             case R.id.ibtn_local_music:
                 if (MusicApplication.getContext().getPlayer().isPlaying()) {
@@ -203,16 +223,23 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
                 break;
             case R.id.ibtn_music_search:
                 lvSearchMusic.setVisibility(View.VISIBLE);
-                String songName=etSearch.getText().toString().trim();
-                PresenterNet.loadSearchMusics(songName);
+                String songName = etSearch.getText().toString().trim();
+                if (songName != null) {
+                    Log.i(TAG, "songName: " + songName);
+                    presenterNet.loadSearchMusics(songName);
+                }
                 break;
 
 
         }
         //Log.i(TAG, "Fragment onClick: " + type);
+
+
+    }
+
+    private void startActivity() {
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
-
     }
 
     private void intentPlayActivity() {
@@ -259,10 +286,49 @@ public class FragmentNetMusic extends Fragment implements IViewNet, View.OnClick
     }
 
     @Override
-    public void setSerchText(List<Music> musics) {
-        musicListAdapter = new MusicListAdapter(getContext(), (ArrayList<Music>) musics);
-        lvSearchMusic.setAdapter(musicListAdapter);
+    public void setSerchText(ArrayList<SongList> songLists) {
+        musicSearchListAdapter = new MusicSearchListAdapter(getContext(), songLists);
+        MusicApplication.getMusicPlayer().setSongLists(songLists);
+        lvSearchMusic.setAdapter(musicSearchListAdapter);
     }
 
+    //无功能
+    @Override
+    public void setMusicData(List<Music> musics) {
+
+    }
+
+    @Override
+    public void showMusicData() {
+
+    }
+
+    @Override
+    public void playMusic(String songUrl) {
+        Log.i(TAG, "playMusic:111111 ");
+        MusicSevice.MusicBinder.playMusic(songUrl);
+        
+
+    }
+
+    /**
+     * 播放音乐
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//      Log.i(TAG, "onItemClick: "+position);
+//      Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+        List<SongList> songLists = MusicApplication.getMusicPlayer().getSongLists();
+        MusicApplication.getMusicPlayer().setPosition(position);
+        String songId = songLists.get(position).getSong_id();
+        Log.i(TAG, "onItemClick: "+songId);
+        presenterNetDetial.setSongUrl(songId);
+
+
+    }
 
 }

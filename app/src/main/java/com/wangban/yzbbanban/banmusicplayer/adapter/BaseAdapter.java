@@ -40,6 +40,9 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     }
 
     private void setData(ArrayList<T> data) {
+        if (data==null){
+            data=new ArrayList<>();
+        }
         this.data = data;
     }
 

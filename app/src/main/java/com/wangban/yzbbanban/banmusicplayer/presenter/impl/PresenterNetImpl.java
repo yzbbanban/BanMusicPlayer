@@ -1,6 +1,9 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
+import android.util.Log;
+
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.NetMusicModel;
@@ -69,11 +72,12 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadSearchMusics(String songName) {
+        Log.i("supergirl", "loadSearchMusics: "+songName);
         model.findAllSearchMusic(songName,new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-                List<Music> musics = (List<Music>) data;
-                view.setSerchText(musics);
+                ArrayList<SongList> songLists = (ArrayList<SongList>) data;
+                view.setSerchText(songLists);
             }
         });
     }

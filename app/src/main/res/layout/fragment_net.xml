@@ -31,6 +31,7 @@
             android:background="@drawable/shape_edit_search"
             android:hint="请输入您要搜索的内容"
             android:padding="5dp"
+            android:singleLine="true"
             android:textSize="14sp" />
 
         <ImageButton
@@ -99,10 +100,10 @@
     </ScrollView>
 
     <ListView
-        android:visibility="gone"
         android:id="@+id/lv_search_music"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll_net_fragment"
-        android:background="@color/colorBackgrondLightWhite"></ListView>
+        android:background="@color/colorBackgrondLightWhite"
+        android:visibility="gone"></ListView>
 </RelativeLayout>

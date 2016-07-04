@@ -269,8 +269,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             int positionList = MusicApplication.getMusicPlayer().getPosition();
             music = musics.get(positionList);
             url = music.getPic_big();
-            Log.i(TAG, "setData: pic_big: " + url);
-            Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
+            //Log.i(TAG, "setData: pic_big: " + url);
+            //Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
             //获取歌词数据
             presenterLrc.loadLrc(music.getLrclink());
             // Log.i(TAG, "setData: "+music.getTitle());

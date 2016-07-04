@@ -120,7 +120,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     public void playMusic(String musicPath) {
 
         // Log.i(TAG, "playMusic: 执行2");
-        MusicBinder.playMusic(musicPath);
+        MusicSevice.MusicBinder.playMusic(musicPath);
 
 
 

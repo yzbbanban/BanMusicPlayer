@@ -28,6 +28,11 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
 
     }
 
+    public PresenterNetDetialImpl(IViewNetDetial view) {
+        this.view = view;
+        model = new NetDetialModelImpl();
+    }
+
     /**
      * 根据类型获取 music
      */
@@ -54,13 +59,16 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
         }
     }
 
-
+    /**
+     * 播放音乐的路径回调
+     * @param songId
+     */
     @Override
     public void setSongUrl(String songId) {
         model.setSongUrl(songId, new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
-                Log.i(TAG, "findAllMusic: " + data);
+                //Log.i(TAG, "findAllMusic: " + data);
                 String url = (String) data;
                 view.playMusic(url);
             }

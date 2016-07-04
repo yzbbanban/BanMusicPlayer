@@ -11,6 +11,8 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QueryResult;
+import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultSearch;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
@@ -57,13 +59,17 @@ public class NetMusicModel implements INetMusicModel, Consts {
     }
 
     @Override
-    public void findAllSearchMusic(String songName, INetMusicCallback callback) {
+    public void findAllSearchMusic(String songName, final INetMusicCallback callback) {
         String url = UrlFactory.searchSongList(songName);
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-
+//              Log.i(TAG, "onResponse json数据: " + response);
+                Gson gson = new Gson();
+                QuestResultSearch resultSearch = gson.fromJson(response, QuestResultSearch.class);
+                List<SongList> songLists = resultSearch.getSong_list();
+//              ®Log.i(TAG, "songList: " + songLists.get(0).getTitle());
+                callback.findAllMusic(songLists);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -71,6 +77,7 @@ public class NetMusicModel implements INetMusicModel, Consts {
                 Log.i(TAG, "onErrorResponse: 获取失败");
             }
         });
+        MusicApplication.getQueue().add(request);
     }
 
     private void jsonPaser(final int type, String url, final INetMusicCallback callback) {

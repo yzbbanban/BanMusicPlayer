@@ -51,10 +51,14 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
             @Override
             public void onResponse(String response) {
                 try {
-                    //Log.i(TAG, "onResponse: "+response);
+                    Log.i(TAG, "onResponse: "+response);
                     Gson gson = new Gson();
                     QuestResultDetial resultDetial = gson.fromJson(response, QuestResultDetial.class);
                     String path = resultDetial.getSongurl().getUrl().get(0).getShow_link();
+                    if (path==null){
+                        path=resultDetial.getSongurl().getUrl().get(0).getFile_link();
+                    }
+                    Log.i(TAG, "onResponse: "+path);
                     callback.findAllMusic(path);
                 } catch (Exception e) {
                     e.printStackTrace();

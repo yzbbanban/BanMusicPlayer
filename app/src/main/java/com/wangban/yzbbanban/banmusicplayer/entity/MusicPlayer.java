@@ -17,6 +17,8 @@ public class MusicPlayer implements Serializable, Consts {
     private List<Music> billboardList;
     private List<Music> ktvList;
     private List<LrcLine> lrc;
+    private List<SongList> songLists;
+
     //播放位置
     private int position;
     private int musicListType;
@@ -26,6 +28,14 @@ public class MusicPlayer implements Serializable, Consts {
 
     public MusicPlayer() {
 
+    }
+
+    public List<SongList> getSongLists() {
+        return songLists;
+    }
+
+    public void setSongLists(List<SongList> songLists) {
+        this.songLists = songLists;
     }
 
     public int getPlayState() {

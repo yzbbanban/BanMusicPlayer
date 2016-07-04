@@ -20,7 +20,7 @@ import org.xutils.x;
 
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @ViewInject(R.id.fl_main)
     private FrameLayout flContainer;
     @ViewInject(R.id.rg_player_bottom)
