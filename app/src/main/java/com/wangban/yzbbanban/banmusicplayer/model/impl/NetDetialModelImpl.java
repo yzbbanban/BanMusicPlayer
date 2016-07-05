@@ -13,6 +13,8 @@ import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultDetial;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongUrl;
+import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
@@ -43,9 +45,11 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
 
     }
 
+
+
     @Override
-    public void setSongUrl(String songId, final INetMusicCallback callback) {
-        String url = UrlFactory.songUrl(songId);
+    public void setSong(String songId, final INetMusicCallback callback) {
+        final String url = UrlFactory.songUrl(songId);
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -54,12 +58,13 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
                     Log.i(TAG, "onResponse: "+response);
                     Gson gson = new Gson();
                     QuestResultDetial resultDetial = gson.fromJson(response, QuestResultDetial.class);
-                    String path = resultDetial.getSongurl().getUrl().get(0).getShow_link();
-                    if (path==null){
-                        path=resultDetial.getSongurl().getUrl().get(0).getFile_link();
+                    List<Url> urls=  resultDetial.getSongurl().getUrl();
+
+                    SongInfo songInfo=resultDetial.getSonginfo();
+                    if (urls==null){
                     }
-                    Log.i(TAG, "onResponse: "+path);
-                    callback.findAllMusic(path);
+                    Log.i(TAG, "onResponse: "+urls.get(0).getFile_link());
+                    callback.findAllMusic(urls,songInfo);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

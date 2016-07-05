@@ -29,6 +29,8 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
+import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterLrcImpl;
@@ -97,6 +99,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     //设置背景图片的路径
     private String url;
 
+    private List<Url> urls;
+    private SongInfo songInfo;
 
     int position;
 
@@ -268,11 +272,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             //获取播放的音乐位置
             int positionList = MusicApplication.getMusicPlayer().getPosition();
             music = musics.get(positionList);
-            url = music.getPic_big();
+            String id = music.getSong_id();
+            presenterNetDetial.setSong(id);
+
+//            url = music.getPic_big();
             //Log.i(TAG, "setData: pic_big: " + url);
             //Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
-            //获取歌词数据
-            presenterLrc.loadLrc(music.getLrclink());
+
             // Log.i(TAG, "setData: "+music.getTitle());
         } else {
             return;
@@ -349,7 +355,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     private void setPositionToPlay() {
         position = MusicApplication.getMusicPlayer().getPosition();
-        presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+        presenterNetDetial.setSong(musics.get(position).getSong_id());
         setData();
         setView();
     }
@@ -407,8 +413,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     }
 
     @Override
-    public void playMusic(String url) {
+    public void playMusic(Object data1, Object data2) {
+        urls = (List<Url>) data1;
+        songInfo = (SongInfo) data2;
+        url = urls.get(0).getFile_link();
         MusicSevice.MusicBinder.playMusic(url);
+        //获取歌词数据
+        presenterLrc.loadLrc(songInfo.getLrclink());
 
     }
 

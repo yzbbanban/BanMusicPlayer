@@ -15,6 +15,7 @@ import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
@@ -70,7 +71,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
 
         int type = MusicApplication.getMusicPlayer().getMusicListType();
 
-        Log.i(TAG, "setdata: 执行" + type);
+//        Log.i(TAG, "setdata: 执行" + type);
         presenterNetDetial = new PresenterNetDetialImpl(this, type);
         presenterNetDetial.loadAllMusics();
     }
@@ -87,7 +88,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade,R.anim.hold);
                 //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
-                presenterNetDetial.setSongUrl(musics.get(position).getSong_id());
+                //presenterNetDetial.setSong(musics.get(position).getSong_id());
 
 
             }
@@ -117,14 +118,12 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     }
 
     @Override
-    public void playMusic(String musicPath) {
-
-        // Log.i(TAG, "playMusic: 执行2");
-        MusicSevice.MusicBinder.playMusic(musicPath);
-
-
-
+    public void playMusic(Object data1, Object data2) {
+//        // Log.i(TAG, "playMusic: 执行2");
+//        String musicPath=((List<Url>)data1).get(0).getFile_link();
+//        MusicSevice.MusicBinder.playMusic(musicPath);
     }
+
 
     @Override
     public void onClick(View v) {

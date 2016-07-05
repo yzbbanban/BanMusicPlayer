@@ -22,6 +22,7 @@ public class Music implements Serializable{
     private String album_id;
     private String album_title;
     private String artist_name;
+
     public Music() {
         // TODO Auto-generated constructor stub
     }

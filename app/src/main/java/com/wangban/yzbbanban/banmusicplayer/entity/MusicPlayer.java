@@ -157,7 +157,7 @@ public class MusicPlayer implements Serializable, Consts {
     }
 
     // 获取当前音乐
-    public Music getCurrentMusic(int type) {
+    public Object getCurrentMusic(int type) {
         Music music = new Music();
         switch (type) {
             case NEW:
@@ -172,6 +172,7 @@ public class MusicPlayer implements Serializable, Consts {
             case KTV:
                 music = ktvList.get(position);
                 break;
+
         }
 
         return music;

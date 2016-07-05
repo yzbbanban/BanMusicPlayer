@@ -27,6 +27,7 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
+import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
@@ -103,6 +104,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 
     private IPresenterNetDetial presenterNetDetial;
 
+//    private MediaPlayer player;
     /**
      * 创建 music 控制器
      */
@@ -122,7 +124,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         super.onResume();
         AnimationDrawable animationDrawable = null;
         //Log.i(TAG, "onResume: fragmentNetMusic");
-        if (MusicApplication.getContext().getPlayer().isPlaying()) {
+        if (MusicApplication.getContext().getPlayer() != null && MusicApplication.getContext().getPlayer().isPlaying()) {
             animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
             animationDrawable.setOneShot(false);
             animationDrawable.start();
@@ -292,6 +294,11 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         lvSearchMusic.setAdapter(musicSearchListAdapter);
     }
 
+    @Override
+    public void playMusic(String songUrl) {
+
+    }
+
     //无功能
     @Override
     public void setMusicData(List<Music> musics) {
@@ -304,15 +311,19 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     }
 
     @Override
-    public void playMusic(String songUrl) {
-        Log.i(TAG, "playMusic:111111 ");
-        MusicSevice.MusicBinder.playMusic(songUrl);
-        
-
+    public void playMusic(Object data1, Object data2) {
+        //Log.i(TAG, "playMusic:111111 ");
+        String songUrl=((List<Url>)data1).get(0).getFile_link();
+        if (songUrl != null) {
+            MusicSevice.MusicBinder.playMusic(songUrl);
+        } else {
+            Toast.makeText(getActivity(), "喵~~无此歌曲，抱歉", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
      * 播放音乐
+     *
      * @param parent
      * @param view
      * @param position
@@ -323,11 +334,14 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 //      Log.i(TAG, "onItemClick: "+position);
 //      Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
         List<SongList> songLists = MusicApplication.getMusicPlayer().getSongLists();
+
         MusicApplication.getMusicPlayer().setPosition(position);
         String songId = songLists.get(position).getSong_id();
-        Log.i(TAG, "onItemClick: "+songId);
-        presenterNetDetial.setSongUrl(songId);
-
+        Log.i(TAG, "onItemClick: " + songId);
+        presenterNetDetial.setSong(songId);
+        intent = new Intent(getActivity(), PlayActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
     }
 

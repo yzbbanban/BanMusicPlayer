@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
-import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.NetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
@@ -28,7 +28,7 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadNewMusics() {
-        model.findAllNewMusic(new INetMusicCallback() {
+        model.findAllNewMusic(new IMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
                 List<Music> musics = (List<Music>) data;
@@ -39,7 +39,7 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadHotMusics() {
-        model.findAllHotMusic(new INetMusicCallback() {
+        model.findAllHotMusic(new IMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
                 List<Music> musics = (List<Music>) data;
@@ -50,7 +50,7 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadBillboardMusics() {
-        model.findAllBillboardMusic(new INetMusicCallback() {
+        model.findAllBillboardMusic(new IMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
                 List<Music> musics = (List<Music>) data;
@@ -61,7 +61,7 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadKTVMusics() {
-        model.findAllKtvMusic(new INetMusicCallback() {
+        model.findAllKtvMusic(new IMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
                 List<Music> musics = (List<Music>) data;
@@ -73,7 +73,7 @@ public class PresenterNetImpl implements IPresenterNet {
     @Override
     public void loadSearchMusics(String songName) {
         Log.i("supergirl", "loadSearchMusics: "+songName);
-        model.findAllSearchMusic(songName,new INetMusicCallback() {
+        model.findAllSearchMusic(songName,new IMusicCallback() {
             @Override
             public void findAllMusic(Object data) {
                 ArrayList<SongList> songLists = (ArrayList<SongList>) data;

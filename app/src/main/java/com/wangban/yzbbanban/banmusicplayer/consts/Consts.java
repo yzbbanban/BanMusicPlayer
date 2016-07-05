@@ -23,6 +23,7 @@ public interface Consts {
     int HOT = 200;
     int BILLBOARD = 300;
     int KTV = 400;
+    int SEARCH=500;
 
     int REPEAT=1000;
     int RANDOM =2000;

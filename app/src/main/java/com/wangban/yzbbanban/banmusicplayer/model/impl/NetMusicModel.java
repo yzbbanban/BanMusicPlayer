@@ -13,7 +13,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QueryResult;
 import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultSearch;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
-import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
@@ -34,32 +34,32 @@ public class NetMusicModel implements INetMusicModel, Consts {
     }
 
     @Override
-    public void findAllNewMusic(INetMusicCallback callback) {
+    public void findAllNewMusic(IMusicCallback callback) {
         String url = UrlFactory.NEW_MUSIC_LIST;
         jsonPaser(NEW, url, callback);
     }
 
     @Override
-    public void findAllHotMusic(INetMusicCallback callback) {
+    public void findAllHotMusic(IMusicCallback callback) {
         String url = UrlFactory.HOT_MUSIC_LIST;
         jsonPaser(HOT, url, callback);
     }
 
     @Override
-    public void findAllBillboardMusic(INetMusicCallback callback) {
+    public void findAllBillboardMusic(IMusicCallback callback) {
         String url = UrlFactory.BILLBOARD_MUSIC_LIST;
         jsonPaser(BILLBOARD, url, callback);
     }
 
     @Override
-    public void findAllKtvMusic(INetMusicCallback callback) {
+    public void findAllKtvMusic(IMusicCallback callback) {
         musics = musicPlayer.getKtvList();
         String url = UrlFactory.KTV_MUSIC_LIST;
         jsonPaser(KTV, url, callback);
     }
 
     @Override
-    public void findAllSearchMusic(String songName, final INetMusicCallback callback) {
+    public void findAllSearchMusic(String songName, final IMusicCallback callback) {
         String url = UrlFactory.searchSongList(songName);
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -80,7 +80,7 @@ public class NetMusicModel implements INetMusicModel, Consts {
         MusicApplication.getQueue().add(request);
     }
 
-    private void jsonPaser(final int type, String url, final INetMusicCallback callback) {
+    private void jsonPaser(final int type, String url, final IMusicCallback callback) {
         StringRequest request = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
