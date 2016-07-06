@@ -1,7 +1,5 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -13,7 +11,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultDetial;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
-import com.wangban.yzbbanban.banmusicplayer.entity.SongUrl;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
@@ -55,7 +53,7 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.i(TAG, "onResponse: "+response);
+                    //Log.i(TAG, "onResponse: "+response);
                     Gson gson = new Gson();
                     QuestResultDetial resultDetial = gson.fromJson(response, QuestResultDetial.class);
                     List<Url> urls=  resultDetial.getSongurl().getUrl();
@@ -63,7 +61,7 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
                     SongInfo songInfo=resultDetial.getSonginfo();
                     if (urls==null){
                     }
-                    Log.i(TAG, "onResponse: "+urls.get(0).getFile_link());
+                    //Log.i(TAG, "onResponse: "+urls.get(0).getFile_link());
                     callback.findAllMusic(urls,songInfo);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -87,27 +85,33 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
      */
     @Override
     public Object findAllNewMusic() {
-        musics = musicPlayer.getNewList();
+        musics = musicPlayer.getNewLists();
         return musics;
     }
 
     @Override
     public Object findAllHotMusic() {
-        musics = musicPlayer.getHotList();
+        musics = musicPlayer.getHotLists();
         return musics;
     }
 
     @Override
     public Object findAllBillMusic() {
-        musics = musicPlayer.getBillboardList();
+        musics = musicPlayer.getBillboardLists();
         return musics;
     }
 
     @Override
     public Object findAllKtvMusic() {
-        musics = musicPlayer.getKtvList();
+        musics = musicPlayer.getKtvLists();
         return musics;
     }
+
+//    @Override
+//    public Object findAllSearchMusic() {
+//        List<SongList> songLists=musicPlayer.getSongLists();
+//        return songLists;
+//    }
 
 
 }

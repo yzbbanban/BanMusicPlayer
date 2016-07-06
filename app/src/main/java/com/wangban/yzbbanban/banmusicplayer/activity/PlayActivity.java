@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -30,6 +29,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
@@ -92,12 +92,12 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private MediaPlayer player = MusicApplication.getContext().getPlayer();
 
     private List<Music> musics;
+    private List<SongList> songLists;
 
     private MusicPlayer musicPlayerControl;
 
     private IPresenterNetDetial presenterNetDetial;
-    //设置背景图片的路径
-    private String url;
+
 
     private List<Url> urls;
     private SongInfo songInfo;
@@ -120,9 +120,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         x.view().inject(this);
         ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
         MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
-
         setData();
-        setView();
         setListenter();
         registComponent();
     }
@@ -162,7 +160,6 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     @Override
     protected void onResume() {
         setData();
-        setView();
         //显示动画
         discRecycle();
         super.onResume();
@@ -174,11 +171,14 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      */
     private void setView() {
         //设置播放的歌曲名
-        tvCurrentMusic.setText(music.getTitle());
+        String musicName = songInfo.getTitle();
+        tvCurrentMusic.setText(musicName);
         //设置播放歌曲的图片信息
-        String imagePath = music.getPic_big();
+        String imagePath = songInfo.getAlbum_500_500();
         ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
         imageLoader.get(imagePath, imageListener);
+        String url = songInfo.getArtist_500_500();
+        //设置背景图片的路径
         ImageRequest imageRequest = new ImageRequest(
                 url, new Response.Listener<Bitmap>() {
             @Override
@@ -252,27 +252,34 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         int musicListType = 0;
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
-        presenterNetDetial = new PresenterNetDetialImpl(this, musicListType);
-        if (musicListType != 0) {
+        presenterNetDetial = new PresenterNetDetialImpl(this);
+        try {
             switch (musicListType) {
                 case NEW:
-                    musics = musicPlayerControl.getNewList();
+                    musics = musicPlayerControl.getNewLists();
                     break;
                 case HOT:
-                    musics = musicPlayerControl.getHotList();
+                    musics = musicPlayerControl.getHotLists();
                     break;
                 case BILLBOARD:
-                    musics = musicPlayerControl.getBillboardList();
+                    musics = musicPlayerControl.getBillboardLists();
                     break;
                 case KTV:
-                    musics = musicPlayerControl.getKtvList();
+                    musics = musicPlayerControl.getKtvLists();
                     break;
+                case SEARCH:
+                    songLists=musicPlayerControl.getSongLists();
 
             }
             //获取播放的音乐位置
             int positionList = MusicApplication.getMusicPlayer().getPosition();
-            music = musics.get(positionList);
-            String id = music.getSong_id();
+            String id = null;
+            if (musicListType != SEARCH) {
+                music = musics.get(positionList);
+                id = music.getSong_id();
+            } else {
+                id =songLists.get(positionList).getSong_id();
+            }
             presenterNetDetial.setSong(id);
 
 //            url = music.getPic_big();
@@ -280,9 +287,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             //Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
 
             // Log.i(TAG, "setData: "+music.getTitle());
-        } else {
-            return;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -357,7 +365,6 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         position = MusicApplication.getMusicPlayer().getPosition();
         presenterNetDetial.setSong(musics.get(position).getSong_id());
         setData();
-        setView();
     }
 
 
@@ -368,7 +375,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      */
     @Override
     public void setLrc(List<LrcLine> lrcs) {
-        musicPlayerControl.setLrc(lrcs);
+        musicPlayerControl.setLrcs(lrcs);
     }
 
     /**
@@ -416,10 +423,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     public void playMusic(Object data1, Object data2) {
         urls = (List<Url>) data1;
         songInfo = (SongInfo) data2;
-        url = urls.get(0).getFile_link();
+        String url = urls.get(0).getFile_link();
         MusicSevice.MusicBinder.playMusic(url);
         //获取歌词数据
         presenterLrc.loadLrc(songInfo.getLrclink());
+        setView();
 
     }
 
@@ -433,12 +441,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             String action = intent.getAction();
             //当接收的是播放状态广播室
             if (ACTION_START_PLAY.equals(action)) {
-
+                setView();
             }
             //当时进度更新状态时
             else if (ACTION_UPDATE_PROGRESS.equals(action)) {
-
-                setView();
                 //设置 disc 的旋转
                 if (!player.isPlaying()) {
                     removecRecycle();
@@ -451,7 +457,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 sbProgress.setMax(totalTime);
                 sbProgress.setProgress(currentTime);
                 //更新歌词信息
-                List<LrcLine> lines = MusicApplication.getMusicPlayer().getLrc();
+                List<LrcLine> lines = MusicApplication.getMusicPlayer().getLrcs();
                 if (lines == null) { //歌词还没有下载成功
                     return;
                 }

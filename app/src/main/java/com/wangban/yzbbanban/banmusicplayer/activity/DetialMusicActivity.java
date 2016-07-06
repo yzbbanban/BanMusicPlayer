@@ -3,32 +3,25 @@ package com.wangban.yzbbanban.banmusicplayer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
-import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
-import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.wangban.yzbbanban.banmusicplayer.service.MusicSevice.MusicBinder;
 
 public class DetialMusicActivity extends BaseActivity implements Consts, View.OnClickListener, IViewNetDetial {
     @ViewInject(R.id.lv_detial_music)
@@ -67,7 +60,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
     }
 
     private void setData() {
-        MusicApplication.getMusicPlayer().getNewList();
+        MusicApplication.getMusicPlayer().getNewLists();
 
         int type = MusicApplication.getMusicPlayer().getMusicListType();
 
@@ -86,7 +79,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
                 MusicApplication.getMusicPlayer().setPosition(position);
                 Intent intent = new Intent(DetialMusicActivity.this, PlayActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade,R.anim.hold);
+                overridePendingTransition(R.anim.fade, R.anim.hold);
                 //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
                 //presenterNetDetial.setSong(musics.get(position).getSong_id());
 

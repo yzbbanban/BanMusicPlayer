@@ -12,15 +12,16 @@ import java.util.*;
  */
 
 public class MusicPlayer implements Serializable, Consts {
-    private List<Music> newList;
-    private List<Music> hotList;
-    private List<Music> billboardList;
-    private List<Music> ktvList;
-    private List<LrcLine> lrc;
+    private List<Music> newLists;
+    private List<Music> hotLists;
+    private List<Music> billboardLists;
+    private List<Music> ktvLists;
+    private List<LrcLine> lrcs;
     private List<SongList> songLists;
 
     //播放位置
     private int position;
+    //    private int searchPosition;
     private int musicListType;
 
     //播放状态
@@ -29,6 +30,14 @@ public class MusicPlayer implements Serializable, Consts {
     public MusicPlayer() {
 
     }
+//
+//    public int getSearchPosition() {
+//        return searchPosition;
+//    }
+//
+//    public void setSearchPosition(int searchPosition) {
+//        this.searchPosition = searchPosition;
+//    }
 
     public List<SongList> getSongLists() {
         return songLists;
@@ -46,44 +55,44 @@ public class MusicPlayer implements Serializable, Consts {
         this.playState = playState;
     }
 
-    public List<LrcLine> getLrc() {
-        return lrc;
+    public List<LrcLine> getLrcs() {
+        return lrcs;
     }
 
-    public void setLrc(List<LrcLine> lrc) {
-        this.lrc = lrc;
+    public void setLrcs(List<LrcLine> lrcs) {
+        this.lrcs = lrcs;
     }
 
-    public List<Music> getNewList() {
-        return newList;
+    public List<Music> getNewLists() {
+        return newLists;
     }
 
-    public void setNewList(List<Music> newList) {
-        this.newList = newList;
+    public void setNewLists(List<Music> newLists) {
+        this.newLists = newLists;
     }
 
-    public List<Music> getHotList() {
-        return hotList;
+    public List<Music> getHotLists() {
+        return hotLists;
     }
 
-    public void setHotList(List<Music> hotList) {
-        this.hotList = hotList;
+    public void setHotLists(List<Music> hotLists) {
+        this.hotLists = hotLists;
     }
 
-    public List<Music> getBillboardList() {
-        return billboardList;
+    public List<Music> getBillboardLists() {
+        return billboardLists;
     }
 
-    public void setBillboardList(List<Music> billboardList) {
-        this.billboardList = billboardList;
+    public void setBillboardLists(List<Music> billboardLists) {
+        this.billboardLists = billboardLists;
     }
 
-    public List<Music> getKtvList() {
-        return ktvList;
+    public List<Music> getKtvLists() {
+        return ktvLists;
     }
 
-    public void setKtvList(List<Music> ktvList) {
-        this.ktvList = ktvList;
+    public void setKtvLists(List<Music> ktvLists) {
+        this.ktvLists = ktvLists;
     }
 
 
@@ -105,17 +114,19 @@ public class MusicPlayer implements Serializable, Consts {
         if (playState == RECYCLE) {
             switch (musicListType) {
                 case NEW:
-                    position = position == newList.size() - 1 ? 0 : position + 1;
+                    position = position == newLists.size() - 1 ? 0 : position + 1;
                     break;
                 case HOT:
-                    position = position == hotList.size() - 1 ? 0 : position + 1;
+                    position = position == hotLists.size() - 1 ? 0 : position + 1;
                     break;
                 case BILLBOARD:
-                    position = position == billboardList.size() - 1 ? 0 : position + 1;
+                    position = position == billboardLists.size() - 1 ? 0 : position + 1;
                     break;
                 case KTV:
-                    position = position == ktvList.size() - 1 ? 0 : position + 1;
+                    position = position == ktvLists.size() - 1 ? 0 : position + 1;
                     break;
+                case SEARCH:
+                    position = position == songLists.size() - 1 ? 0 : position + 1;
             }
         } else if (playState == REPEAT) {
             switch (musicListType) {
@@ -135,20 +146,27 @@ public class MusicPlayer implements Serializable, Consts {
                     position++;
                     position--;
                     break;
+                case SEARCH:
+                    position++;
+                    position--;
+                    break;
             }
         } else if (playState == RANDOM) {
             switch (musicListType) {
                 case NEW:
-                    position = new Random().nextInt(newList.size());
+                    position = new Random().nextInt(newLists.size());
                     break;
                 case HOT:
-                    position = new Random().nextInt(hotList.size());
+                    position = new Random().nextInt(hotLists.size());
                     break;
                 case BILLBOARD:
-                    position = new Random().nextInt(billboardList.size());
+                    position = new Random().nextInt(billboardLists.size());
                     break;
                 case KTV:
-                    position = new Random().nextInt(ktvList.size());
+                    position = new Random().nextInt(ktvLists.size());
+                    break;
+                case SEARCH:
+                    position = new Random().nextInt(songLists.size());
                     break;
             }
         }
@@ -159,20 +177,23 @@ public class MusicPlayer implements Serializable, Consts {
     // 获取当前音乐
     public Object getCurrentMusic(int type) {
         Music music = new Music();
+        SongList songList = new SongList();
         switch (type) {
             case NEW:
-                music = newList.get(position);
+                music = newLists.get(position);
                 break;
             case HOT:
-                music = hotList.get(position);
+                music = hotLists.get(position);
                 break;
             case BILLBOARD:
-                music = billboardList.get(position);
+                music = billboardLists.get(position);
                 break;
             case KTV:
-                music = ktvList.get(position);
+                music = ktvLists.get(position);
                 break;
-
+            case SEARCH:
+                songList = songLists.get(position);
+                return songList;
         }
 
         return music;

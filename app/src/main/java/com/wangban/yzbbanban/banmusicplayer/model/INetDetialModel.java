@@ -23,4 +23,7 @@ public interface INetDetialModel {
 
     Object findAllKtvMusic();
 
+//    Object findAllSearchMusic();
+
+
 }

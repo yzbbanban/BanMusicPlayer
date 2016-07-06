@@ -5,6 +5,7 @@ import android.util.Log;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
+import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
@@ -41,6 +42,8 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
     @Override
     public void loadAllMusics() {
         List<Music> musics = null;
+//        List<SongList> songLists = null;
+
         switch (type) {
             case NEW:
                 musics = (List<Music>) model.findAllNewMusic();
@@ -54,6 +57,8 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
             case KTV:
                 musics = (List<Music>) model.findAllKtvMusic();
                 break;
+//            case SEARCH:
+//                songLists = (List<SongList>) model.findAllSearchMusic();
         }
         if (musics != null) {
             view.setMusicData(musics);
@@ -63,6 +68,7 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
 
     /**
      * 播放音乐的路径回调
+     *
      * @param songId
      */
     @Override
@@ -70,9 +76,9 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
         model.setSong(songId, new INetMusicCallback() {
             @Override
             public void findAllMusic(Object data, Object data2) {
-                List<Url> urls= (List<Url>) data;
-                SongInfo songInfo= (SongInfo) data2;
-                view.playMusic(urls,songInfo);
+                List<Url> urls = (List<Url>) data;
+                SongInfo songInfo = (SongInfo) data2;
+                view.playMusic(urls, songInfo);
             }
 
 

@@ -1,7 +1,5 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -53,7 +51,7 @@ public class NetMusicModel implements INetMusicModel, Consts {
 
     @Override
     public void findAllKtvMusic(IMusicCallback callback) {
-        musics = musicPlayer.getKtvList();
+        musics = musicPlayer.getKtvLists();
         String url = UrlFactory.KTV_MUSIC_LIST;
         jsonPaser(KTV, url, callback);
     }
@@ -68,13 +66,14 @@ public class NetMusicModel implements INetMusicModel, Consts {
                 Gson gson = new Gson();
                 QuestResultSearch resultSearch = gson.fromJson(response, QuestResultSearch.class);
                 List<SongList> songLists = resultSearch.getSong_list();
-//              ®Log.i(TAG, "songList: " + songLists.get(0).getTitle());
+                MusicApplication.getMusicPlayer().setSongLists(songLists);
+//              Log.i(TAG, "songList: " + songLists.get(0).getTitle());
                 callback.findAllMusic(songLists);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, "onErrorResponse: 获取失败");
+                //Log.i(TAG, "onErrorResponse: 获取失败");
             }
         });
         MusicApplication.getQueue().add(request);
@@ -90,16 +89,16 @@ public class NetMusicModel implements INetMusicModel, Consts {
                 musics = result.getSong_list();
                 switch (type) {
                     case NEW:
-                        musicPlayer.setNewList(musics);
+                        musicPlayer.setNewLists(musics);
                         break;
                     case HOT:
-                        musicPlayer.setHotList(musics);
+                        musicPlayer.setHotLists(musics);
                         break;
                     case BILLBOARD:
-                        musicPlayer.setBillboardList(musics);
+                        musicPlayer.setBillboardLists(musics);
                         break;
                     case KTV:
-                        musicPlayer.setKtvList(musics);
+                        musicPlayer.setKtvLists(musics);
                         break;
                 }
                 callback.findAllMusic(musics);
@@ -108,7 +107,7 @@ public class NetMusicModel implements INetMusicModel, Consts {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, "onErrorResponse: 获取失败");
+                //Log.i(TAG, "onErrorResponse: 获取失败");
             }
         });
 

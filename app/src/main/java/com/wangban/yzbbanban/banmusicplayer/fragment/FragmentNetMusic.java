@@ -2,11 +2,9 @@ package com.wangban.yzbbanban.banmusicplayer.fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,7 +225,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
                 lvSearchMusic.setVisibility(View.VISIBLE);
                 String songName = etSearch.getText().toString().trim();
                 if (songName != null) {
-                    Log.i(TAG, "songName: " + songName);
+                    //Log.i(TAG, "songName: " + songName);
                     presenterNet.loadSearchMusics(songName);
                 }
                 break;
@@ -260,7 +258,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         tvNewFirst.setText(musics.get(0).getTitle());
         tvNewSecond.setText(musics.get(1).getTitle());
         tvNewThird.setText(musics.get(2).getTitle());
-        MusicApplication.getMusicPlayer().setNewList(musics);
+        MusicApplication.getMusicPlayer().setNewLists(musics);
     }
 
     @Override
@@ -268,7 +266,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         tvHotFirst.setText(musics.get(0).getTitle());
         tvHotSecond.setText(musics.get(1).getTitle());
         tvHotThird.setText(musics.get(2).getTitle());
-        MusicApplication.getMusicPlayer().setHotList(musics);
+        MusicApplication.getMusicPlayer().setHotLists(musics);
     }
 
     @Override
@@ -276,7 +274,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         tvBillFirst.setText(musics.get(0).getTitle());
         tvBillSecond.setText(musics.get(1).getTitle());
         tvBillThird.setText(musics.get(2).getTitle());
-        MusicApplication.getMusicPlayer().setBillboardList(musics);
+        MusicApplication.getMusicPlayer().setBillboardLists(musics);
     }
 
     @Override
@@ -284,7 +282,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         tvKtvFirst.setText(musics.get(0).getTitle());
         tvKtvSecond.setText(musics.get(1).getTitle());
         tvKtvThird.setText(musics.get(2).getTitle());
-        MusicApplication.getMusicPlayer().setKtvList(musics);
+        MusicApplication.getMusicPlayer().setKtvLists(musics);
     }
 
     @Override
@@ -316,6 +314,9 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         String songUrl=((List<Url>)data1).get(0).getFile_link();
         if (songUrl != null) {
             MusicSevice.MusicBinder.playMusic(songUrl);
+            intent = new Intent(getActivity(), PlayActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
         } else {
             Toast.makeText(getActivity(), "喵~~无此歌曲，抱歉", Toast.LENGTH_SHORT).show();
         }
@@ -337,11 +338,9 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 
         MusicApplication.getMusicPlayer().setPosition(position);
         String songId = songLists.get(position).getSong_id();
-        Log.i(TAG, "onItemClick: " + songId);
+       // Log.i(TAG, "onItemClick: " + songId);
         presenterNetDetial.setSong(songId);
-        intent = new Intent(getActivity(), PlayActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
 
     }
 

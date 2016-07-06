@@ -29,7 +29,7 @@ public class MainPictureModel implements Consts {
             @Override
             protected List<Image> doInBackground(String... params) {
                 try {
-                    Log.i(TAG, "doInBackground: " + webPath);
+                    //Log.i(TAG, "doInBackground: " + webPath);
                     images = JsoupUtil.downLoadData(webPath);
 
 
