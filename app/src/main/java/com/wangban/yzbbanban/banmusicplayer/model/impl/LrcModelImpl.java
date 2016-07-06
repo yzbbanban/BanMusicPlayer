@@ -37,10 +37,14 @@ public class LrcModelImpl implements ILrcModel {
                         if ("".equals(line)) {
                             continue;
                         }
-                        String time = line.substring(1, line.indexOf("]"));
-                        String content = line.substring(line.indexOf("]") + 1);
-                        LrcLine l = new LrcLine(time, content);
-                        lines.add(l);
+                        if (line.contains("]")) {
+                            String time = line.substring(1, line.indexOf("]"));
+                            String content = line.substring(line.indexOf("]") + 1);
+                            LrcLine l = new LrcLine(time, content);
+                            lines.add(l);
+                        }else {
+                            return null;
+                        }
                     }
                     return lines;
                 } catch (IOException e) {
@@ -53,7 +57,7 @@ public class LrcModelImpl implements ILrcModel {
             protected void onPostExecute(java.util.List<LrcLine> result) {
                 if (result != null) {
                     callback.findAllMusic(result);
-                }else {
+                } else {
                     return;
                 }
             }
