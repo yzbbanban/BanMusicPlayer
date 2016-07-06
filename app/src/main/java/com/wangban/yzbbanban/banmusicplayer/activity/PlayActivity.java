@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -106,6 +107,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     int playState = REPEAT;
 
+    int musicListType;
+
     public PlayActivity() {
         super();
         imageLoader = new ImageLoader(MusicApplication.getQueue(), new BitmapCache());
@@ -122,7 +125,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
         setData();
         setListenter();
-        registComponent();
+
     }
 
     /**
@@ -249,9 +252,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      * 配置 Lrc 歌词数据
      */
     private void setData() {
-        int musicListType = 0;
+
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
+        Log.i(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
         try {
             switch (musicListType) {
@@ -268,7 +272,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     musics = musicPlayerControl.getKtvLists();
                     break;
                 case SEARCH:
-                    songLists=musicPlayerControl.getSongLists();
+                    songLists = musicPlayerControl.getSongLists();
 
             }
             //获取播放的音乐位置
@@ -278,8 +282,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 music = musics.get(positionList);
                 id = music.getSong_id();
             } else {
-                id =songLists.get(positionList).getSong_id();
+                id = songLists.get(positionList).getSong_id();
             }
+            Log.i(TAG, "playsetData: " + id);
             presenterNetDetial.setSong(id);
 
 //            url = music.getPic_big();
@@ -363,7 +368,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     private void setPositionToPlay() {
         position = MusicApplication.getMusicPlayer().getPosition();
-        presenterNetDetial.setSong(musics.get(position).getSong_id());
+        if (musicListType != SEARCH) {
+            presenterNetDetial.setSong(musics.get(position).getSong_id());
+        } else {
+            presenterNetDetial.setSong(songLists.get(position).getSong_id());
+        }
         setData();
     }
 
@@ -423,11 +432,14 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     public void playMusic(Object data1, Object data2) {
         urls = (List<Url>) data1;
         songInfo = (SongInfo) data2;
+
         String url = urls.get(0).getFile_link();
         MusicSevice.MusicBinder.playMusic(url);
         //获取歌词数据
         presenterLrc.loadLrc(songInfo.getLrclink());
+        Log.i(TAG, "playMusic: " + songInfo.getLrclink());
         setView();
+        registComponent();
 
     }
 

@@ -104,7 +104,6 @@ public class MusicSevice extends Service implements Consts {
         //播放音乐
         public static void playMusic(String url) {
             try {
-                //player = new MediaPlayer();
                 Log.i(TAG, "playMusicService: " + url);
                 MusicApplication.getContext().getPlayer().reset();
                 MusicApplication.getContext().getPlayer().setDataSource(url);

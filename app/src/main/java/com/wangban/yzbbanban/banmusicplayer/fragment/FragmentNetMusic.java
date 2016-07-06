@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -288,7 +289,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     @Override
     public void setSerchText(ArrayList<SongList> songLists) {
         musicSearchListAdapter = new MusicSearchListAdapter(getContext(), songLists);
-        MusicApplication.getMusicPlayer().setSongLists(songLists);
         lvSearchMusic.setAdapter(musicSearchListAdapter);
     }
 
@@ -335,10 +335,10 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 //      Log.i(TAG, "onItemClick: "+position);
 //      Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
         List<SongList> songLists = MusicApplication.getMusicPlayer().getSongLists();
-
+        MusicApplication.getMusicPlayer().setMusicListType(SEARCH);
         MusicApplication.getMusicPlayer().setPosition(position);
         String songId = songLists.get(position).getSong_id();
-       // Log.i(TAG, "onItemClick: " + songId);
+        Log.i(TAG, "onItemClick: " + songId);
         presenterNetDetial.setSong(songId);
 
 

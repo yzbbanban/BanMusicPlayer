@@ -66,7 +66,9 @@ public class NetMusicModel implements INetMusicModel, Consts {
                 Gson gson = new Gson();
                 QuestResultSearch resultSearch = gson.fromJson(response, QuestResultSearch.class);
                 List<SongList> songLists = resultSearch.getSong_list();
+
                 MusicApplication.getMusicPlayer().setSongLists(songLists);
+
 //              Log.i(TAG, "songList: " + songLists.get(0).getTitle());
                 callback.findAllMusic(songLists);
             }

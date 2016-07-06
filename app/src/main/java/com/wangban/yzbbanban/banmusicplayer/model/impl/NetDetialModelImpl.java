@@ -1,5 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -61,7 +63,7 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
                     SongInfo songInfo=resultDetial.getSonginfo();
                     if (urls==null){
                     }
-                    //Log.i(TAG, "onResponse: "+urls.get(0).getFile_link());
+                    Log.i(TAG, "onResponse: " + urls.get(0).getFile_link());
                     callback.findAllMusic(urls,songInfo);
                 } catch (Exception e) {
                     e.printStackTrace();
