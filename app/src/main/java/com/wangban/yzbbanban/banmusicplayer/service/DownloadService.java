@@ -56,72 +56,74 @@ public class DownloadService extends IntentService implements Consts {
      *
      * @param intent
      */
-    @Override
     protected void onHandleIntent(Intent intent) {
         String url = intent.getStringExtra("url");
         String title = intent.getStringExtra("title");
+        Log.i(TAG, "onHandleIntent: "+title);
         String bit = intent.getStringExtra("bit");
         try {
-            String fileName = "_" + bit + "/" + title + ".mp3";
-            File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), fileName);
-            if (target.exists()) {
-                Log.i(TAG, "onHandleIntent: 已经下载过了");
+            String filename = "_" + bit + "/" + title + ".mp3";
+            File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), filename);
+            if (target.exists()) { //已经下载过了
+                Log.i("info", "已经下载过了....");
                 return;
             }
+            //父目录不存在  创建父目录
             if (!target.getParentFile().exists()) {
                 target.getParentFile().mkdirs();
             }
             FileOutputStream fos = new FileOutputStream(target);
+            //执行下载音乐操作
             sendNotification("音乐开始下载", "", 100, 0, true);
-            Log.i(TAG, "onHandleIntent: 开始下载");
-            HttpURLConnection conn= (HttpURLConnection) new URL(url).openConnection();
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestMethod("GET");
-            InputStream is=conn.getInputStream();
-            //边读边保存到文件中
-            byte[] buffer=new byte[1024*100];
-            int length=0;
-            int current=0;
+            InputStream is = conn.getInputStream();
+            //边读  边 保存到文件中
+            byte[] buffer = new byte[1024 * 100];
+            int length = 0;
+            int current = 0;
             //服务端返回的总数据量
-            int total=Integer.parseInt(conn.getHeaderField("Content-Length"));
-            while ((length=is.read(buffer))!=-1){
+            int total = Integer.parseInt(conn.getHeaderField("Content-Length"));
+            while ((length = is.read(buffer)) != -1) {
                 //向文件输出流中写出相应数据
                 fos.write(buffer, 0, length);
                 fos.flush();
-                current+=length;
-                //使用通知更新进度条
-                sendNotification("","",total,current,false);
-
+                current += length;
+                //使用通知更新 进度条
+                sendNotification("", "", total, current, false);
             }
             fos.close();
             //重新出现通知的滚动消息
             cancelNotification();
-            sendNotification("音乐下载完成","音乐下载完成",0,0,false);
-
+            sendNotification("音乐下载完成", "音乐下载完成", 0, 0, false);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void cancelNotification() {
-        NotificationManager manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manger.cancel(NOTIFICATION_ID);
     }
 
     /**
      * 发送通知
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void sendNotification(String ticker, String text, int max, int progress, boolean i) {
-        NotificationManager manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    public void sendNotification(String ticker, String text, int max, int progress, boolean i) {
+        NotificationManager manager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
         Notification.Builder builder = new Builder(this);
-        builder.setTicker(ticker).setContentTitle("音乐下载")
+        builder.setTicker(ticker)
+                .setContentTitle("音乐下载")
                 .setContentText(text)
-                .setSmallIcon(R.drawable.ic_laba);
+                .setSmallIcon(R.drawable.thanks);
         builder.setProgress(max, progress, i);
-        manger.notify(NOTIFICATION_ID,builder.build());
-
-
+        manager.notify(NOTIFICATION_ID, builder.build());
     }
+
+    //清除通知
+    public void cancelNotification() {
+        NotificationManager manager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        manager.cancel(NOTIFICATION_ID);
+    }
+
 }
 
 

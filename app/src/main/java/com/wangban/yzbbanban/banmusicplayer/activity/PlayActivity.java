@@ -384,31 +384,33 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      * 执行下载
      */
     private void download() {
-        String[] songData=new String[urls.size()];
+        String[] songData = new String[urls.size()];
         //集合中的数据转成字符串
-        for (int i=0; i<urls.size();i++){
-            final Url url=urls.get(i);
-            double size=100.0*url.getFile_size()/1024/1024;
-            songData[i]=Math.floor(size)/100+"M";
-        //弹出AlertDialog
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setTitle("选择您要下载的版本").setItems(songData, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Url url1=urls.get(which);
-                    String fileLink=url.getShow_link();
-                    //启动 Service执行下载
-                    Intent intent=new Intent(PlayActivity.this, DownloadService.class);
-                    intent.putExtra("url",fileLink);
-                    intent.putExtra("title",songInfo.getTitle());
-                    intent.putExtra("bit", url.getFile_bitrate());
-                    startService(intent);
-                }
-            });
-            AlertDialog dialog=builder.create();
-            builder.show();
-
+        for (int i = 0; i < urls.size(); i++) {
+            final Url url = urls.get(i);
+            double size = 100.0 * url.getFile_size() / 1024 / 1024;
+            songData[i] = Math.floor(size) / 100 + "M";
         }
+        //弹出AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("选择您要下载的版本").setItems(songData, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Url url = urls.get(which);
+                String fileLink = url.getShow_link();
+                Log.i(TAG, "onClick: "+fileLink);
+                //启动 Service执行下载
+                Intent intent = new Intent(PlayActivity.this, DownloadService.class);
+                intent.putExtra("url", fileLink);
+                intent.putExtra("title", songInfo.getTitle());
+                intent.putExtra("bit", url.getFile_bitrate());
+                startService(intent);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        builder.show();
+
+
     }
 
     private void setPositionToPlay() {
