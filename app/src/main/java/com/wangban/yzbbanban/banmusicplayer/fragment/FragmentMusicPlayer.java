@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 
+import org.xutils.x;
+
 /**
  * Created by YZBbanban on 16/6/23.
  */
@@ -16,7 +18,8 @@ public class FragmentMusicPlayer extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_player,null);
+        View view = inflater.inflate(R.layout.fragment_player, null);
+        x.view().inject(this, view);
         return view;
     }
 }
