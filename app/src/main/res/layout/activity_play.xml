@@ -203,5 +203,38 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@id/rl_player_seekbar">
+
+        <ImageButton
+            android:layout_marginLeft="30dp"
+            android:id="@+id/ibtn_player_like"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="left"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/selctor_like" />
+
+        <View
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
+
+        <ImageButton
+            android:layout_marginRight="30dp"
+            android:id="@+id/ibtn_player_download"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="right"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/selctor_download" />
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>
