@@ -11,12 +11,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.adapter.LocalMusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
@@ -50,9 +58,9 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.List;
+import java.util.*;
 
-public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNetDetial, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
+public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNetDetial, AdapterView.OnItemClickListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
 
     @ViewInject(R.id.ibtn_player_back_main)
     private ImageButton ibtnBackMain;
@@ -88,6 +96,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private ImageButton ibtnDownload;
     @ViewInject(R.id.ibtn_player_like)
     private ImageButton ibtnLike;
+    @ViewInject(R.id.lv_player_music_list)
+    private ListView lvMusicList;
+    @ViewInject(R.id.ll_player_list)
+    private LinearLayout llList;
+    @ViewInject(R.id.btn_player_music_list_back)
+    private Button btnMusicListBack;
+
 
     private Animation animation;
 
@@ -99,22 +114,27 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     private MediaPlayer player = MusicApplication.getContext().getPlayer();
 
-    private List<Music> musics;
-    private List<SongList> songLists;
 
     private MusicPlayer musicPlayerControl;
 
     private IPresenterNetDetial presenterNetDetial;
 
 
+    private List<Music> musics;
+    private List<SongList> songLists;
     private List<Url> urls;
+
     private SongInfo songInfo;
+    private int position;
 
-    int position;
+    private int playState = REPEAT;
 
-    int playState = REPEAT;
+    private int musicListType;
 
-    int musicListType;
+    private Animation anim;
+
+    //设置 local_list_adapter
+    private LocalMusicListAdapter ladapter;
 
     public PlayActivity() {
         super();
@@ -254,7 +274,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         ibtnPlayState.setOnClickListener(this);
         ibtnDownload.setOnClickListener(this);
         ibtnLike.setOnClickListener(this);
+        ibtnMusicList.setOnClickListener(this);
+        btnMusicListBack.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
+        lvMusicList.setOnItemClickListener(this);
+
 
     }
 
@@ -262,7 +286,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      * 配置 Lrc 歌词数据
      */
     private void setData() {
-
+        llList.setVisibility(View.INVISIBLE);
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
         Log.i(TAG, "playsetData: " + musicListType);
@@ -284,6 +308,16 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 case SEARCH:
                     songLists = musicPlayerControl.getSongLists();
 
+            }
+            //TODO
+            if (musicListType == SEARCH) {
+                List<SongList> objects = songLists;
+                ladapter = new LocalMusicListAdapter(this, objects);
+                lvMusicList.setAdapter(ladapter);
+            } else {
+                List<Music> objects = musics;
+                ladapter = new LocalMusicListAdapter(this, objects);
+                lvMusicList.setAdapter(ladapter);
             }
             //获取播放的音乐位置
             int positionList = MusicApplication.getMusicPlayer().getPosition();
@@ -326,8 +360,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         switch (v.getId()) {
             //返回按钮
             case R.id.ibtn_player_back_main:
-                finish();
-//              startActivity(new Intent(this, DetialMusicActivity.class));
+                //             finish();
+                startActivity(new Intent(this, DetialMusicActivity.class));
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
             //暂停播放按钮
@@ -376,6 +410,20 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             case R.id.ibtn_player_download:
                 download();
                 break;
+            //TODO
+            case R.id.ibtn_player_music_list:
+                llList.setVisibility(View.VISIBLE);
+                Display disp = this.getWindowManager().getDefaultDisplay();
+                int s = disp.getHeight();
+                anim = new TranslateAnimation(0, 0, s + llList.getHeight(), s - llList.getHeight());
+                anim.setDuration(300);
+                llList.startAnimation(anim);
+                break;
+            case R.id.btn_player_music_list_back:
+                llList.setVisibility(View.INVISIBLE);
+                anim = new TranslateAnimation(0, 0, 0, llList.getHeight());
+                anim.setDuration(300);
+                llList.setAnimation(anim);
 
         }
     }
@@ -398,7 +446,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             public void onClick(DialogInterface dialog, int which) {
                 Url url = urls.get(which);
                 String fileLink = url.getShow_link();
-                Log.i(TAG, "onClick: "+fileLink);
+                Log.i(TAG, "onClick: " + fileLink);
                 //启动 Service执行下载
                 Intent intent = new Intent(PlayActivity.this, DownloadService.class);
                 intent.putExtra("url", fileLink);
@@ -488,6 +536,17 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         setView();
         registComponent();
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //TODO
+        if (musicListType != SEARCH) {
+            presenterNetDetial.setSong(musics.get(position).getSong_id());
+        } else {
+            presenterNetDetial.setSong(songLists.get(position).getSong_id());
+        }
+        setData();
     }
 
     /**
