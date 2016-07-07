@@ -2,10 +2,12 @@ package com.wangban.yzbbanban.banmusicplayer.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,7 @@ import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterLrcImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
+import com.wangban.yzbbanban.banmusicplayer.service.DownloadService;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
@@ -81,6 +84,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private CircleImageView civMusicImage;
     @ViewInject(R.id.iv_player_background)
     private ImageView ivBackground;
+    @ViewInject(R.id.ibtn_player_download)
+    private ImageButton ibtnDownload;
+    @ViewInject(R.id.ibtn_player_like)
+    private ImageButton ibtnLike;
 
     private Animation animation;
 
@@ -245,7 +252,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         ibtnMusicPlayPause.setOnClickListener(this);
         ibtnMusicPrevious.setOnClickListener(this);
         ibtnPlayState.setOnClickListener(this);
+        ibtnDownload.setOnClickListener(this);
+        ibtnLike.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
+
     }
 
     /**
@@ -362,6 +372,41 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
                     playState = REPEAT;
                 }
+                break;
+            case R.id.ibtn_player_download:
+                download();
+                break;
+
+        }
+    }
+
+    /**
+     * 执行下载
+     */
+    private void download() {
+        String[] songData=new String[urls.size()];
+        //集合中的数据转成字符串
+        for (int i=0; i<urls.size();i++){
+            final Url url=urls.get(i);
+            double size=100.0*url.getFile_size()/1024/1024;
+            songData[i]=Math.floor(size)/100+"M";
+        //弹出AlertDialog
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setTitle("选择您要下载的版本").setItems(songData, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Url url1=urls.get(which);
+                    String fileLink=url.getShow_link();
+                    //启动 Service执行下载
+                    Intent intent=new Intent(PlayActivity.this, DownloadService.class);
+                    intent.putExtra("url",fileLink);
+                    intent.putExtra("title",songInfo.getTitle());
+                    intent.putExtra("bit", url.getFile_bitrate());
+                    startService(intent);
+                }
+            });
+            AlertDialog dialog=builder.create();
+            builder.show();
 
         }
     }

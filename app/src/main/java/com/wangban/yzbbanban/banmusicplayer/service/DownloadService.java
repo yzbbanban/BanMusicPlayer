@@ -73,6 +73,7 @@ public class DownloadService extends IntentService implements Consts {
             }
             FileOutputStream fos = new FileOutputStream(target);
             sendNotification("音乐开始下载", "", 100, 0, true);
+            Log.i(TAG, "onHandleIntent: 开始下载");
             HttpURLConnection conn= (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestMethod("GET");
             InputStream is=conn.getInputStream();
