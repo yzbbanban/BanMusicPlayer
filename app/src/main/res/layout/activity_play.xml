@@ -21,48 +21,73 @@
 
         ></View>
 
-    <RelativeLayout
-        android:id="@+id/rl_player_title"
+    <LinearLayout
+        android:id="@+id/ll_player_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/shape">
+        android:background="@drawable/shape"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:src="@color/colorLightWhite"
-
-            />
 
         <ImageButton
             android:id="@+id/ibtn_player_back_main"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:background="@null"
             android:scaleType="centerInside"
             android:src="@drawable/return_nomal" />
 
-        <TextView
-            android:id="@+id/tv_player_current_music"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:text="当前歌曲:"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_player_current_music_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"
+                android:layout_weight="1.5"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_horizontal|bottom"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="当前歌曲:"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_player_current_music_artist"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="作者是:"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp"
+
+                />
+
+
+        </LinearLayout>
+
 
         <ImageButton
             android:id="@+id/ibtn_player_share"
             android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
             android:background="@null"
             android:padding="2dp"
@@ -70,13 +95,20 @@
             android:src="@drawable/share_nomal" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ll_player_title"
+        android:background="@color/colorLightWhite" />
 
     <TextView
         android:id="@+id/tv_player_lrc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_player_title"
+        android:layout_below="@id/view"
         android:layout_marginTop="25dp"
         android:gravity="center"
         android:text="正在加载歌词。。。"
@@ -184,7 +216,6 @@
                 android:id="@+id/sb_player_progross"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_player_current_music"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1" />
@@ -240,8 +271,7 @@
         android:id="@+id/v_player_music_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorViewBackgroundGrey"
-        ></View>
+        android:background="@color/colorViewBackgroundGrey"></View>
 
     <LinearLayout
         android:id="@+id/ll_player_list"

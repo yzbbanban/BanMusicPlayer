@@ -52,6 +52,7 @@ import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
 import com.wangban.yzbbanban.banmusicplayer.util.BluredBitmap;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
@@ -64,8 +65,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     @ViewInject(R.id.ibtn_player_back_main)
     private ImageButton ibtnBackMain;
-    @ViewInject(R.id.tv_player_current_music)
-    private TextView tvCurrentMusic;
+    @ViewInject(R.id.tv_player_current_music_name)
+    private TextView tvCurrentMusicName;
+    @ViewInject(R.id.tv_player_current_music_artist)
+    private TextView tvCurrentMusicArtist;
     @ViewInject(R.id.ibtn_player_share)
     private ImageButton ibtnShare;
     @ViewInject(R.id.tv_player_lrc)
@@ -208,7 +211,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private void setView() {
         //设置播放的歌曲名
         String musicName = songInfo.getTitle();
-        tvCurrentMusic.setText(musicName);
+        String musicArtist = songInfo.getAuthor();
+        tvCurrentMusicName.setText(musicName);
+        tvCurrentMusicArtist.setText(musicArtist);
         //设置播放歌曲的图片信息
         String imagePath = songInfo.getAlbum_500_500();
         ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
@@ -358,6 +363,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             public void onCompletion(MediaPlayer mp) {
                 musicPlayerControl.nextMusic();
                 setPositionToPlay();
+                discRecycle();
+
             }
         });
 
@@ -404,18 +411,18 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             case R.id.ibtn_player_play_state:
                 if (playState == REPEAT) {
                     ibtnPlayState.setBackgroundResource(R.drawable.repeat_play);
-                    Toast.makeText(this, "重复", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "重复");
                     MusicApplication.getMusicPlayer().setPlayState(REPEAT);
 
                     playState = RANDOM;
                 } else if (playState == RANDOM) {
                     ibtnPlayState.setBackgroundResource(R.drawable.randowm_play);
-                    Toast.makeText(this, "随机", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "随机");
                     MusicApplication.getMusicPlayer().setPlayState(RANDOM);
                     playState = RECYCLE;
                 } else if (playState == RECYCLE) {
                     ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
-                    Toast.makeText(this, "循环", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "循环");
                     MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
                     playState = REPEAT;
                 }
@@ -606,7 +613,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             String action = intent.getAction();
             //当接收的是播放状态广播室
             if (ACTION_START_PLAY.equals(action)) {
-                //setView();
+                //TODO;
             }
             //当时进度更新状态时
             else if (ACTION_UPDATE_PROGRESS.equals(action)) {
