@@ -21,7 +21,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 
 /**
  * 执行下载音乐操作的Service
@@ -59,13 +62,14 @@ public class DownloadService extends IntentService implements Consts {
     protected void onHandleIntent(Intent intent) {
         String url = intent.getStringExtra("url");
         String title = intent.getStringExtra("title");
-        Log.i(TAG, "onHandleIntent: "+title);
+        Log.i(TAG, "onHandleIntent: " + title);
         String bit = intent.getStringExtra("bit");
         try {
             String filename = "_" + bit + "/" + title + ".mp3";
             File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), filename);
             if (target.exists()) { //已经下载过了
-                Log.i("info", "已经下载过了....");
+//                LogUtil.logInfo("info", "已经下载过了....");
+                ToastUtil.showToast(MusicApplication.getContext(), "已经下载过了");
                 return;
             }
             //父目录不存在  创建父目录

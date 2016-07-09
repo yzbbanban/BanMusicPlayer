@@ -34,6 +34,8 @@ import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetImpl;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
@@ -127,20 +129,24 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     @Override
     public void onResume() {
         super.onResume();
-        AnimationDrawable animationDrawable = null;
-        //Log.i(TAG, "onResume: fragmentNetMusic");
+        AnimationDrawable animation = null;
+//        LogUtil.logInfo(TAG, "onResume: fragmentNetMusic");
+//        LogUtil.logInfo(TAG, "onResume: true 或false: " + MusicApplication.getContext().getPlayer().isPlaying());
         if (MusicApplication.getContext().getPlayer() != null && MusicApplication.getContext().getPlayer().isPlaying()) {
-            animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
-            animationDrawable.setOneShot(false);
-            animationDrawable.start();
+            animation = (AnimationDrawable) ibtnLocalMusic.getBackground();
+            animation.setOneShot(false);
+            animation.start();
         } else {
+            animation = (AnimationDrawable) ibtnLocalMusic.getBackground();
+            animation.setOneShot(true);
             ibtnLocalMusic.clearAnimation();
+            // LogUtil.logInfo(TAG, "onResume: clean");
         }
 //        else {
 //            animationDrawable = (AnimationDrawable) ibtnLocalMusic.getBackground();
-//            Log.i(TAG, "onResume: stop 帧动画");
+//            LogUtil.logInfo(TAG, "onResume: stop 帧动画");
 //            animationDrawable.setOneShot(true);
-//            animationDrawable.start();
+//            ibtnLocalMusic.startAnimation();
 //        }
     }
 
@@ -149,7 +155,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_net, null);
-        //Log.i(TAG, "onCreateView: fragmentNetMusic");
+        //LogUtil.logInfo(TAG, "onCreateView: fragmentNetMusic");
         x.view().inject(this, view);
         setData();
         setListeners();
@@ -195,28 +201,28 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = NEW;
                 musicPlayerContrl.setMusicListType(type);
-//                Log.i(TAG, "onClick: new");
+//                LogUtil.logInfo(TAG, "onClick: new");
                 startActivity();
                 break;
             case R.id.ll_hot_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = HOT;
                 musicPlayerContrl.setMusicListType(type);
-//                Log.i(TAG, "onClick: hot");
+//                LogUtil.logInfo(TAG, "onClick: hot");
                 startActivity();
                 break;
             case R.id.ll_billboard_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = BILLBOARD;
                 musicPlayerContrl.setMusicListType(type);
-//                Log.i(TAG, "onClick: billboard");
+//                LogUtil.logInfo(TAG, "onClick: billboard");
                 startActivity();
                 break;
             case R.id.ll_ktv_list:
                 intent = new Intent(this.getActivity(), DetialMusicActivity.class);
                 type = KTV;
                 musicPlayerContrl.setMusicListType(type);
-//                Log.i(TAG, "onClick: ktv");
+//               LogUtil.logInfo(TAG, "onClick: ktv");
                 startActivity();
                 break;
             case R.id.ibtn_local_music:
@@ -224,7 +230,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
                     intentPlayActivity();
                     return;
                 } else {
-                    Toast.makeText(getActivity(), "当前没有播放歌曲", Toast.LENGTH_SHORT).show();
+                    // ToastUtil(getActivity(), "当前没有播放歌曲");
                     intentPlayActivity();
                 }
                 break;
@@ -235,14 +241,14 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
                 animation.start();
                 String songName = etSearch.getText().toString().trim();
                 if (songName != null) {
-                    //Log.i(TAG, "songName: " + songName);
+//                    LogUtil.logInfo(TAG, "songName: " + songName);
                     presenterNet.loadSearchMusics(songName);
                 }
                 break;
 
 
         }
-        //Log.i(TAG, "Fragment onClick: " + type);
+        //LogUtil.logInfo(TAG, "Fragment onClick: " + type);
 
 
     }
@@ -319,7 +325,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 
     @Override
     public void playMusic(Object data1, Object data2) {
-        //Log.i(TAG, "playMusic:111111 ");
+        //LogUtil.logInfo(TAG, "playMusic:111111 ");
         String songUrl = ((List<Url>) data1).get(0).getFile_link();
         if (songUrl != null) {
             MusicSevice.MusicBinder.playMusic(songUrl);
@@ -327,7 +333,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
         } else {
-            Toast.makeText(getActivity(), "喵~~无此歌曲，抱歉", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(getActivity(), "喵~~无此歌曲，抱歉");
         }
     }
 
@@ -341,13 +347,13 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//      Log.i(TAG, "onItemClick: "+position);
-//      Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+//      LogUtil.logInfo(TAG, "onItemClick: "+position);
+//      ToastUtil.showToast(getContext(),""+position);
         List<SongList> songLists = MusicApplication.getMusicPlayer().getSongLists();
         MusicApplication.getMusicPlayer().setMusicListType(SEARCH);
         MusicApplication.getMusicPlayer().setPosition(position);
         String songId = songLists.get(position).getSong_id();
-        // Log.i(TAG, "onItemClick: " + songId);
+        //LogUtil.logInfo(TAG, "onItemClick: " + songId);
         presenterNetDetial.setSong(songId);
         lvSearchMusic.setVisibility(View.GONE);
         animation = new TranslateAnimation(0, 0, lvSearchMusic.getHeight() + llNetFragment.getHeight(), llNetFragment.getHeight());

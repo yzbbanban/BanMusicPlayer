@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
 import com.wangban.yzbbanban.banmusicplayer.util.JsoupUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class DetialPictureModel implements Consts {
             @Override
             protected List<DetialImage> doInBackground(String... params) {
                 try {
-                    //Log.i(TAG, "doInBackground: hello" + webPath);
+//                    LogUtil.logInfo(TAG, "doInBackground: hello" + webPath);
                     images = JsoupUtil.downDetilLoadData(webPath);
                 } catch (IOException e) {
                     e.printStackTrace();

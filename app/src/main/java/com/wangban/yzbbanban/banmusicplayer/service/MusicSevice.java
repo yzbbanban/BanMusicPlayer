@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 /**
  * Created by YZBbanban on 16/6/27.
@@ -23,7 +24,6 @@ public class MusicSevice extends Service implements Consts {
     private boolean isLoop = true;
     private MediaPlayer player;
     private Thread thread;
-
 
 
     @Override
@@ -73,13 +73,14 @@ public class MusicSevice extends Service implements Consts {
     @Override
     public void onDestroy() {
         player.release();
-        player=null;
+        player = null;
         thread = null;
         super.onDestroy();
     }
 
     /**
      * 绑定 service 时执行的操作
+     *
      * @param intent
      * @return
      */
@@ -101,10 +102,11 @@ public class MusicSevice extends Service implements Consts {
                 MusicApplication.getContext().getPlayer().start();
             }
         }
+
         //播放音乐
         public static void playMusic(String url) {
             try {
-               // Log.i(TAG, "playMusicService: " + url);
+                //LogUtil.logInfo(TAG, "playMusicService: " + url);
                 MusicApplication.getContext().getPlayer().reset();
                 MusicApplication.getContext().getPlayer().setDataSource(url);
                 MusicApplication.getContext().getPlayer().prepareAsync();

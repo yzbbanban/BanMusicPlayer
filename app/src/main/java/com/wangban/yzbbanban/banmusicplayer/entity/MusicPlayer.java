@@ -19,6 +19,7 @@ public class MusicPlayer implements Serializable, Consts {
     private List<LrcLine> lrcs;
     private List<SongList> songLists;
 
+
     //播放位置
     private int position;
     //    private int searchPosition;

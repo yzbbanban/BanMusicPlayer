@@ -13,6 +13,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultSearch;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
 import java.util.*;
@@ -62,20 +63,20 @@ public class NetMusicModel implements INetMusicModel, Consts {
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-//              Log.i(TAG, "onResponse json数据: " + response);
+//              LogUtil.logInfo(TAG, "onResponse json数据: " + response);
                 Gson gson = new Gson();
                 QuestResultSearch resultSearch = gson.fromJson(response, QuestResultSearch.class);
                 List<SongList> songLists = resultSearch.getSong_list();
 
                 MusicApplication.getMusicPlayer().setSongLists(songLists);
 
-//              Log.i(TAG, "songList: " + songLists.get(0).getTitle());
+//             LogUtil.logInfo(TAG, "songList: " + songLists.get(0).getTitle());
                 callback.findAllMusic(songLists);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Log.i(TAG, "onErrorResponse: 获取失败");
+                //LogUtil.logInfo(TAG, "onErrorResponse: 获取失败");
             }
         });
         MusicApplication.getQueue().add(request);
@@ -104,12 +105,12 @@ public class NetMusicModel implements INetMusicModel, Consts {
                         break;
                 }
                 callback.findAllMusic(musics);
-                //Log.i(TAG, "onResponse: "+music.toString());
+//                LogUtil.logInfo(TAG, "onResponse: " + musics.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Log.i(TAG, "onErrorResponse: 获取失败");
+                //LogUtil.logInfo(TAG, "onErrorResponse: 获取失败");
             }
         });
 

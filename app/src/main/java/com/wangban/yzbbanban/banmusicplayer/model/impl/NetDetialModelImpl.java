@@ -17,6 +17,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
 import java.util.*;
@@ -55,7 +56,7 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
             @Override
             public void onResponse(String response) {
                 try {
-                    //Log.i(TAG, "onResponse: "+response);
+                    //LogUtil.logInfo(TAG, "onResponse: "+response);
                     Gson gson = new Gson();
                     QuestResultDetial resultDetial = gson.fromJson(response, QuestResultDetial.class);
                     List<Url> urls=  resultDetial.getSongurl().getUrl();
@@ -63,7 +64,7 @@ public class NetDetialModelImpl implements INetDetialModel, Consts {
                     SongInfo songInfo=resultDetial.getSonginfo();
                     if (urls==null){
                     }
-                    Log.i(TAG, "onResponse: " + urls.get(0).getFile_link());
+//                    LogUtil.logInfo(TAG, "onResponse: " + urls.get(0).getFile_link());
                     callback.findAllMusic(urls,songInfo);
                 } catch (Exception e) {
                     e.printStackTrace();

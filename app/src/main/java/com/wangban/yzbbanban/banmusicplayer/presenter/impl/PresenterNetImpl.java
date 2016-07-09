@@ -8,6 +8,7 @@ import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.NetMusicModel;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 
 import java.util.*;
@@ -72,7 +73,7 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadSearchMusics(String songName) {
-        Log.i("supergirl", "loadSearchMusics: "+songName);
+//        LogUtil.logInfo("supergirl", "loadSearchMusics: " + songName);
         model.findAllSearchMusic(songName,new IMusicCallback() {
             @Override
             public void findAllMusic(Object data) {

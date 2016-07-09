@@ -52,6 +52,7 @@ import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
 import com.wangban.yzbbanban.banmusicplayer.util.BluredBitmap;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
@@ -156,6 +157,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         setContentView(R.layout.activity_play);
         x.view().inject(this);
         ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
+        if (!player.isPlaying()) {
+            discRecycle();
+            removecRecycle();
+        }
         MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
         setData();
         setListenter();
@@ -199,9 +204,15 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
         setData();
         //显示动画
-        discRecycle();
+        ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
+        if (!player.isPlaying()) {
+            discRecycle();
+            removecRecycle();
+        } else {
+            discRecycle();
+        }
         super.onResume();
-        //Log.i(TAG, "onResume: " + music.getTitle());
+//        LogUtil.logInfo(TAG, "onResume: " + music.getTitle());
     }
 
     /**
@@ -264,6 +275,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         animation = AnimationUtils.loadAnimation(this, R.anim.set_recycle_disc);
         LinearInterpolator i2 = new LinearInterpolator();
         animation.setInterpolator(i2);
+
         civMusicImage.startAnimation(animation);
 
     }
@@ -302,7 +314,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         vBackground.setVisibility(View.INVISIBLE);
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
-        //Log.i(TAG, "playsetData: " + musicListType);
+//        LogUtil.LogInfo(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
         try {
             switch (musicListType) {
@@ -341,7 +353,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             } else {
                 id = songLists.get(positionList).getSong_id();
             }
-            // Log.i(TAG, "playsetData: " + id);
+            //  LogUtil.logInfo(TAG, "playsetData: " + id);
 
             if (localMusicChangedId != id) {
                 presenterNetDetial.setSong(id);
@@ -350,10 +362,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 return;
             }
 //            url = music.getPic_big();
-            //Log.i(TAG, "setData: pic_big: " + url);
-            //Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
+            //LLogUtil.logInfo(TAG, "setData: pic_big: " + url);
+            //LogUtil.logInfo(TAG, "setData: pic_sam: " + music.getPic_small());
 
-            // Log.i(TAG, "setData: "+music.getTitle());
+            //LogUtil.logInfo(TAG, "setData: "+music.getTitle());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -486,7 +498,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             public void onClick(DialogInterface dialog, int which) {
                 Url url = urls.get(which);
                 String fileLink = url.getShow_link();
-                Log.i(TAG, "onClick: " + fileLink);
+//                LogUtil.logInfo(TAG, "onClick: " + fileLink);
                 //启动 Service执行下载
                 Intent intent = new Intent(PlayActivity.this, DownloadService.class);
                 intent.putExtra("url", fileLink);
@@ -572,7 +584,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         MusicSevice.MusicBinder.playMusic(url);
         //获取歌词数据
         presenterLrc.loadLrc(songInfo.getLrclink());
-        //Log.i(TAG, "playMusic: " + songInfo.getLrclink());
+        //LogUtil.logInfo(TAG, "playMusic: " + songInfo.getLrclink());
         setView();
         registComponent();
 
@@ -613,7 +625,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             String action = intent.getAction();
             //当接收的是播放状态广播室
             if (ACTION_START_PLAY.equals(action)) {
-                //TODO;
+                if (!animation.isInitialized()) {
+                    discRecycle();
+                } else {
+                    return;
+                }
             }
             //当时进度更新状态时
             else if (ACTION_UPDATE_PROGRESS.equals(action)) {

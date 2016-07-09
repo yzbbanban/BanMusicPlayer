@@ -1,13 +1,13 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
 
-
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Image;
 import com.wangban.yzbbanban.banmusicplayer.util.JsoupUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MainPictureModel implements Consts {
             @Override
             protected List<Image> doInBackground(String... params) {
                 try {
-                    //Log.i(TAG, "doInBackground: " + webPath);
+                    //LogUtil.logInfo(TAG, "doInBackground: " + webPath);
                     images = JsoupUtil.downLoadData(webPath);
 
 
@@ -38,6 +38,7 @@ public class MainPictureModel implements Consts {
                 }
                 return images;
             }
+
             @Override
             protected void onPostExecute(List<Image> images) {
                 callback.onImageDownload(images);

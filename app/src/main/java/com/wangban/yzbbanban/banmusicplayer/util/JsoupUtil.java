@@ -88,7 +88,7 @@ public class JsoupUtil implements Consts {
             image.setDetTitle(title);
             image.setHrefPath(hrefpath);
             images.add(image);
-            Log.i(TAG, "downDetilLoadData: "+"hrefPath: "+hrefpath+"\npath: "+path+"\nwidth: "+width2+"\nheight: "+height2+"\ntitle: "+title);
+//            LogUtil.logInfo(TAG, "downDetilLoadData: " + "hrefPath: " + hrefpath + "\npath: " + path + "\nwidth: " + width2 + "\nheight: " + height2 + "\ntitle: " + title);
         }
         return images;
     }
