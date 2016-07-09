@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.activity.LocalMusicActivity;
+import com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
@@ -85,8 +87,8 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ibtn_my_local_music:
-                MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
-                intent = new Intent();
+
+                intent = new Intent(getActivity(), PlayActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
@@ -95,6 +97,10 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
 
                 break;
             case R.id.ll_my_local_music:
+                MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
+                intent = new Intent(getActivity(), LocalMusicActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
 
                 break;
         }

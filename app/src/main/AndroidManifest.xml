@@ -34,12 +34,13 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".service.DownloadService"></service>
-        <service android:name=".service.MusicSevice"></service>
+        <service android:name=".service.DownloadService" />
+        <service android:name=".service.MusicSevice" />
 
         <activity
             android:name=".activity.PlayActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleInstance" />
+        <activity android:name=".activity.LocalMusicActivity"></activity>
     </application>
 
 </manifest>
