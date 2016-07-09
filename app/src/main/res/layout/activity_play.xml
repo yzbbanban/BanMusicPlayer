@@ -236,6 +236,13 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/v_player_music_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorViewBackgroundGrey"
+        ></View>
+
     <LinearLayout
         android:id="@+id/ll_player_list"
         android:layout_width="match_parent"
@@ -251,6 +258,7 @@
             android:gravity="center"
             android:text="播放列表"
             android:textSize="16sp" />
+
 
         <ListView
             android:id="@+id/lv_player_music_list"

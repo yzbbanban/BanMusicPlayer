@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -101,6 +102,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private LinearLayout llList;
     @ViewInject(R.id.btn_player_music_list_back)
     private Button btnMusicListBack;
+    @ViewInject(R.id.v_player_music_background)
+    private View vBackground;
 
 
     private Animation animation;
@@ -127,7 +130,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private int position;
 
     private int playState = REPEAT;
-
+    //音乐类型（新歌、热歌。。。。搜索等）
     private int musicListType;
 
     private Animation anim;
@@ -231,7 +234,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     }
 
     /**
-     * 设置播放按钮样式
+     * 设置播放按钮样式,没用到
      */
     private void playPauseModel() {
         if (player.isPlaying()) {
@@ -279,6 +282,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         ibtnLike.setOnClickListener(this);
         ibtnMusicList.setOnClickListener(this);
         btnMusicListBack.setOnClickListener(this);
+        vBackground.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
         lvMusicList.setOnItemClickListener(this);
 
@@ -290,9 +294,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      */
     private void setData() {
         llList.setVisibility(View.INVISIBLE);
+        vBackground.setVisibility(View.INVISIBLE);
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
-        Log.i(TAG, "playsetData: " + musicListType);
+        //Log.i(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
         try {
             switch (musicListType) {
@@ -312,7 +317,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     songLists = musicPlayerControl.getSongLists();
 
             }
-            //TODO
+            //判断传入类型
             if (musicListType == SEARCH) {
                 List<SongList> objects = songLists;
                 ladapter = new LocalMusicListAdapter(this, objects);
@@ -421,22 +426,40 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 break;
             //点击列表播放
             case R.id.ibtn_player_music_list:
-                llList.setVisibility(View.VISIBLE);
                 Display disp = this.getWindowManager().getDefaultDisplay();
                 int s = disp.getHeight();
-                anim = new TranslateAnimation(0, 0, s + llList.getHeight(), s - llList.getHeight());
-                anim.setDuration(300);
-                llList.startAnimation(anim);
+                listShow(View.VISIBLE, s + llList.getHeight(), s - llList.getHeight());
+                viewShow(View.VISIBLE, 0, 1);
                 break;
-            //电机关闭按钮列表消失
+            //点击关闭按钮列表消失
             case R.id.btn_player_music_list_back:
                 llList.setVisibility(View.INVISIBLE);
-                anim = new TranslateAnimation(0, 0, 0, llList.getHeight());
-                anim.setDuration(300);
-                llList.setAnimation(anim);
-
+                listShow(View.INVISIBLE, 0, llList.getHeight());
+                viewShow(View.GONE, 1, 0);
+                break;
+            //点击 view 列表消失，与上一个 button 的功能一致
+            case R.id.v_player_music_background:
+                listShow(View.INVISIBLE, 0, llList.getHeight());
+                viewShow(View.GONE, 1, 0);
+                break;
         }
     }
+
+    private void listShow(int visible, int s1, int s2) {
+        llList.setVisibility(visible);
+        anim = new TranslateAnimation(0, 0, s1, s2);
+        anim.setDuration(300);
+        llList.startAnimation(anim);
+    }
+
+    private void viewShow(int visible, int fromAlpha, int toAlpha) {
+        vBackground.setVisibility(visible);
+        anim = new AlphaAnimation(fromAlpha, toAlpha);
+        anim.setDuration(200);
+        vBackground.startAnimation(anim);
+
+    }
+
 
     /**
      * 执行下载

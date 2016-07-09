@@ -13,6 +13,7 @@
     <color name="colorOTLightGrey">#cfcfcf</color>
     <color name="colorDarkBlack">#000000</color>
     <color name="colorBackgroundDarkGrey">#ad646464</color>
+    <color name="colorViewBackgroundGrey">#a6454545</color>
 
     <color name="colorLight">#00ffffff</color>
     <color name="colorDark">#75000000</color>
