@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * Created by YZBbanban on 16/6/6.
  */
-public class MainPictureModel implements Consts {
+public class ModelMainPictureImpl implements Consts {
 
-    public MainPictureModel() {
+    public ModelMainPictureImpl() {
     }
 
 

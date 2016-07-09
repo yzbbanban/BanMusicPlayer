@@ -1,14 +1,11 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
-import android.util.Log;
-
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
-import com.wangban.yzbbanban.banmusicplayer.model.impl.NetMusicModel;
+import com.wangban.yzbbanban.banmusicplayer.model.IModelNetMusic;
+import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelNetMusicImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNet;
 
 import java.util.*;
@@ -18,12 +15,12 @@ import java.util.*;
  */
 public class PresenterNetImpl implements IPresenterNet {
 
-    private INetMusicModel model;
+    private IModelNetMusic model;
     private IViewNet view;
 
     public PresenterNetImpl(IViewNet view) {
         this.view = view;
-        model = new NetMusicModel();
+        model = new ModelNetMusicImpl();
 
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by YZBbanban on 16/6/6.
  */
-public class DetialPictureModel implements Consts {
+public class ModelDetialPictureImpl implements Consts {
 
     public void findDetilImageGridView(final Callback callback, final String webPath) {
         AsyncTask<String, String, List<DetialImage>> task = new AsyncTask<String, String, List<DetialImage>>() {

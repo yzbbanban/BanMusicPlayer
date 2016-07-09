@@ -1,7 +1,5 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -13,11 +11,9 @@ import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultDetial;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
-import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
-import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
+import com.wangban.yzbbanban.banmusicplayer.model.IModelNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
 import java.util.*;
@@ -26,12 +22,12 @@ import java.util.*;
  * Created by YZBbanban on 16/6/26.
  * 获取歌曲数据信息
  */
-public class NetDetialModelImpl implements INetDetialModel, Consts {
+public class ModelNetDetialImpl implements IModelNetDetial, Consts {
     private MusicPlayer musicPlayer;
     private List<Music> musics;
     private List<SongInfo> songInfos;
 
-    public NetDetialModelImpl() {
+    public ModelNetDetialImpl() {
         musicPlayer = MusicApplication.getMusicPlayer();
         musics = new ArrayList<Music>();
     }

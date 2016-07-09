@@ -3,7 +3,7 @@ package com.wangban.yzbbanban.banmusicplayer.model.impl;
 import android.os.AsyncTask;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
-import com.wangban.yzbbanban.banmusicplayer.model.ILrcModel;
+import com.wangban.yzbbanban.banmusicplayer.model.IModelLrc;
 import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.util.HttpUtil;
 
@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Created by YZBbanban on 16/7/2.
  */
-public class LrcModelImpl implements ILrcModel {
+public class ModelLrcImpl implements IModelLrc {
 
     @Override
     public void getLrc(final String lrcUrl, final IMusicCallback callback) {

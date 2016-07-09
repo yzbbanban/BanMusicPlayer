@@ -18,6 +18,8 @@ public class MusicPlayer implements Serializable, Consts {
     private List<Music> ktvLists;
     private List<LrcLine> lrcs;
     private List<SongList> songLists;
+    private List<Song> localSongs;
+    private List<Song> downloadSongs;
 
 
     //播放位置
@@ -39,6 +41,22 @@ public class MusicPlayer implements Serializable, Consts {
 //    public void setSearchPosition(int searchPosition) {
 //        this.searchPosition = searchPosition;
 //    }
+
+    public List<Song> getDownloadSongs() {
+        return downloadSongs;
+    }
+
+    public void setDownloadSongs(List<Song> downloadSongs) {
+        this.downloadSongs = downloadSongs;
+    }
+
+    public List<Song> getLocalSongs() {
+        return localSongs;
+    }
+
+    public void setLocalSongs(List<Song> localSongs) {
+        this.localSongs = localSongs;
+    }
 
     public List<SongList> getSongLists() {
         return songLists;

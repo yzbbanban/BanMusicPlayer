@@ -99,7 +99,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/download_pressed" />
+                    android:src="@drawable/local_music_icon" />
 
                 <TextView
                     android:layout_width="0dp"

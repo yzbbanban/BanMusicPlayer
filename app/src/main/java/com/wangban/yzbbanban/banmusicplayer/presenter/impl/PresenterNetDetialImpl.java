@@ -1,15 +1,12 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
-import android.util.Log;
-
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
-import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
-import com.wangban.yzbbanban.banmusicplayer.model.INetDetialModel;
+import com.wangban.yzbbanban.banmusicplayer.model.IModelNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.model.INetMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.model.impl.NetDetialModelImpl;
+import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
@@ -20,20 +17,20 @@ import java.util.List;
  */
 public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
     private IViewNetDetial view;
-    private INetDetialModel model;
+    private IModelNetDetial model;
     private int type;
 
 
     public PresenterNetDetialImpl(IViewNetDetial view, int type) {
         this.view = view;
         this.type = type;
-        model = new NetDetialModelImpl();
+        model = new ModelNetDetialImpl();
 
     }
 
     public PresenterNetDetialImpl(IViewNetDetial view) {
         this.view = view;
-        model = new NetDetialModelImpl();
+        model = new ModelNetDetialImpl();
     }
 
     /**

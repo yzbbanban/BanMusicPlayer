@@ -8,7 +8,7 @@ import java.util.List;
  * Created by YZBbanban on 16/6/26.
  * 获取position的位置
  */
-public interface INetDetialModel {
+public interface IModelNetDetial {
     void getNextPosition();
 
     void getPreviousPosition();

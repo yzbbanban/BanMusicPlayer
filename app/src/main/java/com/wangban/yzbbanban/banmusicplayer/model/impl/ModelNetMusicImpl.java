@@ -12,8 +12,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.QueryResult;
 import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultSearch;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.model.INetMusicModel;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
+import com.wangban.yzbbanban.banmusicplayer.model.IModelNetMusic;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
 import java.util.*;
@@ -22,12 +21,12 @@ import java.util.*;
  * Created by YZBbanban on 16/6/23.
  * 获取百度 Api 接口中的数据
  */
-public class NetMusicModel implements INetMusicModel, Consts {
+public class ModelNetMusicImpl implements IModelNetMusic, Consts {
     private MusicPlayer musicPlayer;
     private List<Music> musics;
 
 
-    public NetMusicModel() {
+    public ModelNetMusicImpl() {
         musicPlayer = MusicApplication.getMusicPlayer();
         musics = new ArrayList<Music>();
     }

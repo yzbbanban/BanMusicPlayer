@@ -1,9 +1,9 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
-import com.wangban.yzbbanban.banmusicplayer.model.ILrcModel;
+import com.wangban.yzbbanban.banmusicplayer.model.IModelLrc;
 import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.model.impl.LrcModelImpl;
+import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelLrcImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import java.util.*;
@@ -12,11 +12,11 @@ import java.util.*;
  */
 public class PresenterLrcImpl implements IPresenterLrc{
     private IViewLrc view;
-    private ILrcModel model;
+    private IModelLrc model;
 
     public PresenterLrcImpl(IViewLrc view) {
         this.view = view;
-        model=new LrcModelImpl();
+        model=new ModelLrcImpl();
     }
 
     @Override

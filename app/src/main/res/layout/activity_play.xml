@@ -237,7 +237,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_above="@id/rl_player_seekbar">
+        android:layout_above="@id/rl_player_seekbar"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/ibtn_player_like"
@@ -249,16 +251,20 @@
             android:scaleType="centerInside"
             android:src="@drawable/selctor_like" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"></View>
+        <ImageButton
+            android:id="@+id/ibtn_player_more"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="30dp"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/selctor_more" />
 
         <ImageButton
             android:id="@+id/ibtn_player_download"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_gravity="right"
+            android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:background="@null"
             android:scaleType="centerInside"
@@ -289,6 +295,17 @@
             android:text="播放列表"
             android:textSize="16sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBack"></View>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/colorBack"></View>
 
         <ListView
             android:id="@+id/lv_player_music_list"
