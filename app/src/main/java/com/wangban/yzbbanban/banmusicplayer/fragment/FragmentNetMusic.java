@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,6 +55,8 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     private LinearLayout llBillboardList;
     @ViewInject(R.id.ll_ktv_list)
     private LinearLayout llKtvList;
+    @ViewInject(R.id.ll_net_fragment)
+    private LinearLayout llNetFragment;
     @ViewInject(R.id.et_search)
     private EditText etSearch;
     @ViewInject(R.id.lv_search_music)
@@ -102,6 +106,8 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     private IPresenterNet presenterNet;
 
     private IPresenterNetDetial presenterNetDetial;
+
+    private Animation animation;
 
 //    private MediaPlayer player;
     /**
@@ -224,6 +230,9 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
                 break;
             case R.id.ibtn_music_search:
                 lvSearchMusic.setVisibility(View.VISIBLE);
+                animation = new TranslateAnimation(0, 0, llNetFragment.getHeight(), lvSearchMusic.getHeight() + llNetFragment.getHeight());
+                animation.setDuration(300);
+                animation.start();
                 String songName = etSearch.getText().toString().trim();
                 if (songName != null) {
                     //Log.i(TAG, "songName: " + songName);
@@ -311,7 +320,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     @Override
     public void playMusic(Object data1, Object data2) {
         //Log.i(TAG, "playMusic:111111 ");
-        String songUrl=((List<Url>)data1).get(0).getFile_link();
+        String songUrl = ((List<Url>) data1).get(0).getFile_link();
         if (songUrl != null) {
             MusicSevice.MusicBinder.playMusic(songUrl);
             intent = new Intent(getActivity(), PlayActivity.class);
@@ -338,8 +347,12 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         MusicApplication.getMusicPlayer().setMusicListType(SEARCH);
         MusicApplication.getMusicPlayer().setPosition(position);
         String songId = songLists.get(position).getSong_id();
-        Log.i(TAG, "onItemClick: " + songId);
+        // Log.i(TAG, "onItemClick: " + songId);
         presenterNetDetial.setSong(songId);
+        lvSearchMusic.setVisibility(View.GONE);
+        animation = new TranslateAnimation(0, 0, lvSearchMusic.getHeight() + llNetFragment.getHeight(), llNetFragment.getHeight());
+        animation.setDuration(300);
+        animation.start();
 
 
     }

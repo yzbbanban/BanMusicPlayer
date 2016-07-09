@@ -23,7 +23,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -136,6 +135,8 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     //设置 local_list_adapter
     private LocalMusicListAdapter ladapter;
 
+    private String localMusicChangedId;
+
     public PlayActivity() {
         super();
         imageLoader = new ImageLoader(MusicApplication.getQueue(), new BitmapCache());
@@ -189,6 +190,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      */
     @Override
     protected void onResume() {
+
         setData();
         //显示动画
         discRecycle();
@@ -199,6 +201,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     /**
      * 设置控件
      */
+
     private void setView() {
         //设置播放的歌曲名
         String musicName = songInfo.getTitle();
@@ -328,9 +331,14 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             } else {
                 id = songLists.get(positionList).getSong_id();
             }
-            Log.i(TAG, "playsetData: " + id);
-            presenterNetDetial.setSong(id);
+            // Log.i(TAG, "playsetData: " + id);
 
+            if (localMusicChangedId != id) {
+                presenterNetDetial.setSong(id);
+                localMusicChangedId = id;
+            } else {
+                return;
+            }
 //            url = music.getPic_big();
             //Log.i(TAG, "setData: pic_big: " + url);
             //Log.i(TAG, "setData: pic_sam: " + music.getPic_small());
@@ -339,7 +347,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        //当前歌曲完成时播放下一曲
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -361,7 +369,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             //返回按钮
             case R.id.ibtn_player_back_main:
                 //             finish();
-                startActivity(new Intent(this, DetialMusicActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
             //暂停播放按钮
@@ -407,10 +415,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     playState = REPEAT;
                 }
                 break;
+            //下载音乐
             case R.id.ibtn_player_download:
                 download();
                 break;
-            //TODO
+            //点击列表播放
             case R.id.ibtn_player_music_list:
                 llList.setVisibility(View.VISIBLE);
                 Display disp = this.getWindowManager().getDefaultDisplay();
@@ -419,6 +428,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 anim.setDuration(300);
                 llList.startAnimation(anim);
                 break;
+            //电机关闭按钮列表消失
             case R.id.btn_player_music_list_back:
                 llList.setVisibility(View.INVISIBLE);
                 anim = new TranslateAnimation(0, 0, 0, llList.getHeight());
@@ -532,22 +542,36 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         MusicSevice.MusicBinder.playMusic(url);
         //获取歌词数据
         presenterLrc.loadLrc(songInfo.getLrclink());
-        Log.i(TAG, "playMusic: " + songInfo.getLrclink());
+        //Log.i(TAG, "playMusic: " + songInfo.getLrclink());
         setView();
         registComponent();
 
     }
 
+    /**
+     * 点击列表播放音乐
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //TODO
         if (musicListType != SEARCH) {
-            presenterNetDetial.setSong(musics.get(position).getSong_id());
+            platList(position, musics.get(position).getSong_id());
         } else {
-            presenterNetDetial.setSong(songLists.get(position).getSong_id());
+            platList(position, songLists.get(position).getSong_id());
         }
         setData();
     }
+
+    private void platList(int position, String song_id) {
+        presenterNetDetial.setSong(song_id);
+        MusicApplication.getMusicPlayer().setPosition(position);
+    }
+
 
     /**
      * 设置接收广播的数据
@@ -559,7 +583,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             String action = intent.getAction();
             //当接收的是播放状态广播室
             if (ACTION_START_PLAY.equals(action)) {
-                setView();
+                //setView();
             }
             //当时进度更新状态时
             else if (ACTION_UPDATE_PROGRESS.equals(action)) {
