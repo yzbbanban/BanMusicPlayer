@@ -1,6 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IpresenterLocalMusic;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterLocalMusic;
+import com.wangban.yzbbanban.banmusicplayer.util.FramAnimationUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLocalMusic;
 
@@ -68,6 +70,11 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FramAnimationUtil.framAnimationContrl(ibtnLocalMusic);
+    }
 
     private void setView() {
 
@@ -108,7 +115,6 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
 
                 break;
             case R.id.ll_my_local_music:
-                MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
                 intent = new Intent(getActivity(), LocalMusicActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);

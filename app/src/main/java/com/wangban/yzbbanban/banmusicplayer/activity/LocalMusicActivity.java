@@ -1,6 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
+import com.wangban.yzbbanban.banmusicplayer.util.FramAnimationUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 import org.xutils.view.annotation.ViewInject;
@@ -47,10 +49,11 @@ public class LocalMusicActivity extends BaseActivity implements Consts, View.OnC
     protected void onResume() {
         setView();
         super.onResume();
+        FramAnimationUtil.framAnimationContrl(ibtnPlayetLocalMusic);
     }
 
     private void setView() {
-        MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
+//        MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
         songs = MusicApplication.getMusicPlayer().getLocalSongs();
 //        LogUtil.logInfo(TAG, "Local_songs: " + songs.get(0).getTitle());
         adapter = new MyLocalMusicAdapter(this, (ArrayList<Song>) songs);

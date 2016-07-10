@@ -63,7 +63,7 @@
             android:button="@null"
             android:drawableTop="@drawable/select_book"
             android:gravity="center"
-            android:text="书籍"
+            android:text="科技"
             android:textColor="@drawable/select_book_text_color"
             android:textSize="12sp" />
 
