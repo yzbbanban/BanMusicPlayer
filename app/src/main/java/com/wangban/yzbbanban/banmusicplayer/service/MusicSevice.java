@@ -38,7 +38,7 @@ public class MusicSevice extends Service implements Consts {
                 sendBroadcast(i);
             }
         });
-
+        LogUtil.logInfo(TAG, "bindservice!!!!!!!!!!!!!");
         //启动工作线程  每1秒给Activity发一次广播
         thread = new WorkThread();
         thread.start();
@@ -56,6 +56,7 @@ public class MusicSevice extends Service implements Consts {
                 }
                 //发送广播
                 if (player != null && player.isPlaying()) {
+//                    LogUtil.logInfo(TAG,"hello");
                     Intent i = new Intent(ACTION_UPDATE_PROGRESS);
                     i.putExtra("current", player.getCurrentPosition());
                     i.putExtra("total", player.getDuration());
@@ -94,7 +95,7 @@ public class MusicSevice extends Service implements Consts {
      * 绑定 service 的 Binder，替他类通过访问此方法，调用 MediaPlayer 的方法
      */
     public static class MusicBinder extends Binder {
-        private static MediaPlayer player=MusicApplication.getContext().getPlayer();
+        private static MediaPlayer player = MusicApplication.getContext().getPlayer();
 
         //暂停音乐
         public static void playOrPause() {
@@ -109,11 +110,15 @@ public class MusicSevice extends Service implements Consts {
         public static void playMusic(String url) {
             try {
                 //LogUtil.logInfo(TAG, "playMusicService: " + url);
+
+
                 player.reset();
                 player.setDataSource(url);
-                if (MusicApplication.getMusicPlayer().getMusicListType()!=LOCAL){
+                if (MusicApplication.getMusicPlayer().getMusicListType() != LOCAL) {
+                    LogUtil.logInfo(TAG, "prepare: net ");
                     player.prepareAsync();
-                }else {
+                } else {
+                    LogUtil.logInfo(TAG, "prepare: Local ");
                     player.prepare();
                     player.start();
                 }

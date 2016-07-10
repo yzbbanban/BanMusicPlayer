@@ -277,7 +277,8 @@
         android:id="@+id/v_player_music_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorViewBackgroundGrey"></View>
+        android:background="@color/colorViewBackgroundGrey"
+        android:visibility="gone"></View>
 
     <LinearLayout
         android:id="@+id/ll_player_list"
@@ -285,7 +286,8 @@
         android:layout_height="400dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_player_list"

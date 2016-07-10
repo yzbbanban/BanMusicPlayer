@@ -127,7 +127,7 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
         musicListMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-              
+
 
 
                 return false;

@@ -6,10 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.nfc.Tag;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -52,6 +55,7 @@ import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
 import com.wangban.yzbbanban.banmusicplayer.util.BluredBitmap;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
@@ -221,32 +225,52 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     private void setView() {
         //设置播放的歌曲名
-        String musicName = songInfo.getTitle();
-        String musicArtist = songInfo.getAuthor();
-        tvCurrentMusicName.setText(musicName);
-        tvCurrentMusicArtist.setText(musicArtist);
-        //设置播放歌曲的图片信息
-        String imagePath = songInfo.getAlbum_500_500();
-        ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
-        imageLoader.get(imagePath, imageListener);
-        String url = songInfo.getArtist_500_500();
-        //设置背景图片的路径
-        ImageRequest imageRequest = new ImageRequest(
-                url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                Bitmap bitmap = BluredBitmap.createBlurBitmap(response, 10);
+        if (musicListType != LOCAL) {
+            String musicName = songInfo.getTitle();
+            String musicArtist = songInfo.getAuthor();
+            tvCurrentMusicName.setText(musicName);
+            tvCurrentMusicArtist.setText(musicArtist);
+            //设置播放歌曲的图片信息
+            String imagePath = songInfo.getAlbum_500_500();
+            ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(civMusicImage, R.drawable.my_logo, R.drawable.my_logo);
+            imageLoader.get(imagePath, imageListener);
+            String url = songInfo.getArtist_500_500();
+            //设置背景图片的路径
+            ImageRequest imageRequest = new ImageRequest(
+                    url, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    Bitmap bitmap = BluredBitmap.createBlurBitmap(response, 10);
 
-                ivBackground.setImageBitmap(bitmap);
+                    ivBackground.setImageBitmap(bitmap);
 
-            }
-        }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                }
+            }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    ivBackground.setImageResource(R.drawable.my_logo);
+                }
+            });
+            MusicApplication.getQueue().add(imageRequest);
+        } else {
+//            LogUtil.logInfo(TAG, "设置");
+            String musicName = songs.get(position).getTitle();
+            String musicArtist = songs.get(position).getArtist();
+            tvCurrentMusicName.setText(musicName);
+            tvCurrentMusicArtist.setText(musicArtist);
+
+            if (songs.get(position).getAlbumArt() == null) {
+                // 没有图片
                 ivBackground.setImageResource(R.drawable.my_logo);
+                civMusicImage.setImageResource(R.drawable.my_logo);
+            } else {
+                // 存在图片的路径，则显示
+                Bitmap bm = BitmapFactory.decodeFile(songs.get(position).getAlbumArt());
+                civMusicImage.setImageBitmap(bm);
+                Bitmap bitmap = BluredBitmap.createBlurBitmap(bm, 10);
+                ivBackground.setImageBitmap(bitmap);
             }
-        });
-        MusicApplication.getQueue().add(imageRequest);
+        }
     }
 
     /**
@@ -310,8 +334,6 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      * 配置 Lrc 歌词数据
      */
     private void setData() {
-        llList.setVisibility(View.INVISIBLE);
-        vBackground.setVisibility(View.INVISIBLE);
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
 //        LogUtil.LogInfo(TAG, "playsetData: " + musicListType);
@@ -356,17 +378,22 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             //获取播放的音乐位置
             int positionList = MusicApplication.getMusicPlayer().getPosition();
             String id = null;
-            if (musicListType != SEARCH) {
+            if (musicListType != LOCAL && musicListType != SEARCH) {
                 music = musics.get(positionList);
                 id = music.getSong_id();
-            } else {
+            } else if (musicListType == SEARCH) {
                 id = songLists.get(positionList).getSong_id();
             }
             //  LogUtil.logInfo(TAG, "playsetData: " + id);
 
-            if (localMusicChangedId != id) {
+            if (musicListType != LOCAL && localMusicChangedId != id) {
                 presenterNetDetial.setSong(id);
                 localMusicChangedId = id;
+            } else if (musicListType == LOCAL) {
+                LogUtil.logInfo(TAG, "直接播放local: ");
+                String url = songs.get(position).getPath();
+                MusicSevice.MusicBinder.playMusic(url);
+                setView();
             } else {
                 return;
             }
@@ -450,7 +477,11 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 break;
             //下载音乐
             case R.id.ibtn_player_download:
-                download();
+                if (musicListType == LOCAL) {
+                    ToastUtil.showToast(this, "这是本地音乐");
+                } else {
+                    download();
+                }
                 break;
             //点击列表播放
             case R.id.ibtn_player_music_list:
@@ -473,6 +504,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         }
     }
 
+    /**
+     * 显示列表
+     *
+     * @param visible
+     * @param s1
+     * @param s2
+     */
     private void listShow(int visible, int s1, int s2) {
         llList.setVisibility(visible);
         anim = new TranslateAnimation(0, 0, s1, s2);
@@ -480,6 +518,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         llList.startAnimation(anim);
     }
 
+    /**
+     * 显示背景
+     *
+     * @param visible
+     * @param fromAlpha
+     * @param toAlpha
+     */
     private void viewShow(int visible, int fromAlpha, int toAlpha) {
         vBackground.setVisibility(visible);
         anim = new AlphaAnimation(fromAlpha, toAlpha);
@@ -522,12 +567,23 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     }
 
+    /**
+     * 音乐播放完成时紧接着的操作播放
+     */
     private void setPositionToPlay() {
         position = MusicApplication.getMusicPlayer().getPosition();
-        if (musicListType != SEARCH) {
+        if (musicListType != SEARCH && musicListType != LOCAL) {
+//            LogUtil.logInfo(TAG, "else: ");
             presenterNetDetial.setSong(musics.get(position).getSong_id());
-        } else {
+
+        } else if (musicListType == SEARCH) {
+//            LogUtil.logInfo(TAG, "search: ");
             presenterNetDetial.setSong(songLists.get(position).getSong_id());
+        } else if (musicListType == LOCAL) {
+//            LogUtil.logInfo(TAG, "local: ");
+            String url = songs.get(position).getPath();
+            MusicSevice.MusicBinder.playMusic(url);
+            setView();
         }
         setData();
     }
@@ -584,6 +640,12 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     }
 
+    /**
+     * 播放音乐
+     *
+     * @param data1 url
+     * @param data2 songinfo
+     */
     @Override
     public void playMusic(Object data1, Object data2) {
         urls = (List<Url>) data1;
@@ -610,24 +672,30 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //TODO
+        // LogUtil.logInfo(TAG, "" + position);
+        //ToastUtil.showToast(this, "" + position);
         if (musicListType != SEARCH && musicListType != LOCAL) {
             playList(position, musics.get(position).getSong_id());
         } else if (musicListType == SEARCH) {
             playList(position, songLists.get(position).getSong_id());
         } else if (musicListType == LOCAL) {
-            playList(position, songs.get(position).getPath());
+            playLocalList(position, songs.get(position).getPath());
         }
+
         setData();
     }
 
     private void playLocalList(int position, String path) {
+        LogUtil.logInfo(TAG, path);
 
         MusicApplication.getMusicPlayer().setPosition(position);
+        MusicSevice.MusicBinder.playMusic(path);
+
     }
 
     private void playList(int position, String song_id) {
-        presenterNetDetial.setSong(song_id);
         MusicApplication.getMusicPlayer().setPosition(position);
+        presenterNetDetial.setSong(song_id);
     }
 
 

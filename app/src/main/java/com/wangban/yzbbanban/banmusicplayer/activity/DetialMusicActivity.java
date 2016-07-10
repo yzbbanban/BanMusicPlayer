@@ -123,7 +123,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
         switch (v.getId()) {
             case R.id.btn_music_list_back:
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("Fragment", -2);
+                intent.putExtra("Fragment", -1);
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;

@@ -147,7 +147,7 @@ public class MusicPlayer implements Serializable, Consts {
                 case SEARCH:
                     position = position == songLists.size() - 1 ? 0 : position + 1;
                 case LOCAL:
-                    position = position == songLists.size() - 1 ? 0 : position + 1;
+                    position = position == localSongs.size() - 1 ? 0 : position + 1;
             }
         } else if (playState == REPEAT) {
             switch (musicListType) {
@@ -194,7 +194,7 @@ public class MusicPlayer implements Serializable, Consts {
                     position = new Random().nextInt(songLists.size());
                     break;
                 case LOCAL:
-                    position = new Random().nextInt(songLists.size());
+                    position = new Random().nextInt(localSongs.size());
                     break;
             }
         }

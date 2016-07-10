@@ -31,7 +31,7 @@ public class MyLocalMusicAdapter extends BaseAdapter<Song> {
             holder.tvMyLocalMusicTitle = (TextView) convertView.findViewById(R.id.tv_my_local_music_title);
             holder.tvMyLocalMusicArtist = (TextView) convertView.findViewById(R.id.tv_my_local_music_artist);
             holder.tvMyLocalMusicAlbum = (TextView) convertView.findViewById(R.id.tv_my_local_music_Album);
-            holder.ibtnMyLocalMusicMore = (ImageButton) convertView.findViewById(R.id.ibtn_my_local_music_more);
+           // holder.ibtnMyLocalMusicMore = (ImageButton) convertView.findViewById(R.id.ibtn_my_local_music_more);
             convertView.setTag(holder);
         }
         Song song = (Song) getItem(position);
@@ -49,7 +49,7 @@ public class MyLocalMusicAdapter extends BaseAdapter<Song> {
         TextView tvMyLocalMusicTitle;
         TextView tvMyLocalMusicArtist;
         TextView tvMyLocalMusicAlbum;
-        ImageButton ibtnMyLocalMusicMore;
+        //ImageButton ibtnMyLocalMusicMore;
 
     }
 }

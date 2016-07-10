@@ -10,24 +10,8 @@ public class Song {
     private String album;
     private String artist;
     private String albumArtist;
-    private boolean isplay = false;
-    private int selectIndex = -1;
-
-    public int getSelectIndex() {
-        return selectIndex;
-    }
-
-    public void setSelectIndex(int selectIndex) {
-        this.selectIndex = selectIndex;
-    }
-
-    public boolean isplay() {
-        return isplay;
-    }
-
-    public void setIsplay(boolean isplay) {
-        this.isplay = isplay;
-    }
+    private String albumKey;
+    private String albumArt;
 
     public long getId() {
         return id;
@@ -93,12 +77,28 @@ public class Song {
         this.albumArtist = albumArtist;
     }
 
+    public String getAlbumKey() {
+        return albumKey;
+    }
+
+    public void setAlbumKey(String albumKey) {
+        this.albumKey = albumKey;
+    }
+
+    public String getAlbumArt() {
+        return albumArt;
+    }
+
+    public void setAlbumArt(String albumArt) {
+        this.albumArt = albumArt;
+    }
+
     @Override
     public String toString() {
         return "Music [id=" + id + ", title=" + title + ", path=" + path
                 + ", size=" + size + ", duration=" + duration + ", album="
                 + album + ", artist=" + artist + ", albumArtist=" + albumArtist
-                + "]";
+                + ", albumKey=" + albumKey + ", albumArt=" + albumArt + "]";
     }
 
 }
