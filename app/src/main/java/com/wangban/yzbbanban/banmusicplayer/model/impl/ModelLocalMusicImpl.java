@@ -59,7 +59,7 @@ public class ModelLocalMusicImpl implements IModelLocalMusic ,Consts{
         }
         c.close();
         MusicApplication.getMusicPlayer().setLocalSongs(songs);
-        LogUtil.logInfo(TAG,"Model_songs: "+songs.get(0).getTitle());
+//        LogUtil.logInfo(TAG,"Model_songs: "+songs.get(0).getTitle());
         return songs;
     }
 }

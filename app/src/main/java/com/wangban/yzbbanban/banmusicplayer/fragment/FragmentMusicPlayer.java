@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.LocalMusicActivity;
@@ -19,6 +22,7 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IpresenterLocalMusic;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterLocalMusic;
+import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLocalMusic;
 
 import org.xutils.view.annotation.ViewInject;
@@ -32,6 +36,8 @@ import java.util.List;
 public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalMusic, View.OnClickListener {
     @ViewInject(R.id.tv_my_download_music_count)
     private TextView tvDownloadCount;
+    @ViewInject(R.id.tv_my_local_music_more)
+    private TextView tvLocalMusicMore;
     @ViewInject(R.id.tv_my_local_music_count)
     private TextView tvLocalCount;
     @ViewInject(R.id.ibtn_my_local_music)
@@ -42,9 +48,10 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
     private LinearLayout llDownloadMusic;
 
     private Intent intent;
-
+    private View view;
     private List<Song> songs;
     private IpresenterLocalMusic presenterLocalMusic;
+    private PopupMenu musicListMenu;
 
     public FragmentMusicPlayer() {
         presenterLocalMusic = new PresenterLocalMusic(this);
@@ -53,20 +60,21 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_player, null);
+        view = inflater.inflate(R.layout.fragment_player, null);
         x.view().inject(this, view);
         presenterLocalMusic.loadLocalMusic();
-        setView(view);
+        setView();
         setListeners();
         return view;
     }
 
 
-    private void setView(View view) {
+    private void setView() {
 
     }
 
     private void setListeners() {
+        tvLocalMusicMore.setOnClickListener(this);
         ibtnLocalMusic.setOnClickListener(this);
         llDownloadMusic.setOnClickListener(this);
         llLocalMusic.setOnClickListener(this);
@@ -86,6 +94,9 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_my_local_music_more:
+                showMenuList(view);
+                break;
             case R.id.ibtn_my_local_music:
 
                 intent = new Intent(getActivity(), PlayActivity.class);
@@ -105,4 +116,25 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
                 break;
         }
     }
+
+    private void showMenuList(View view) {
+        musicListMenu = new PopupMenu(getContext(), view);
+        musicListMenu.getMenuInflater().inflate(R.menu.main, musicListMenu.getMenu());
+        //code can also finish mission
+        //SubMenu subMenu = musicListMenu.getMenu().addSubMenu("新建列表").setIcon(R.drawable.new_music_list);
+
+
+        musicListMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+              
+
+
+                return false;
+            }
+        });
+        musicListMenu.show();
+
+    }
+
 }
