@@ -16,7 +16,7 @@ import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
  * 用于需要绑定 service 的 activity
  */
 public class BaseActivity extends AppCompatActivity  {
-    private MusicSevice.MusicBinder musicBinder;
+    public MusicSevice.MusicBinder musicBinder;
     private Intent intent;
     private ServiceConnection conn;
     @Override

@@ -208,7 +208,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
         setData();
         if (musicListType == LOCAL) {
-            LogUtil.logInfo(TAG, "PlayActivity onResume: ");
+            //若为本地播放可直接注册广播
+            registComponent();
+//            LogUtil.logInfo(TAG, "PlayActivity onResume: ");
             setView();
         }
         //显示动画
@@ -342,6 +344,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
+        if (musicListType==0){
+            musicListType=LOCAL;
+        }
 //        LogUtil.LogInfo(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
         localMusicChangedId = MusicApplication.getMusicPlayer().getPositionId();
@@ -696,7 +701,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     }
 
     private void playLocalList(int position, String path) {
-        LogUtil.logInfo(TAG, "playLocalList: " + path);
+//        LogUtil.logInfo(TAG, "playLocalList: " + path);
         MusicApplication.getMusicPlayer().setPosition(position);
         MusicSevice.MusicBinder.playMusic(path);
         setData();
@@ -732,6 +737,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 if (!player.isPlaying()) {
                     removecRecycle();
                 }
+
                 ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
                 int currentTime = intent.getIntExtra("current", 0);
                 int totalTime = intent.getIntExtra("total", 0);

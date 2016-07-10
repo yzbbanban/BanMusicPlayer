@@ -74,7 +74,6 @@ public class LocalMusicActivity extends BaseActivity implements Consts, View.OnC
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
             case R.id.ibtn_my_player_local_music:
-                MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
                 intent = new Intent(this, PlayActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
@@ -89,6 +88,7 @@ public class LocalMusicActivity extends BaseActivity implements Consts, View.OnC
 //        LogUtil.logInfo(TAG, "onItem: " + position);
         MusicApplication.getMusicPlayer().setPosition(position);
 //        LogUtil.logInfo(TAG, "onItem: " + songs.get(position).getPath());
+        MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
         MusicSevice.MusicBinder.playMusic(songs.get(position).getPath());
         intent = new Intent(this, PlayActivity.class);
         startActivity(intent);

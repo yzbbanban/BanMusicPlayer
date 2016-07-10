@@ -24,7 +24,7 @@ public class MusicSevice extends Service implements Consts {
     private boolean isLoop = true;
     private MediaPlayer player;
     private Thread thread;
-
+//    int j;
 
     @Override
     public void onCreate() {
@@ -56,10 +56,13 @@ public class MusicSevice extends Service implements Consts {
                 }
                 //发送广播
                 if (player != null && player.isPlaying()) {
-//                    LogUtil.logInfo(TAG,"hello");
+
+//                    LogUtil.logInfo(TAG, "hello" + (j));
+//                    j++;
                     Intent i = new Intent(ACTION_UPDATE_PROGRESS);
                     i.putExtra("current", player.getCurrentPosition());
                     i.putExtra("total", player.getDuration());
+//                    LogUtil.logInfo(TAG, "hello:current " + player.getCurrentPosition() + "duration: " + player.getDuration());
                     sendBroadcast(i);
                 }
 
