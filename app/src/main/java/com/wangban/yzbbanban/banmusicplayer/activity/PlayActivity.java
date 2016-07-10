@@ -137,16 +137,17 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private SongInfo songInfo;
     private int position;
 
+    private String localMusicChangedId = "defult";
+
     private int playState = REPEAT;
     //音乐类型（新歌、热歌。。。。搜索等）
     private int musicListType;
 
     private Animation anim;
 
+
     //设置 local_list_adapter
     private LocalMusicListAdapter ladapter;
-
-    private String localMusicChangedId;
 
     public PlayActivity() {
         super();
@@ -166,7 +167,6 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             removecRecycle();
         }
         MusicApplication.getMusicPlayer().setPlayState(RECYCLE);
-        setData();
         setListenter();
 
     }
@@ -207,6 +207,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     protected void onResume() {
 
         setData();
+        if (musicListType == LOCAL) {
+            setView();
+        }
         //显示动画
         ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
         if (!player.isPlaying()) {
@@ -334,10 +337,13 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      * 配置 Lrc 歌词数据
      */
     private void setData() {
+
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
 //        LogUtil.LogInfo(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
+        localMusicChangedId = MusicApplication.getMusicPlayer().getPositionId();
+//        LogUtil.logInfo(TAG,"setData: "+localMusicChangedId+"||");
         //TODO 添加类型
         try {
             switch (musicListType) {
@@ -375,33 +381,33 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 ladapter = new LocalMusicListAdapter(this, objects);
                 lvMusicList.setAdapter(ladapter);
             }
+            String id = null;
             //获取播放的音乐位置
             int positionList = MusicApplication.getMusicPlayer().getPosition();
-            String id = null;
-            if (musicListType != LOCAL && musicListType != SEARCH) {
-                music = musics.get(positionList);
-                id = music.getSong_id();
+            if (musicListType == LOCAL) {
+                id = String.valueOf(songs.get(positionList).getId());
             } else if (musicListType == SEARCH) {
                 id = songLists.get(positionList).getSong_id();
-            }
-            //  LogUtil.logInfo(TAG, "playsetData: " + id);
-
-            if (musicListType != LOCAL && localMusicChangedId != id) {
-                presenterNetDetial.setSong(id);
-                localMusicChangedId = id;
-            } else if (musicListType == LOCAL) {
-                LogUtil.logInfo(TAG, "直接播放local: ");
-                String url = songs.get(position).getPath();
-                MusicSevice.MusicBinder.playMusic(url);
-                setView();
             } else {
-                return;
+                music = musics.get(positionList);
+                id = music.getSong_id();
             }
-//            url = music.getPic_big();
-            //LLogUtil.logInfo(TAG, "setData: pic_big: " + url);
-            //LogUtil.logInfo(TAG, "setData: pic_sam: " + music.getPic_small());
-
-            //LogUtil.logInfo(TAG, "setData: "+music.getTitle());
+            //判断重新进入时是否播放的同一首歌曲，若是则不重新播放，不是则重新播放
+            // （事先设定好了 position 会根据 position 来显示与播放音乐）
+//            LogUtil.logInfo(TAG, "" + localMusicChangedId.equals(id));
+            if (id.equals(localMusicChangedId)) {
+//                LogUtil.logInfo(TAG, "playsetData:结束 ");
+                return;
+            } else {
+//                LogUtil.logInfo(TAG, "判断与之前播放的音乐是否为同一首" + localMusicChangedId);
+                if (musicListType == LOCAL) {
+                    setView();
+                } else {
+//                    LogUtil.logInfo(TAG, "不是重新播放");
+                    presenterNetDetial.setSong(id);
+                }
+                MusicApplication.getMusicPlayer().setPositionId(id);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -505,7 +511,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     }
 
     /**
-     * 显示列表
+     * 显示列表动画
      *
      * @param visible
      * @param s1
@@ -519,8 +525,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     }
 
     /**
-     * 显示背景
-     *
+     * 显示背景动画
      * @param visible
      * @param fromAlpha
      * @param toAlpha
@@ -585,6 +590,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             MusicSevice.MusicBinder.playMusic(url);
             setView();
         }
+        //设置 songId 用于区分是否为播放相同的音乐
         setData();
     }
 
@@ -680,16 +686,18 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             playList(position, songLists.get(position).getSong_id());
         } else if (musicListType == LOCAL) {
             playLocalList(position, songs.get(position).getPath());
+            return;
         }
 
         setData();
+
     }
 
     private void playLocalList(int position, String path) {
-        LogUtil.logInfo(TAG, path);
-
+        LogUtil.logInfo(TAG, "playLocalList: "+path);
         MusicApplication.getMusicPlayer().setPosition(position);
         MusicSevice.MusicBinder.playMusic(path);
+        setView();
 
     }
 

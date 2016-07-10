@@ -13,8 +13,10 @@ import com.wangban.yzbbanban.banmusicplayer.adapter.MusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.entity.Url;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
+import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
 import org.xutils.view.annotation.ViewInject;
@@ -81,7 +83,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade, R.anim.hold);
                 //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
-                //presenterNetDetial.setSong(musics.get(position).getSong_id());
+//                presenterNetDetial.setSong(musics.get(position).getSong_id());
 
 
             }

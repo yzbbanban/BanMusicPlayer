@@ -29,7 +29,8 @@ public class MusicPlayer implements Serializable, Consts {
 
     //播放状态
     private int playState;
-
+    //记录上一曲的 positionId 用于区别时候点击同一首歌，却不需要重头开始播放，用在 PlayActivity 中
+    private String positionId;
     public MusicPlayer() {
 
     }
@@ -41,6 +42,14 @@ public class MusicPlayer implements Serializable, Consts {
 //    public void setSearchPosition(int searchPosition) {
 //        this.searchPosition = searchPosition;
 //    }
+
+    public String getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
+    }
 
     public List<Song> getDownloadSongs() {
         return downloadSongs;

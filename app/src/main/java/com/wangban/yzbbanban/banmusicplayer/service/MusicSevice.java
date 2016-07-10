@@ -38,7 +38,7 @@ public class MusicSevice extends Service implements Consts {
                 sendBroadcast(i);
             }
         });
-        LogUtil.logInfo(TAG, "bindservice!!!!!!!!!!!!!");
+//        LogUtil.logInfo(TAG, "bindservice!!!!!!!!!!!!!");
         //启动工作线程  每1秒给Activity发一次广播
         thread = new WorkThread();
         thread.start();
@@ -115,10 +115,10 @@ public class MusicSevice extends Service implements Consts {
                 player.reset();
                 player.setDataSource(url);
                 if (MusicApplication.getMusicPlayer().getMusicListType() != LOCAL) {
-                    LogUtil.logInfo(TAG, "prepare: net ");
+//                    LogUtil.logInfo(TAG, "prepare: net ");
                     player.prepareAsync();
                 } else {
-                    LogUtil.logInfo(TAG, "prepare: Local ");
+//                    LogUtil.logInfo(TAG, "prepare: Local ");
                     player.prepare();
                     player.start();
                 }
