@@ -2,6 +2,7 @@ package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelLocalMusic;
+import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelLocalMusicImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IpresenterLocalMusic;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLocalMusic;
@@ -17,13 +18,19 @@ public class PresenterLocalMusic implements IpresenterLocalMusic {
 
     public PresenterLocalMusic(IViewLocalMusic view) {
         this.view = view;
-        model=new ModelLocalMusicImpl();
+        model = new ModelLocalMusicImpl();
     }
 
     @Override
     public void loadLocalMusic() {
-        List<Song> songs=model.findAllLocalMusic();
-        view.setData(songs);
-        view.showData();
+        model.findAllLocalMusic(new IMusicCallback() {
+            @Override
+            public void findAllMusic(Object data) {
+                List<Song> songs = (List<Song>) data;
+                view.setData(songs);
+                view.showData();
+            }
+        });
+
     }
 }

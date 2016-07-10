@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="133" />
+                    android:text="-" />
 
             </LinearLayout>
 
@@ -116,7 +116,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="133" />
+                    android:text="-" />
 
             </LinearLayout>
 

@@ -40,7 +40,6 @@ public class LocalMusicActivity extends BaseActivity implements Consts, View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_music);
         x.view().inject(this);
-        //setView();
         setListeners();
     }
 

@@ -54,8 +54,6 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
             case KTV:
                 musics = (List<Music>) model.findAllKtvMusic();
                 break;
-//            case SEARCH:
-//                songLists = (List<SongList>) model.findAllSearchMusic();
         }
         if (musics != null) {
             view.setMusicData(musics);

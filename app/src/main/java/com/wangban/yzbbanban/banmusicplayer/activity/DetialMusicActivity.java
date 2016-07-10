@@ -44,7 +44,6 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
         setContentView(R.layout.activity_detial_music);
         x.view().inject(this);
         setSupportActionBar(toolbar);
-        setData();
         setListeners();
     }
 
@@ -83,7 +82,6 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade, R.anim.hold);
                 //Log.i(TAG, "onItemClick: " + "歌曲地址: " + musics.get(position).getSong_id());
-//                presenterNetDetial.setSong(musics.get(position).getSong_id());
 
 
             }
@@ -93,7 +91,6 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
 
     @Override
     protected void onDestroy() {
-        //unbindService(conn);
         super.onDestroy();
     }
 

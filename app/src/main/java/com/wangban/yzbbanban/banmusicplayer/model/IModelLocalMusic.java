@@ -8,5 +8,5 @@ import java.util.*;
  * Created by YZBbanban on 16/7/9.
  */
 public interface IModelLocalMusic {
-    List<Song> findAllLocalMusic();
+   void findAllLocalMusic(IMusicCallback callback);
 }

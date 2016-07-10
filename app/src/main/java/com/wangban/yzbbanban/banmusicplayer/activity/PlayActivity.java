@@ -135,7 +135,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     private List<Url> urls;
 
     private SongInfo songInfo;
-    private int position;
+    private int positionList;
 
     private String localMusicChangedId = "defult";
 
@@ -195,7 +195,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      */
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
+//        unregisterReceiver(receiver);
         super.onDestroy();
 
     }
@@ -208,6 +208,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
         setData();
         if (musicListType == LOCAL) {
+            LogUtil.logInfo(TAG, "PlayActivity onResume: ");
             setView();
         }
         //显示动画
@@ -256,19 +257,20 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             });
             MusicApplication.getQueue().add(imageRequest);
         } else {
-//            LogUtil.logInfo(TAG, "设置");
-            String musicName = songs.get(position).getTitle();
-            String musicArtist = songs.get(position).getArtist();
+//            LogUtil.logInfo(TAG, "设置LOCAL");
+            String musicName = songs.get(positionList).getTitle();
+            String musicArtist = songs.get(positionList).getArtist();
+//            LogUtil.logInfo(TAG,"位置： "+positionList);
             tvCurrentMusicName.setText(musicName);
             tvCurrentMusicArtist.setText(musicArtist);
 
-            if (songs.get(position).getAlbumArt() == null) {
+            if (songs.get(positionList).getAlbumArt() == null) {
                 // 没有图片
                 ivBackground.setImageResource(R.drawable.my_logo);
                 civMusicImage.setImageResource(R.drawable.my_logo);
             } else {
                 // 存在图片的路径，则显示
-                Bitmap bm = BitmapFactory.decodeFile(songs.get(position).getAlbumArt());
+                Bitmap bm = BitmapFactory.decodeFile(songs.get(positionList).getAlbumArt());
                 civMusicImage.setImageBitmap(bm);
                 Bitmap bitmap = BluredBitmap.createBlurBitmap(bm, 10);
                 ivBackground.setImageBitmap(bitmap);
@@ -367,7 +369,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     break;
 
             }
-            //判断传入类型
+            //判断传入类型 搜索、本地、其他榜单的音乐
             if (musicListType == SEARCH) {
                 List<SongList> objects = songLists;
                 ladapter = new LocalMusicListAdapter(this, objects);
@@ -383,7 +385,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             }
             String id = null;
             //获取播放的音乐位置
-            int positionList = MusicApplication.getMusicPlayer().getPosition();
+            positionList = MusicApplication.getMusicPlayer().getPosition();
             if (musicListType == LOCAL) {
                 id = String.valueOf(songs.get(positionList).getId());
             } else if (musicListType == SEARCH) {
@@ -467,7 +469,6 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     ibtnPlayState.setBackgroundResource(R.drawable.repeat_play);
                     ToastUtil.showToast(this, "重复");
                     MusicApplication.getMusicPlayer().setPlayState(REPEAT);
-
                     playState = RANDOM;
                 } else if (playState == RANDOM) {
                     ibtnPlayState.setBackgroundResource(R.drawable.randowm_play);
@@ -526,6 +527,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     /**
      * 显示背景动画
+     *
      * @param visible
      * @param fromAlpha
      * @param toAlpha
@@ -576,17 +578,17 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
      * 音乐播放完成时紧接着的操作播放
      */
     private void setPositionToPlay() {
-        position = MusicApplication.getMusicPlayer().getPosition();
+        positionList = MusicApplication.getMusicPlayer().getPosition();
         if (musicListType != SEARCH && musicListType != LOCAL) {
 //            LogUtil.logInfo(TAG, "else: ");
-            presenterNetDetial.setSong(musics.get(position).getSong_id());
+            presenterNetDetial.setSong(musics.get(positionList).getSong_id());
 
         } else if (musicListType == SEARCH) {
 //            LogUtil.logInfo(TAG, "search: ");
-            presenterNetDetial.setSong(songLists.get(position).getSong_id());
+            presenterNetDetial.setSong(songLists.get(positionList).getSong_id());
         } else if (musicListType == LOCAL) {
 //            LogUtil.logInfo(TAG, "local: ");
-            String url = songs.get(position).getPath();
+            String url = songs.get(positionList).getPath();
             MusicSevice.MusicBinder.playMusic(url);
             setView();
         }
@@ -694,9 +696,10 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     }
 
     private void playLocalList(int position, String path) {
-        LogUtil.logInfo(TAG, "playLocalList: "+path);
+        LogUtil.logInfo(TAG, "playLocalList: " + path);
         MusicApplication.getMusicPlayer().setPosition(position);
         MusicSevice.MusicBinder.playMusic(path);
+        setData();
         setView();
 
     }
@@ -737,21 +740,23 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                 sbProgress.setMax(totalTime);
                 sbProgress.setProgress(currentTime);
                 //更新歌词信息
-                List<LrcLine> lines = MusicApplication.getMusicPlayer().getLrcs();
-                if (lines == null) { //歌词还没有下载成功
-                    return;
-                }
-                //获取当前时间需要显示的歌词内容
-                for (int i = 0; i < lines.size(); i++) {
-                    LrcLine line = lines.get(i);
-                    if (line.equalsTime(currentTime)) {
-                        String content = line.getContent();
-                        //设置TextView
-                        tvLrc.setText(content);
+                if (musicListType != LOCAL) {
+                    List<LrcLine> lines = MusicApplication.getMusicPlayer().getLrcs();
+                    if (lines == null) { //歌词还没有下载成功
                         return;
                     }
+                    //获取当前时间需要显示的歌词内容
+                    for (int i = 0; i < lines.size(); i++) {
+                        LrcLine line = lines.get(i);
+                        if (line.equalsTime(currentTime)) {
+                            String content = line.getContent();
+                            //设置TextView
+                            tvLrc.setText(content);
+                            return;
+                        }
 
 
+                    }
                 }
             }
         }
