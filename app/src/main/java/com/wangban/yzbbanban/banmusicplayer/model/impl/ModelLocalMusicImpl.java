@@ -7,15 +7,17 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
+import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelLocalMusic;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 import java.util.*;
 
 /**
  * Created by YZBbanban on 16/7/9.
  */
-public class ModelLocalMusicImpl implements IModelLocalMusic {
+public class ModelLocalMusicImpl implements IModelLocalMusic ,Consts{
     private Context context;
 
     public ModelLocalMusicImpl() {
@@ -57,6 +59,7 @@ public class ModelLocalMusicImpl implements IModelLocalMusic {
         }
         c.close();
         MusicApplication.getMusicPlayer().setLocalSongs(songs);
+        LogUtil.logInfo(TAG,"Model_songs: "+songs.get(0).getTitle());
         return songs;
     }
 }

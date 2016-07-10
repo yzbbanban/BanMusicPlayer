@@ -57,6 +57,8 @@ public class MainActivity extends BaseActivity {
             int type = intent.getIntExtra("Fragment", 0);
             if (type == -1) {
                 MainActivity.this.selectFragment(0);
+            } else if (type == -2) {
+                MainActivity.this.selectFragment(1);
             }
 
         }

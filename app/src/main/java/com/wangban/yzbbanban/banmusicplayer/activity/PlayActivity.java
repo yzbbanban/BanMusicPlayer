@@ -10,7 +10,6 @@ import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -26,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,11 +32,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.LocalMusicListAdapter;
+import com.wangban.yzbbanban.banmusicplayer.adapter.MyLocalMusicAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
+import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
@@ -52,7 +52,6 @@ import com.wangban.yzbbanban.banmusicplayer.ui.CircleImageView;
 import com.wangban.yzbbanban.banmusicplayer.util.BitmapCache;
 import com.wangban.yzbbanban.banmusicplayer.util.BluredBitmap;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
@@ -128,6 +127,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
 
     private List<Music> musics;
     private List<SongList> songLists;
+    private List<Song> songs;
     private List<Url> urls;
 
     private SongInfo songInfo;
@@ -316,6 +316,7 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         musicListType = musicPlayerControl.getMusicListType();
 //        LogUtil.LogInfo(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
+        //TODO 添加类型
         try {
             switch (musicListType) {
                 case NEW:
@@ -332,11 +333,19 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
                     break;
                 case SEARCH:
                     songLists = musicPlayerControl.getSongLists();
+                    break;
+                case LOCAL:
+                    songs = musicPlayerControl.getLocalSongs();
+                    break;
 
             }
             //判断传入类型
             if (musicListType == SEARCH) {
                 List<SongList> objects = songLists;
+                ladapter = new LocalMusicListAdapter(this, objects);
+                lvMusicList.setAdapter(ladapter);
+            } else if (musicListType == LOCAL) {
+                List<Song> objects = songs;
                 ladapter = new LocalMusicListAdapter(this, objects);
                 lvMusicList.setAdapter(ladapter);
             } else {
@@ -601,15 +610,22 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //TODO
-        if (musicListType != SEARCH) {
-            platList(position, musics.get(position).getSong_id());
-        } else {
-            platList(position, songLists.get(position).getSong_id());
+        if (musicListType != SEARCH && musicListType != LOCAL) {
+            playList(position, musics.get(position).getSong_id());
+        } else if (musicListType == SEARCH) {
+            playList(position, songLists.get(position).getSong_id());
+        } else if (musicListType == LOCAL) {
+            playList(position, songs.get(position).getPath());
         }
         setData();
     }
 
-    private void platList(int position, String song_id) {
+    private void playLocalList(int position, String path) {
+
+        MusicApplication.getMusicPlayer().setPosition(position);
+    }
+
+    private void playList(int position, String song_id) {
         presenterNetDetial.setSong(song_id);
         MusicApplication.getMusicPlayer().setPosition(position);
     }

@@ -79,7 +79,7 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
 
     @Override
     public void showData() {
-        tvDownloadCount.setText(songs.size() + 1);
+//        tvDownloadCount.setText(""+songs.size() + 1);
         tvLocalCount.setText("" + (songs.size() + 1));
     }
 

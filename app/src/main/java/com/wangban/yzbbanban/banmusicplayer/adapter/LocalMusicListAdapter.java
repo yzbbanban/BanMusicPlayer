@@ -9,6 +9,7 @@ import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
+import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 
 import java.util.ArrayList;
@@ -37,13 +38,17 @@ public class LocalMusicListAdapter extends BaseAdapter<Object> {
             SongList songList = (SongList) getItem(position);
             holder.tvLocalMusicListName.setText(songList.getTitle());
             holder.tvLocalMusicListArtist.setText(songList.getAuthor());
+        } else if (MusicApplication.getMusicPlayer().getMusicListType() == Consts.LOCAL) {
+
+            Song song = (Song) getItem(position);
+            holder.tvLocalMusicListName.setText(song.getTitle());
+            holder.tvLocalMusicListArtist.setText(song.getArtist());
+
         } else {
             Music music = (Music) getItem(position);
             holder.tvLocalMusicListName.setText(music.getTitle());
             holder.tvLocalMusicListArtist.setText(music.getAuthor());
         }
-
-
         return convertView;
     }
 

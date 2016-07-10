@@ -94,12 +94,14 @@ public class MusicSevice extends Service implements Consts {
      * 绑定 service 的 Binder，替他类通过访问此方法，调用 MediaPlayer 的方法
      */
     public static class MusicBinder extends Binder {
+        private static MediaPlayer player=MusicApplication.getContext().getPlayer();
+
         //暂停音乐
         public static void playOrPause() {
-            if (MusicApplication.getContext().getPlayer().isPlaying()) {
-                MusicApplication.getContext().getPlayer().pause();
+            if (player.isPlaying()) {
+                player.pause();
             } else {
-                MusicApplication.getContext().getPlayer().start();
+                player.start();
             }
         }
 
@@ -107,9 +109,14 @@ public class MusicSevice extends Service implements Consts {
         public static void playMusic(String url) {
             try {
                 //LogUtil.logInfo(TAG, "playMusicService: " + url);
-                MusicApplication.getContext().getPlayer().reset();
-                MusicApplication.getContext().getPlayer().setDataSource(url);
-                MusicApplication.getContext().getPlayer().prepareAsync();
+                player.reset();
+                player.setDataSource(url);
+                if (MusicApplication.getMusicPlayer().getMusicListType()!=LOCAL){
+                    player.prepareAsync();
+                }else {
+                    player.prepare();
+                    player.start();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

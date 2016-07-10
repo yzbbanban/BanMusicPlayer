@@ -1,83 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="45dp"
     android:background="@color/cardview_dark_background"
 
     android:orientation="horizontal"
     android:padding="5dp">
 
-    <RelativeLayout
-        android:layout_width="20dp"
-        android:layout_height="45dp">
-
-        <ImageView
-            android:id="@+id/iv_my_local_is_play"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/point"
-            android:scaleType="fitCenter" />
-
-
-    </RelativeLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="5dp"
-
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_my_local_music_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="hulahula"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
+        android:layout_height="45dp">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="20dp"
+            android:layout_height="45dp"
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/tv_my_local_music_artist"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="wadwadwad"
-                android:textColor="#cccccc"
-                android:textSize="10sp" />
+            <ImageView
+                android:id="@+id/iv_my_local_is_play"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/point"
+                android:scaleType="fitCenter" />
 
-            <TextView
-                android:id="@+id/tv_my_local_music_Album"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_my_local_music_artist"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="owowowowowo"
-                android:textColor="#cccccc"
-                android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/tv_my_local_music_duration_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:text="00:00"
-                android:textColor="#dddddd" />
         </RelativeLayout>
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tv_my_local_music_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="hulahula"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_my_local_music_artist"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="wadwadwad"
+                    android:textColor="#cccccc"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_my_local_music_Album"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/tv_my_local_music_artist"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="owowowowowo"
+                    android:textColor="#cccccc"
+                    android:textSize="10sp" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ibtn_my_local_music_more"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/more_nomal_small" />
+
+
+    </LinearLayout>
 
 </LinearLayout>

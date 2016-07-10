@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wangban.yzbbanban.banmusicplayer.activity.LocalMusicActivity">
 
     <LinearLayout
@@ -43,7 +44,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/lv_my_player_local_music"
+        android:id="@+id/lv_my_player_local_music_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
