@@ -98,8 +98,17 @@ public class JsoupUtil implements Consts {
 
     public static List<TechNews> downTechNews(String url) throws IOException {
         List<TechNews> techNewses = new ArrayList<TechNews>();
-        Document doc=Jsoup.connect(url).get();
-        Elements e=doc.getElementsByClass("");
+        Document doc = Jsoup.connect(url).get();
+        Elements e1 = doc.select(".clearfix").select(".content");
+        Elements e2 = e1.first().getElementsByClass("archive");
+        for (int i = 0; i < e2.size(); i++) {
+            Elements c = e2.get(i).getElementsByClass("main");
+            Elements a1 = c.first().getElementsByTag("a");
+            String message = a1.first().attr("href");
+            String title = a1.first().attr("title");
+            Elements img = a1.first().getElementsByTag("img");
+            String imagePath=img.attr("src");
+        }
 
         return techNewses;
     }

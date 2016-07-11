@@ -8,8 +8,7 @@ public class UrlFactory {
     public static final String HOT_MUSIC_LIST = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=2&offset=0&size=150";
     public static final String BILLBOARD_MUSIC_LIST = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=8&offset=0&size=150";
     public static final String KTV_MUSIC_LIST = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=6&offset=0&size=150";
-    public static final String TECH_MESSAGE = "http://tech.feng.com/2016-07-10/If-we-can-solve-these-problems-of-flexible-screen-a-great-future_651469.shtml";
-
+    public static final String TECH_MESSAGE="http://tech.feng.com";
     public static String songUrl(String songId) {
         String url = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.song.getInfos&format=json&songid=" + songId + "&ts=1408284347323&e=JoN56kTXnnbEpd9MVczkYJCSx%2FE1mkLx%2BPMIkTcOEu4%3D&nw=2&ucf=1&res=1";
         return url;

@@ -1,5 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,7 +43,8 @@ public class FragmentTech extends Fragment implements IViewTechNews {
     private void setView() {
         presenterTechNews = new PresenterTechNewsImpl(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_tech_message);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
     }
 
     @Override
@@ -53,6 +55,26 @@ public class FragmentTech extends Fragment implements IViewTechNews {
     @Override
     public void showTechNews() {
         adapter = new TechAdapter(getContext(), techNewses);
+        recyclerView.setAdapter(adapter);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        recyclerView.addItemDecoration(decoration);
+    }
 
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.left = space;
+            outRect.right = space;
+            outRect.bottom = space;
+            if (parent.getChildAdapterPosition(view) == 0) {
+                outRect.top = space;
+            }
+        }
     }
 }

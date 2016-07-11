@@ -4,10 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -23,8 +23,8 @@ import org.xutils.x;
 import java.util.*;
 
 public class MainActivity extends BaseActivity {
-    @ViewInject(R.id.fl_main)
-    private FrameLayout flContainer;
+    @ViewInject(R.id.vp_main)
+    private ViewPager viewPager;
     @ViewInject(R.id.rg_player_bottom)
     private RadioGroup radioGroup;
     @ViewInject(R.id.rbtn_net_music)
@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity {
     @ViewInject(R.id.rbtn_image)
     private RadioButton rbtnImage;
     @ViewInject(R.id.rbtn_book)
-    private RadioButton rbtnBook;
+    private RadioButton rbtnTech;
     private List<Fragment> fragments;
 
     private FragmentPagerAdapter adapter;
@@ -58,9 +58,9 @@ public class MainActivity extends BaseActivity {
         if (intent != null) {
             int type = intent.getIntExtra("Fragment", 0);
             if (type == -1) {
-                MainActivity.this.selectFragment(0);
+                viewPager.setCurrentItem(0);
             } else if (type == -2) {
-                MainActivity.this.selectFragment(1);
+                viewPager.setCurrentItem(1);
             }
 
         }
@@ -73,16 +73,16 @@ public class MainActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbtn_net_music:
-                        MainActivity.this.selectFragment(0);
+                        viewPager.setCurrentItem(0);
                         break;
                     case R.id.rbtn_local_music:
-                        MainActivity.this.selectFragment(1);
+                        viewPager.setCurrentItem(1);
                         break;
                     case R.id.rbtn_image:
-                        MainActivity.this.selectFragment(2);
+                        viewPager.setCurrentItem(2);
                         break;
                     case R.id.rbtn_book:
-                        MainActivity.this.selectFragment(3);
+                        viewPager.setCurrentItem(3);
                         break;
 
                 }
@@ -90,26 +90,6 @@ public class MainActivity extends BaseActivity {
         });
 
 
-    }
-
-    private Object lastFragment;
-    private int lastPosition;
-
-    private void selectFragment(int position) {
-        //destort another fragment,falg set null
-        if (lastFragment != null) {
-            adapter.destroyItem(flContainer, lastPosition, lastFragment);
-            lastFragment = null;
-        }
-        //set local frgment
-        Object fragment = adapter.instantiateItem(flContainer, position);
-        //
-        adapter.setPrimaryItem(flContainer, 0, fragment);
-        //
-        adapter.finishUpdate(flContainer);
-        //
-        lastFragment = fragment;
-        lastPosition = position;
     }
 
     private void setData() {
@@ -131,8 +111,37 @@ public class MainActivity extends BaseActivity {
             }
         };
 
-        MainActivity.this.selectFragment(0);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        rbtnNetMusic.setChecked(true);
+                        break;
+                    case 1:
+                        rbtnLocalMusic.setChecked(true);
+                        break;
+                    case 2:
+                        rbtnImage.setChecked(true);
+                        break;
+                    case 3:
+                        rbtnTech.setChecked(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setAdapter(adapter);
 
     }
 
