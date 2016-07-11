@@ -5,6 +5,7 @@ import android.util.Log;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
 import com.wangban.yzbbanban.banmusicplayer.entity.Image;
+import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 
 import org.jsoup.Jsoup;
@@ -111,7 +112,7 @@ public class JsoupUtil implements Consts {
             Elements p = c.get(0).getElementsByTag("p");
             String detial = p.text();
 //            LogUtil.logInfo(TAG,message);
-            String detialContent=detial.substring(0,detial.length()-5);
+            String detialContent = detial.substring(0, detial.length() - 5);
             TechNews techNews = new TechNews();
             techNews.setTitle(title);
             techNews.setDetialPath(detialPath);
@@ -124,6 +125,21 @@ public class JsoupUtil implements Consts {
         return techNewses;
     }
 
-//    public static List
+    public static TechDetialContent downDetialTechNews(String url) throws IOException {
+        TechDetialContent techDetialContent = new TechDetialContent();
+        Document doc = Jsoup.connect(url).get();
+        Elements e1 = doc.select(".clearfix").select(".content");
+        Elements e2 = e1.first().getElementsByClass("archive");
+        for (int i = 0; i < e2.size(); i++) {
+            Elements c = e2.get(i).getElementsByClass("main");
+            Elements img = c.first().getElementsByTag("img");
+            String content = c.text();
+            String imagePath = img.attr("src");
+            techDetialContent.setImagePath(imagePath);
+            techDetialContent.setContent(content);
+
+        }
+        return techDetialContent;
+    }
 
 }
