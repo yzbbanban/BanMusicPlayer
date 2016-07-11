@@ -104,13 +104,26 @@ public class JsoupUtil implements Consts {
         for (int i = 0; i < e2.size(); i++) {
             Elements c = e2.get(i).getElementsByClass("main");
             Elements a1 = c.first().getElementsByTag("a");
-            String message = a1.first().attr("href");
+            String detialPath = a1.first().attr("href");
             String title = a1.first().attr("title");
             Elements img = a1.first().getElementsByTag("img");
-            String imagePath=img.attr("src");
+            String imagePath = img.attr("src");
+            Elements p = c.get(0).getElementsByTag("p");
+            String detial = p.text();
+//            LogUtil.logInfo(TAG,message);
+            String detialContent=detial.substring(0,detial.length()-5);
+            TechNews techNews = new TechNews();
+            techNews.setTitle(title);
+            techNews.setDetialPath(detialPath);
+            techNews.setImagePath(imagePath);
+            techNews.setDetialContent(detialContent);
+            techNewses.add(techNews);
         }
+//        LogUtil.logInfo(TAG, "jsoupechNews: " + techNewses.get(0).getImagePath());
 
         return techNewses;
     }
+
+//    public static List
 
 }

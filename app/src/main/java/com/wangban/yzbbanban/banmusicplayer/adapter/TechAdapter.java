@@ -1,7 +1,5 @@
 package com.wangban.yzbbanban.banmusicplayer.adapter;
 
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +20,7 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.MasonryView> {
     private List<TechNews> newses;
     private ViewGroup v;
 
-    public TechAdapter(Context context, List<TechNews> newses) {
+    public TechAdapter(List<TechNews> newses) {
         this.newses = newses;
     }
 
@@ -38,6 +36,8 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.MasonryView> {
     public void onBindViewHolder(MasonryView holder, int position) {
         TechNews news = newses.get(position);
         Glide.with(v.getContext()).load(news.getImagePath()).into(holder.ivTechPic);
+        holder.tvTechTitle.setText(news.getTitle());
+        holder.tvTechDetialContent.setText(news.getDetialContent());
     }
 
     @Override
@@ -48,13 +48,13 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.MasonryView> {
     public class MasonryView extends RecyclerView.ViewHolder {
         TextView tvTechTitle;
         ImageView ivTechPic;
-        TextView tvTechDetialMessage;
+        TextView tvTechDetialContent;
 
         public MasonryView(View itemView) {
             super(itemView);
             tvTechTitle = (TextView) itemView.findViewById(R.id.tv_tech_title);
             ivTechPic = (ImageView) itemView.findViewById(R.id.iv_tech_pic);
-            tvTechDetialMessage = (TextView) itemView.findViewById(R.id.tv_tech_detial_message);
+            tvTechDetialContent = (TextView) itemView.findViewById(R.id.tv_tech_detial_content);
         }
     }
 }

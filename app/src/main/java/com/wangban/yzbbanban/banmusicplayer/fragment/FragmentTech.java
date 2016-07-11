@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.TechAdapter;
+import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterTechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterTechNewsImpl;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewTechNews;
 
 import org.xutils.x;
@@ -24,7 +26,7 @@ import java.util.List;
 /**
  * Created by YZBbanban on 16/6/23.
  */
-public class FragmentTech extends Fragment implements IViewTechNews {
+public class FragmentTech extends Fragment implements IViewTechNews, Consts {
     private View view;
     private RecyclerView recyclerView;
     private List<TechNews> techNewses;
@@ -42,6 +44,7 @@ public class FragmentTech extends Fragment implements IViewTechNews {
 
     private void setView() {
         presenterTechNews = new PresenterTechNewsImpl(this);
+        presenterTechNews.loadNewsMessage();
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_tech_message);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
@@ -50,11 +53,12 @@ public class FragmentTech extends Fragment implements IViewTechNews {
     @Override
     public void setTechNews(List<TechNews> techNewses) {
         this.techNewses = techNewses;
+//        LogUtil.logInfo(TAG,"setTechNews: "+techNewses.get(0).getImagePath());
     }
 
     @Override
     public void showTechNews() {
-        adapter = new TechAdapter(getContext(), techNewses);
+        adapter = new TechAdapter(techNewses);
         recyclerView.setAdapter(adapter);
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         recyclerView.addItemDecoration(decoration);

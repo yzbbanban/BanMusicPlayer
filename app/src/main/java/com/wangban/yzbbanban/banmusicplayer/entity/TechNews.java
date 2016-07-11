@@ -6,15 +6,25 @@ package com.wangban.yzbbanban.banmusicplayer.entity;
 public class TechNews {
     private String title;
     private String imagePath;
-    private String message;
+    private String detialPath;
+    private String detialContent;
 
     public TechNews() {
     }
 
-    public TechNews(String title, String imagePath, String message) {
+    public TechNews(String title, String imagePath, String detialPath, String detialContent) {
         this.title = title;
         this.imagePath = imagePath;
-        this.message = message;
+        this.detialPath = detialPath;
+        this.detialContent = detialContent;
+    }
+
+    public String getDetialContent() {
+        return detialContent;
+    }
+
+    public void setDetialContent(String detialContent) {
+        this.detialContent = detialContent;
     }
 
     public String getTitle() {
@@ -33,11 +43,11 @@ public class TechNews {
         this.imagePath = imagePath;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDetialPath() {
+        return detialPath;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDetialPath(String detialPath) {
+        this.detialPath = detialPath;
     }
 }

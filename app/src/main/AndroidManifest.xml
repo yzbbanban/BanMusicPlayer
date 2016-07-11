@@ -25,13 +25,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleInstance">
-
-        </activity>
+            android:launchMode="singleInstance"></activity>
         <activity
             android:name=".activity.DetialMusicActivity"
             android:label="@string/activity_detial_music"
@@ -47,7 +44,10 @@
         <activity
             android:name=".activity.LocalMusicActivity"
             android:launchMode="singleInstance" />
-
+        <activity
+            android:name=".activity.TechDetialActivity"
+            android:label="@string/title_activity_tech_detial"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
