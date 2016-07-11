@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="15dp"
+    app:elevation="1dp">
+    <!-- width 220dp  height 165dp-->
+
+    <ImageView
+        android:id="@+id/iv_tech_pic"
+        android:layout_width="220dp"
+        android:layout_height="165dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_tech_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="微软为更改Play Anywhere描述致歉"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_tech_detial_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorTechLightBlue"
+        android:text="近日，这家公司却改变了该项功能的描述--兼容“我们在E3舞台上展示的任何一款来自微软工作室的新游戏”。"
+        android:textSize="10sp" />
+
+
+</android.support.v7.widget.CardView>

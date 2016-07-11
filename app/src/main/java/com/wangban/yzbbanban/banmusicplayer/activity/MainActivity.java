@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
@@ -13,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
-import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentBook;
+import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentTech;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentImage;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentMusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentNetMusic;
@@ -118,7 +117,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new FragmentNetMusic());
         fragments.add(new FragmentMusicPlayer());
         fragments.add(new FragmentImage());
-        fragments.add(new FragmentBook());
+        fragments.add(new FragmentTech());
 
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

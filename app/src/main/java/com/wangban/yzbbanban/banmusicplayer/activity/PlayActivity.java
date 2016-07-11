@@ -345,10 +345,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
         musicPlayerControl = MusicApplication.getMusicPlayer();
         musicListType = musicPlayerControl.getMusicListType();
         if (musicListType == 0) {
-            musicListType = LOCAL;
             MusicApplication.getMusicPlayer().setMusicListType(LOCAL);
         }
-//        LogUtil.LogInfo(TAG, "playsetData: " + musicListType);
+//        LogUtil.logInfo(TAG, "playsetData: " + musicListType);
         presenterNetDetial = new PresenterNetDetialImpl(this);
         localMusicChangedId = MusicApplication.getMusicPlayer().getPositionId();
 //        LogUtil.logInfo(TAG,"setData: "+localMusicChangedId+"||");

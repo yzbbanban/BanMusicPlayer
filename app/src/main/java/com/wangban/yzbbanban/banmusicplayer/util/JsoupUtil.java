@@ -5,6 +5,7 @@ import android.util.Log;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
 import com.wangban.yzbbanban.banmusicplayer.entity.Image;
+import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +22,7 @@ import java.util.List;
 public class JsoupUtil implements Consts {
     /**
      * 网页beauty类图片链接等解析
+     *
      * @param url
      * @return
      * @throws IOException
@@ -29,7 +31,7 @@ public class JsoupUtil implements Consts {
         List<Image> images = new ArrayList<Image>();
         Document doc = Jsoup.connect(url).get();
         Elements e1 = doc.getElementsByClass("post-thumb");
-        Elements e2=doc.getElementsByClass("entry-cats");
+        Elements e2 = doc.getElementsByClass("entry-cats");
         for (int i = 0; i < e1.size(); i++) {
             Elements a2 = e1.get(i).getElementsByTag("a");
             String skipPagePath = a2.first().attr("href");
@@ -38,10 +40,10 @@ public class JsoupUtil implements Consts {
             String height2 = a2.first().getElementsByTag("img").attr("height");
 
             String path2 = a2.first().getElementsByTag("img").attr("src");
-            String title=a2.first().getElementsByTag("img").attr("alt");
+            String title = a2.first().getElementsByTag("img").attr("alt");
 
-            Elements a1=e2.get(i).getElementsByTag("a");
-            String titleType=a1.text();
+            Elements a1 = e2.get(i).getElementsByTag("a");
+            String titleType = a1.text();
             int width = Integer.parseInt(width2);
             int height = Integer.parseInt(height2);
             // Log.i(TAG, "run: " + "path2  " + path2 + "\n" + "width " + width2 + "\nheight " + height2);
@@ -61,6 +63,7 @@ public class JsoupUtil implements Consts {
 
     /**
      * 详细图片解析
+     *
      * @param url
      * @return
      * @throws IOException
@@ -74,7 +77,7 @@ public class JsoupUtil implements Consts {
         Elements a = e.first().getElementsByTag("a");
         int index = 0;
         for (Element element : a) {
-            String hrefpath=a.get(index).attr("href");
+            String hrefpath = a.get(index).attr("href");
             String path = a.get(index).getElementsByTag("img").attr("src");
             String width = a.get(index).getElementsByTag("img").attr("width");
             String height = a.get(index).getElementsByTag("img").attr("height");
@@ -91,6 +94,14 @@ public class JsoupUtil implements Consts {
 //            LogUtil.logInfo(TAG, "downDetilLoadData: " + "hrefPath: " + hrefpath + "\npath: " + path + "\nwidth: " + width2 + "\nheight: " + height2 + "\ntitle: " + title);
         }
         return images;
+    }
+
+    public static List<TechNews> downTechNews(String url) throws IOException {
+        List<TechNews> techNewses = new ArrayList<TechNews>();
+        Document doc=Jsoup.connect(url).get();
+        Elements e=doc.getElementsByClass("");
+
+        return techNewses;
     }
 
 }

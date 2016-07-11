@@ -218,22 +218,31 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 
 
     }
-    private void setIntentType(int type){
+
+    /**
+     * 根据联网的数据类型跳转界面，并在跳转的界面中显示相应的数据
+     */
+    private void setIntentType(int type) {
         intent = new Intent(this.getActivity(), DetialMusicActivity.class);
         musicPlayerContrl.setMusicListType(type);
 //               LogUtil.logInfo(TAG, "onClick: "+type);
         startActivity();
     }
 
+    /**
+     * 启动 activity 并显示动画
+     */
     private void startActivity() {
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
     }
 
+    /**
+     * 启动 playActivity
+     */
     private void intentPlayActivity() {
         intent = new Intent(this.getActivity(), PlayActivity.class);
-        startActivity(intent);
-        this.getActivity().overridePendingTransition(R.anim.fade, R.anim.hold);
+        startActivity();
     }
 
     /**
@@ -263,6 +272,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 
     /**
      * 封装排名方法
+     *
      * @param musics
      * @param tvFirst
      * @param tvSecond
@@ -276,7 +286,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
     }
 
     @Override
-    public void setSerchText(ArrayList<SongList> songLists) {
+    public void setSearchText(ArrayList<SongList> songLists) {
         musicSearchListAdapter = new MusicSearchListAdapter(getContext(), songLists);
         lvSearchMusic.setAdapter(musicSearchListAdapter);
     }

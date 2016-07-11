@@ -12,6 +12,6 @@ public interface IViewNet {
     void setHotText(List<Music> musics);
     void setBillText(List<Music> musics);
     void setKtvText(List<Music> musics);
-    void setSerchText(ArrayList<SongList> songLists);
+    void setSearchText(ArrayList<SongList> songLists);
     void playMusic(String songUrl);
 }

@@ -75,7 +75,7 @@ public class PresenterNetImpl implements IPresenterNet {
             @Override
             public void findAllMusic(Object data) {
                 ArrayList<SongList> songLists = (ArrayList<SongList>) data;
-                view.setSerchText(songLists);
+                view.setSearchText(songLists);
             }
         });
     }
