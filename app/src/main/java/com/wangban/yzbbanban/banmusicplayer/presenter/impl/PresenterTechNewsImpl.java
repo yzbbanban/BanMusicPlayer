@@ -14,13 +14,13 @@ import java.util.List;
 /**
  * Created by YZBbanban on 16/7/11.
  */
-public class PresenterTechNewsImpl implements IPresenterTechNews,Consts{
+public class PresenterTechNewsImpl implements IPresenterTechNews, Consts {
     private IViewTechNews view;
     private IModelTechNews model;
 
     public PresenterTechNewsImpl(IViewTechNews view) {
         this.view = view;
-        model=new ModelTechImpl();
+        model = new ModelTechImpl();
     }
 
     @Override

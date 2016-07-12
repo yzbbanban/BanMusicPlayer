@@ -18,7 +18,9 @@ import java.util.*;
 /**
  * Created by YZBbanban on 16/7/11.
  */
-public class ModelTechImpl implements IModelTechNews ,Consts{
+public class ModelTechImpl implements IModelTechNews, Consts {
+
+
 
     @Override
     public void findTechMessage(final ITechCallback callback) {

@@ -133,7 +133,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         FramAnimationUtil.framAnimationContrl(ibtnLocalMusic);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

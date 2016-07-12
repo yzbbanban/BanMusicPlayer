@@ -2,6 +2,7 @@ package com.wangban.yzbbanban.banmusicplayer.entity;
 
 /**
  * Created by YZBbanban on 16/7/12.
+ * 存放 tech 详细页的类
  */
 public class TechDetialContent {
     private String content;

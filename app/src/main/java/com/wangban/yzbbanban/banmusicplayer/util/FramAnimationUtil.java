@@ -7,6 +7,7 @@ import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 
 /**
  * Created by YZBbanban on 16/7/10.
+ * 用于封装动画的方法
  */
 public class FramAnimationUtil {
 

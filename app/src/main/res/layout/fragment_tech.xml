@@ -25,12 +25,21 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_tech_message"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_tech"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:foreground="?android:attr/selectableItemBackground"
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_gravity="center"
+        android:paddingTop="20dp">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_tech_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="?android:attr/selectableItemBackground"></android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>
