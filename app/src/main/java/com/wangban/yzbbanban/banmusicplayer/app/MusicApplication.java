@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
+import com.wangban.yzbbanban.banmusicplayer.entity.TechMessage;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 
 import org.xutils.x;
@@ -27,9 +28,10 @@ public class MusicApplication extends Application {
 
     private MediaPlayer player;
     private static MusicPlayer musicPlayer;
-//  private static Music music;
+    //  private static Music music;
     private ArrayList<DetialImage> images;
     private static RequestQueue queue;
+    private static TechMessage message;
 
     @Override
     public void onCreate() {
@@ -39,6 +41,7 @@ public class MusicApplication extends Application {
         queue = Volley.newRequestQueue(this);
         musicPlayer = new MusicPlayer();
         player = new MediaPlayer();
+        message = new TechMessage();
     }
 
 
@@ -97,6 +100,12 @@ public class MusicApplication extends Application {
     public static MusicPlayer getMusicPlayer() {
         return musicPlayer;
     }
+
+    public static TechMessage getMessage() {
+        return message;
+    }
+
+
 
     public static MusicApplication getContext() {
         return context;

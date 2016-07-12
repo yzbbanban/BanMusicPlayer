@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterTechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterTechNewsImpl;
+import com.wangban.yzbbanban.banmusicplayer.ui.UpRefreshRecyclerView;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewTechNews;
 
@@ -32,16 +34,18 @@ import java.util.List;
  * Created by YZBbanban on 16/6/23.
  * 显示 tech 列表
  */
-public class FragmentTech extends Fragment implements IViewTechNews, Consts, SwipeRefreshLayout.OnRefreshListener {
+public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRecyclerView.UpRefreshListener, Consts, SwipeRefreshLayout.OnRefreshListener {
     private View view;
     @ViewInject(R.id.rv_tech_message)
-    private RecyclerView recyclerView;
+    private UpRefreshRecyclerView recyclerView;
     @ViewInject(R.id.swipe_tech)
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<TechNews> techNewses;
     private TechAdapter adapter;
     private IPresenterTechNews presenterTechNews;
+
+    private int page;
     /**
      * 数据更新时，重新发送请求
      */
@@ -71,7 +75,6 @@ public class FragmentTech extends Fragment implements IViewTechNews, Consts, Swi
      * 数据显示后停止刷新图标的动画
      */
     private void stopRefThe() {
-        adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -80,15 +83,16 @@ public class FragmentTech extends Fragment implements IViewTechNews, Consts, Swi
      */
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_red_light);
     }
 
     private void setView() {
         presenterTechNews = new PresenterTechNewsImpl(this);
         presenterTechNews.loadNewsMessage();
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_red_light);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
     }
+
 
     /**
      * 设置列表项数据
@@ -100,18 +104,23 @@ public class FragmentTech extends Fragment implements IViewTechNews, Consts, Swi
         this.techNewses = techNewses;
 //        LogUtil.logInfo(TAG,"setTechNews: "+techNewses.get(0).getImagePath());
     }
-    
+
     /**
      * 显示列表项
      */
     @Override
     public void showTechNews() {
-        adapter = new TechAdapter(getContext(), techNewses);
-        recyclerView.setAdapter(adapter);
+        if (page <= 1) {
+            adapter = new TechAdapter(getContext(), techNewses);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+        }
+        adapter.notifyDataSetChanged();
+        recyclerView.smoothScrollToPosition(0);
+        stopRefThe();
 
 //        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
 //        recyclerView.addItemDecoration(decoration);
-        stopRefThe();
     }
 
     /**
@@ -123,8 +132,16 @@ public class FragmentTech extends Fragment implements IViewTechNews, Consts, Swi
 
     }
 
+    @Override
+    public void onUpRefresh() {
+        page++;
+        swipeRefreshLayout.setRefreshing(true);
+        presenterTechNews.loadNewsMessageWithPage(page);
+
+    }
+
     /**
-     * 设置间距，下拉刷新会重置数据，所以不用了。
+     * 设置间距，下拉刷新会重置数据并且叠加，所以不用了。
      */
 //    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 //        private int space;

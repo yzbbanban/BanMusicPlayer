@@ -24,12 +24,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:padding="4dp"
                 android:text="微软为更改Play Anywhere描述致歉"
-                android:textSize="14sp" />
+                android:textSize="10sp" />
 
             <ImageView
                 android:id="@+id/iv_tech_pic"
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
                 android:layout_height="165dp"
                 android:layout_gravity="center"
                 android:paddingLeft="5dp"
@@ -47,7 +48,7 @@
                 android:padding="5dp"
                 android:text="近日，这家公司却改变了该项功能的描述--兼容“我们在E3舞台上展示的任何一款来自微软工作室的新游戏”。"
                 android:textColor="@color/colorWhite"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
 
         </LinearLayout>

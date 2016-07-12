@@ -3,6 +3,7 @@ package com.wangban.yzbbanban.banmusicplayer.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,4 +75,17 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> {
 
         }
     }
+    /**
+     * 设置头界面
+     */
+//    @Override
+//    public void onViewAttachedToWindow(ViewHolder holder) {
+//        super.onViewAttachedToWindow(holder);
+//        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+//        if (lp != null
+//                && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+//            StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+//            p.setFullSpan(holder.getLayoutPosition() == 0);
+//        }
+//    }
 }

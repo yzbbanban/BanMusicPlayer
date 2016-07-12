@@ -14,13 +14,13 @@ import java.util.List;
 /**
  * Created by YZBbanban on 16/7/11.
  */
-public class PresenterTechNewsImpl implements IPresenterTechNews, Consts {
+public class PresenterTechNewsImpl implements IPresenterTechNews,Consts{
     private IViewTechNews view;
     private IModelTechNews model;
 
     public PresenterTechNewsImpl(IViewTechNews view) {
         this.view = view;
-        model = new ModelTechImpl();
+        model=new ModelTechImpl();
     }
 
     @Override
@@ -28,10 +28,22 @@ public class PresenterTechNewsImpl implements IPresenterTechNews, Consts {
         model.findTechMessage(new ITechCallback() {
             @Override
             public void findTechMessage(List<TechNews> techNewses) {
-//                LogUtil.logInfo(TAG, "loadTechNews: " + techNewses.get(0).getImagePath());
+//                LogUtil.logInfo(TAG, "setTechNews: " + techNewses.get(0).getImagePath());
                 view.setTechNews(techNewses);
                 view.showTechNews();
             }
         });
+    }
+
+    @Override
+    public void loadNewsMessageWithPage(int page) {
+        model.findTechMessageWithPage(page,new ITechCallback() {
+            @Override
+            public void findTechMessage(List<TechNews> techNewses) {
+                view.setTechNews(techNewses);
+                view.showTechNews();
+            }
+        });
+
     }
 }

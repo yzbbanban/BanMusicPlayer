@@ -29,15 +29,15 @@
         android:id="@+id/swipe_tech"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:paddingTop="20dp">
+        android:layout_gravity="center">
 
 
-        <android.support.v7.widget.RecyclerView
+        <com.wangban.yzbbanban.banmusicplayer.ui.UpRefreshRecyclerView
+
             android:id="@+id/rv_tech_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="?android:attr/selectableItemBackground"></android.support.v7.widget.RecyclerView>
+            android:foreground="?android:attr/selectableItemBackground"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
