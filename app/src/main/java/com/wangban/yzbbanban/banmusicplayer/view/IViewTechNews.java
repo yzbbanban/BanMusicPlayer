@@ -1,5 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.view;
 
+import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import java.util.*;
 /**
@@ -7,5 +8,6 @@ import java.util.*;
  */
 public interface IViewTechNews {
     void setTechNews(List<TechNews> techNews);
+    void setTechNews(TechDetialContent content);
     void showTechNews();
 }

@@ -130,16 +130,15 @@ public class JsoupUtil implements Consts {
         Document doc = Jsoup.connect(url).get();
         Elements e1 = doc.select(".clearfix").select(".content");
         Elements e2 = e1.first().getElementsByClass("archive");
-        for (int i = 0; i < e2.size(); i++) {
-            Elements c = e2.get(i).getElementsByClass("main");
-            Elements img = c.first().getElementsByTag("img");
-            String content = c.text();
-            String imagePath = img.attr("src");
-            techDetialContent.setImagePath(imagePath);
-            techDetialContent.setContent(content);
+        Elements c = e2.get(0).getElementsByClass("main");
+        Elements img = c.first().getElementsByTag("img");
+        String content = c.text();
+        String imagePath = img.attr("src");
+        techDetialContent.setImagePath(imagePath);
+        techDetialContent.setContent(content);
 
-        }
         return techDetialContent;
     }
+
 
 }

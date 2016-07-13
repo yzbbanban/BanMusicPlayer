@@ -6,4 +6,6 @@ package com.wangban.yzbbanban.banmusicplayer.model;
 public interface IModelTechNews {
     void findTechMessage(ITechCallback callback);
     void findTechMessageWithPage(int page,ITechCallback callback);
+    void findTechDetailMessageWithPage(String DetailPath,ITechCallback callback);
+
 }

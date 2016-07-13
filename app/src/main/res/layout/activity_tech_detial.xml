@@ -23,7 +23,7 @@
             android:background="@drawable/selector" />
 
         <TextView
-            android:id="@+id/iv_tech_content_title"
+            android:id="@+id/tv_tech_content_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="40dp"
@@ -46,13 +46,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:maxZoom="150dp"
-        app:zoomId="@+id/iv_tech_content_zoom"
-        >
+        app:zoomId="@+id/iv_tech_content_zoom">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1500dp"
-            android:minHeight="1500dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ImageView
@@ -61,6 +59,11 @@
                 android:layout_height="220dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/thumb_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorViewBackgroundGrey"></View>
 
             <TextView
                 android:id="@+id/tv_tech_content_detail"

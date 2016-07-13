@@ -6,5 +6,5 @@ import java.util.*;
  * Created by YZBbanban on 16/7/11.
  */
 public interface ITechCallback {
-    void findTechMessage(List<TechNews> techNewses);
+    void findTechMessage(Object object);
 }

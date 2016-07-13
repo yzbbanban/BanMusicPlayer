@@ -6,4 +6,5 @@ package com.wangban.yzbbanban.banmusicplayer.presenter;
 public interface IPresenterTechNews {
     void loadNewsMessage();
     void loadNewsMessageWithPage(int page);
+    void loadNewsDetialMessageWithPage(String detialPath);
 }

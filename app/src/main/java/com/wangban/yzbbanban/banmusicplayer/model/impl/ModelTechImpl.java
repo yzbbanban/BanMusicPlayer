@@ -1,9 +1,11 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
 import android.os.AsyncTask;
+import android.widget.ListView;
 
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechMessage;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelTechNews;
@@ -67,7 +69,7 @@ public class ModelTechImpl implements IModelTechNews, Consts {
                     message.getTechNewses().addAll(JsoupUtil.downTechNews(url));
                     List<TechNews> techNewses = message.getTechNewses();
 
-                    LogUtil.logInfo(TAG,"message: "+techNewses.size());
+                    //LogUtil.logInfo(TAG,"message: "+techNewses.size());
 
                     message.setTechNewses(techNewses);
                     return techNewses;
@@ -83,6 +85,31 @@ public class ModelTechImpl implements IModelTechNews, Consts {
             }
 
 
+        }.execute();
+    }
+
+    @Override
+    public void findTechDetailMessageWithPage(final String detailPath, final ITechCallback callback) {
+        new AsyncTask<Void, Void, TechDetialContent>() {
+
+            @Override
+            protected TechDetialContent doInBackground(Void... params) {
+                try {
+                    TechDetialContent content = JsoupUtil.downDetialTechNews(detailPath);
+                    return content;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(TechDetialContent content) {
+
+                callback.findTechMessage(content);
+
+            }
         }.execute();
     }
 }

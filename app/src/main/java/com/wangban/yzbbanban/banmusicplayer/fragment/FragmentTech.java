@@ -21,6 +21,7 @@ import com.wangban.yzbbanban.banmusicplayer.activity.TechDetialActivity;
 import com.wangban.yzbbanban.banmusicplayer.adapter.TechAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterTechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterTechNewsImpl;
@@ -113,6 +114,15 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
     public void setTechNews(List<TechNews> techNewses) {
         this.techNewses = techNewses;
 //        LogUtil.logInfo(TAG,"setTechNews: "+techNewses.get(0).getImagePath());
+    }
+
+    /**
+     * 无用处
+     * @param content
+     */
+    @Override
+    public void setTechNews(TechDetialContent content) {
+
     }
 
     /**
