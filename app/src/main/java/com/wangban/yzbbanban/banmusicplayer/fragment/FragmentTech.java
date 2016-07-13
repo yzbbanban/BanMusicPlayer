@@ -46,6 +46,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
     private IPresenterTechNews presenterTechNews;
 
     private int page;
+    private int refrashState;
     /**
      * 数据更新时，重新发送请求
      */
@@ -54,6 +55,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REFRESH_COMPLETE:
+                    page = 0;
                     presenterTechNews.loadNewsMessage();
                     break;
             }
@@ -75,6 +77,9 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
      * 数据显示后停止刷新图标的动画
      */
     private void stopRefThe() {
+        // 必须关掉刷新，不然不更新数据
+        recyclerView.onRefreshFinish();
+        //关掉刷新的动画
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -111,13 +116,17 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
      */
     @Override
     public void showTechNews() {
+        //判断是否为第一页
         if (page <= 1) {
             adapter = new TechAdapter(getContext(), techNewses);
             recyclerView.setAdapter(adapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
+
         adapter.notifyDataSetChanged();
-        recyclerView.smoothScrollToPosition(0);
+        if (refrashState == 1) {
+            recyclerView.smoothScrollToPosition(0);
+        }
         stopRefThe();
 
 //        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
@@ -129,15 +138,21 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
      */
     @Override
     public void onRefresh() {
+        refrashState = 1;
+        page = 0;
         handler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
 
     }
 
+    /**
+     * 上拉加载数据
+     */
     @Override
     public void onUpRefresh() {
-        page++;
-        LogUtil.logInfo(TAG,"page: "+page);
+        refrashState = 0;
+//        LogUtil.logInfo(TAG, "page: " + page);
         swipeRefreshLayout.setRefreshing(true);
+        page++;
         presenterTechNews.loadNewsMessageWithPage(page);
 
     }
