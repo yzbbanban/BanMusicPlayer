@@ -66,6 +66,9 @@ public class ModelTechImpl implements IModelTechNews, Consts {
                     String url = UrlFactory.getTechMessageWithPage(page);
                     message.getTechNewses().addAll(JsoupUtil.downTechNews(url));
                     List<TechNews> techNewses = message.getTechNewses();
+
+                    LogUtil.logInfo(TAG,"message: "+techNewses.size());
+
                     message.setTechNewses(techNewses);
                     return techNewses;
                 } catch (IOException e) {
@@ -80,6 +83,6 @@ public class ModelTechImpl implements IModelTechNews, Consts {
             }
 
 
-        };
+        }.execute();
     }
 }

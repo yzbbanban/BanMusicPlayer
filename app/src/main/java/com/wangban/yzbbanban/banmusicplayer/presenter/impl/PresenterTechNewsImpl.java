@@ -37,6 +37,7 @@ public class PresenterTechNewsImpl implements IPresenterTechNews,Consts{
 
     @Override
     public void loadNewsMessageWithPage(int page) {
+
         model.findTechMessageWithPage(page,new ITechCallback() {
             @Override
             public void findTechMessage(List<TechNews> techNewses) {

@@ -37,7 +37,9 @@
             android:id="@+id/rv_tech_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:padding="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

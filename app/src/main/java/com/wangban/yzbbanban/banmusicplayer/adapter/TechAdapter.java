@@ -35,7 +35,7 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.v = parent;
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tech_list, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tech_list, parent,false);
 
         return new ViewHolder(view);
     }

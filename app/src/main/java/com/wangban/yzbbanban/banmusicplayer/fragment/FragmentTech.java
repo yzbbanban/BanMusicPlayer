@@ -83,6 +83,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
      */
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
+        recyclerView.setUpRefreshListener(this);
     }
 
     private void setView() {
@@ -135,6 +136,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
     @Override
     public void onUpRefresh() {
         page++;
+        LogUtil.logInfo(TAG,"page: "+page);
         swipeRefreshLayout.setRefreshing(true);
         presenterTechNews.loadNewsMessageWithPage(page);
 
