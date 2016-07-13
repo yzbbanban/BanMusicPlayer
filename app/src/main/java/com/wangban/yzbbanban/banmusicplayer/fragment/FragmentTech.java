@@ -1,5 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.activity.TechDetialActivity;
 import com.wangban.yzbbanban.banmusicplayer.adapter.TechAdapter;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterTechNews;
@@ -46,7 +49,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
     private IPresenterTechNews presenterTechNews;
 
     private int page;
-    private int refrashState;
+    private int refrashState = 1;
     /**
      * 数据更新时，重新发送请求
      */
@@ -89,6 +92,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setUpRefreshListener(this);
+
     }
 
     private void setView() {
@@ -121,6 +125,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
             adapter = new TechAdapter(getContext(), techNewses);
             recyclerView.setAdapter(adapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         }
 
         adapter.notifyDataSetChanged();
@@ -128,6 +133,16 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
             recyclerView.smoothScrollToPosition(0);
         }
         stopRefThe();
+        adapter.setOnItemClickListener(new TechAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onClick(View view, TechNews doc) {
+
+                Intent intent = new Intent(getContext(), TechDetialActivity.class);
+                intent.putExtra(TECHNEWS, doc);
+                startActivity(intent);
+
+            }
+        });
 
 //        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
 //        recyclerView.addItemDecoration(decoration);
@@ -138,6 +153,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
      */
     @Override
     public void onRefresh() {
+        //状态位若为一，则更新后显示首位
         refrashState = 1;
         page = 0;
         handler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
@@ -149,6 +165,7 @@ public class FragmentTech extends Fragment implements IViewTechNews, UpRefreshRe
      */
     @Override
     public void onUpRefresh() {
+        //状态位若为一，则更新后显示加载位置
         refrashState = 0;
 //        LogUtil.logInfo(TAG, "page: " + page);
         swipeRefreshLayout.setRefreshing(true);

@@ -1,9 +1,11 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by YZBbanban on 16/7/11.
  */
-public class TechNews {
+public class TechNews implements Serializable{
     private String title;
     private String imagePath;
     private String detialPath;

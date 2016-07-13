@@ -38,6 +38,10 @@ public interface Consts {
 
     String ACTION_UPDATE_PROGRESS = "ACTION_UPDATE_PROGRESS";
 
+    /**
+     * 实体类 intent 传值（TechNews）
+     */
+    String TECHNEWS="techNews";
 
     int HANDLER_LOAD_BITMAP_SUCCESSS = 1;
     int HANDLER_SAVE_IMGER_TO_SD = 3;

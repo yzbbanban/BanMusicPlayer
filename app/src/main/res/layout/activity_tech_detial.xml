@@ -1,9 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorOrage"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_tech_content_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector" />
+
+        <TextView
+            android:id="@+id/iv_tech_content_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="好消息: "
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+    <com.wangban.yzbbanban.banmusicplayer.ui.ZoomScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:maxZoom="150dp"
+        app:zoomId="@+id/iv_tech_content_zoom"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1500dp"
+            android:minHeight="1500dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_tech_content_zoom"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/thumb_icon" />
+
+            <TextView
+                android:id="@+id/tv_tech_content_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="据外媒报道，根据网络安全软件供应商Enigma Software最新发布的一份调查报告显示，恶意软件感染率在过去半年时间内出现大幅下降。该家公司对3000万台被感染的电脑进行了分析，结果他们发现，虽然恶意软件和勒索软件的感染情况仍处在历史高位，但其中，恶意软件的感染率比去年同阶段下降了47.3%。另外，他们还发现，今年6月份的恶意软件感染率达到近3年的最低点。"
+                android:textColor="@color/colorDarkBlack"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </com.wangban.yzbbanban.banmusicplayer.ui.ZoomScrollView>
+</LinearLayout>

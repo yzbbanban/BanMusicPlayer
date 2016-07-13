@@ -8,6 +8,16 @@ import java.util.*;
 public class TechMessage {
     private List<TechNews> techNewses;
     private List<TechDetialContent> contents;
+    private int techPosition;
+
+
+    public int getTechPosition() {
+        return techPosition;
+    }
+
+    public void setTechPosition(int techPosition) {
+        this.techPosition = techPosition;
+    }
 
     public List<TechNews> getTechNewses() {
         return techNewses;

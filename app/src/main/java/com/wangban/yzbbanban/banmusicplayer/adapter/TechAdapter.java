@@ -14,15 +14,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.TechDetialActivity;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by YZBbanban on 16/6/21.
  */
-public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> {
+public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> implements View.OnClickListener {
     private List<TechNews> newses;
     private ViewGroup v;
     private Context context;
@@ -35,14 +36,17 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.v = parent;
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tech_list, parent,false);
-
-        return new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tech_list, parent, false);
+        view.setOnClickListener(this);
+        ViewHolder vh = new ViewHolder(view);
+        return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         TechNews news = newses.get(position);
+        holder.itemView.setTag(news);
         Glide.with(v.getContext()).load(news.getImagePath()).into(holder.ivTechPic);
         holder.tvTechTitle.setText(news.getTitle());
         holder.tvTechDetialContent.setText(news.getDetialContent());
@@ -53,31 +57,73 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> {
         return newses.size();
     }
 
+    /**
+     * 设置根据获取详细数据
+     *
+     * @param position
+     * @return
+     */
+    public Object getItem(int position) {
+        if (position < getItemCount()) {
+            return getItems().get(position);
+        }
+        return null;
+    }
+
+    /**
+     * 直接获取集合数据
+     *
+     * @return
+     */
+    public List<TechNews> getItems() {
+        if (newses == null) {
+            newses = new ArrayList<TechNews>();
+        }
+        return newses;
+    }
+
+    /**
+     * 设置集合数据
+     *
+     * @param newses
+     */
+    public void setItems(List<TechNews> newses) {
+        this.newses = newses;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (null != mOnItemClickListener) {
+            mOnItemClickListener.onClick(v, (TechNews) v.getTag());
+        }
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTechTitle;
         ImageView ivTechPic;
         TextView tvTechDetialContent;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             tvTechTitle = (TextView) itemView.findViewById(R.id.tv_tech_title);
             ivTechPic = (ImageView) itemView.findViewById(R.id.iv_tech_pic);
             tvTechDetialContent = (TextView) itemView.findViewById(R.id.tv_tech_detial_content);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    LogUtil.logInfo("supergirl", "当前点击的位置：" + getLayoutPosition());
-                    Intent intent = new Intent(context, TechDetialActivity.class);
-                    context.startActivity(intent);
-                }
-            });
 
         }
     }
-    /**
-     * 设置头界面
-     */
+
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    public static interface OnRecyclerViewItemClickListener {
+        void onClick(View view, TechNews doc);
+    }
+/**
+ * 设置头界面
+ */
 //    @Override
 //    public void onViewAttachedToWindow(ViewHolder holder) {
 //        super.onViewAttachedToWindow(holder);
