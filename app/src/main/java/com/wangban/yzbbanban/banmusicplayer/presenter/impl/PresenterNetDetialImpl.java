@@ -1,5 +1,7 @@
 package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
+import android.util.Log;
+
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
@@ -53,6 +55,7 @@ public class PresenterNetDetialImpl implements IPresenterNetDetial, Consts {
                 break;
             case KTV:
                 musics = (List<Music>) model.findAllKtvMusic();
+//                Log.i(TAG, "loadAllMusics: "+musics.get(0).getTitle());
                 break;
         }
         if (musics != null) {

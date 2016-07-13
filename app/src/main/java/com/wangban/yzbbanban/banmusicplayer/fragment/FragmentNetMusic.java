@@ -281,7 +281,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         tvFirst.setText(musics.get(0).getTitle());
         tvSecond.setText(musics.get(1).getTitle());
         tvThird.setText(musics.get(2).getTitle());
-        MusicApplication.getMusicPlayer().setKtvLists(musics);
     }
 
     @Override
