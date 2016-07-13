@@ -4,9 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wangban.yzbbanban.banmusicplayer.activity.WelcomeActivity">
-    <ImageView
+
+
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/lalalla"
-        ></ImageView>
+        android:id="@+id/pager"
+        android:background="@android:color/transparent"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/indicator_layout"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        >
+
+    </LinearLayout>
+
+
+
+
 </RelativeLayout>
