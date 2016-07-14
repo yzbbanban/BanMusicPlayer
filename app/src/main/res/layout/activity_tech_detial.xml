@@ -70,9 +70,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
-                android:text="据外媒报道，根据网络安全软件供应商Enigma Software最新发布的一份调查报告显示，恶意软件感染率在过去半年时间内出现大幅下降。该家公司对3000万台被感染的电脑进行了分析，结果他们发现，虽然恶意软件和勒索软件的感染情况仍处在历史高位，但其中，恶意软件的感染率比去年同阶段下降了47.3%。另外，他们还发现，今年6月份的恶意软件感染率达到近3年的最低点。"
+                android:text="正在加载"
                 android:textColor="@color/colorDarkBlack"
                 android:textSize="16sp" />
+            <android.support.v4.widget.ContentLoadingProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
+
+
     </com.wangban.yzbbanban.banmusicplayer.ui.ZoomScrollView>
 </LinearLayout>

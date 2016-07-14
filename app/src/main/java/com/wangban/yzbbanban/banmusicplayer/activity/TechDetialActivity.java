@@ -86,7 +86,7 @@ public class TechDetialActivity extends AppCompatActivity implements Consts,IVie
         String text=content.getContent();
         tvContentTitle.setText(techNews.getTitle());
         Glide.with(this).load(imagePath).into(ivContentZoom);
-
+        text=text.substring(0,text.indexOf("[文章纠错]"));
         tvContentDetial.setText(text);
 
     }
