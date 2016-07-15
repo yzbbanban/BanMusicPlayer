@@ -3,6 +3,7 @@ package com.wangban.yzbbanban.banmusicplayer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -87,6 +88,9 @@ public class TechDetialActivity extends AppCompatActivity implements Consts,IVie
         tvContentTitle.setText(techNews.getTitle());
         Glide.with(this).load(imagePath).into(ivContentZoom);
         text=text.substring(0,text.indexOf("[文章纠错]"));
+//        Log.i(TAG, "setTechNews: "+text);
+        text=text.replace("。", "。\n");
+
         tvContentDetial.setText(text);
 
     }

@@ -74,7 +74,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private ThirdScreenView mRoundView;
     private boolean mThirdPageSelected;
     private Button mLetsGoButton;
-    private Handler handler=new Handler();
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +247,6 @@ public class WelcomeActivity extends AppCompatActivity {
             return NUM_PAGES;
         }
     }
-
 
 
     @Override
@@ -538,11 +537,11 @@ public class WelcomeActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                            overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
+                            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                             finish();
                         }
-                    },500);
+                    }, 500);
 
                     break;
             }

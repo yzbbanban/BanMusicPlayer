@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
         <activity
             android:name=".activity.DetialMusicActivity"
             android:label="@string/activity_detial_music"

@@ -25,5 +25,9 @@ public class UrlFactory {
         return url;
     }
 
+    public static String getPicWithPage(int page){
+        String url="http://gank.io/api/data/福利/10/"+page;
+        return url;
+    }
 
 }

@@ -266,6 +266,9 @@ public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNe
             tvCurrentMusicName.setText(musicName);
             tvCurrentMusicArtist.setText(musicArtist);
 
+//            LogUtil.logInfo(TAG, songs.get(positionList).getAlbumArt());
+
+
             if (songs.get(positionList).getAlbumArt() == null) {
                 // 没有图片
                 ivBackground.setImageResource(R.drawable.my_logo);
