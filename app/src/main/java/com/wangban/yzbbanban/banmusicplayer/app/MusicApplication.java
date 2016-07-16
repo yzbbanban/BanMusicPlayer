@@ -9,6 +9,8 @@ import android.media.MediaPlayer;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
 import com.wangban.yzbbanban.banmusicplayer.entity.ImageInfo;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
@@ -34,6 +36,7 @@ public class MusicApplication extends Application {
     private static RequestQueue queue;
     private static TechMessage message;
     private static ImageInfo imageInfo;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -43,7 +46,15 @@ public class MusicApplication extends Application {
         musicPlayer = new MusicPlayer();
         player = new MediaPlayer();
         message = new TechMessage();
-        imageInfo=new ImageInfo();
+        imageInfo = new ImageInfo();
+
+        //创建默认的ImageLoader配置参数
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+                .createDefault(this);
+
+        //Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(configuration);
+
     }
 
 
@@ -106,7 +117,6 @@ public class MusicApplication extends Application {
     public static TechMessage getMessage() {
         return message;
     }
-
 
 
     public static MusicApplication getContext() {

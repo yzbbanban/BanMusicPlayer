@@ -27,6 +27,26 @@ public class ImageActivity extends AppCompatActivity implements Consts {
         setContentView(R.layout.activity_image);
         x.view().inject(this);
         setData();
+        setListener();
+    }
+
+    private void setListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                imagerAdapter.setPosition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setData() {
@@ -37,4 +57,6 @@ public class ImageActivity extends AppCompatActivity implements Consts {
         viewPager.setAdapter(imagerAdapter);
         viewPager.setCurrentItem(position);
     }
+
+
 }
