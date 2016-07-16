@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -161,6 +162,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         x.view().inject(this);
+        setData();
         ibtnPlayState.setBackgroundResource(R.drawable.recycle_play);
         if (!player.isPlaying()) {
             discRecycle();
@@ -195,7 +197,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
      */
     @Override
     protected void onDestroy() {
-//        unregisterReceiver(receiver);
+        unregisterReceiver(receiver);
         super.onDestroy();
 
     }
@@ -204,8 +206,8 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
      * activity重新加载时 更新界面
      */
     @Override
-    protected void onResume() {
-
+    protected void onRestart() {
+        super.onRestart();
         setData();
         if (musicListType == LOCAL) {
             //若为本地播放可直接注册广播
@@ -677,6 +679,17 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
     /**
      * 点击列表播放音乐
      *
@@ -740,7 +753,6 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
                 if (!player.isPlaying()) {
                     removecRecycle();
                 }
-
                 ibtnMusicPlayPause.setBackgroundResource(R.drawable.play_nomal);
                 int currentTime = intent.getIntExtra("current", 0);
                 int totalTime = intent.getIntExtra("total", 0);

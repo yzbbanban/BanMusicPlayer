@@ -3,6 +3,7 @@ package com.wangban.yzbbanban.banmusicplayer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -129,6 +130,16 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
                 break;
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
@@ -25,7 +26,7 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class TechDetialActivity extends BaseDestoryActivity implements Consts,IViewTechNews,View.OnClickListener{
+public class TechDetialActivity extends BaseDestoryActivity implements Consts, IViewTechNews, View.OnClickListener {
     @ViewInject(R.id.tv_tech_content_title)
     private TextView tvContentTitle;
     @ViewInject(R.id.btn_tech_content_back)
@@ -38,8 +39,9 @@ public class TechDetialActivity extends BaseDestoryActivity implements Consts,IV
     private String detialPath;
     private IPresenterTechNews presenterTechNews;
     private TechNews techNews;
+
     public TechDetialActivity() {
-        presenterTechNews=new PresenterTechNewsImpl(this);
+        presenterTechNews = new PresenterTechNewsImpl(this);
     }
 
     @Override
@@ -57,9 +59,9 @@ public class TechDetialActivity extends BaseDestoryActivity implements Consts,IV
     }
 
     private void setData() {
-        Intent intent=getIntent();
-        techNews= (TechNews) intent.getSerializableExtra(TECHNEWS);
-        detialPath=techNews.getDetialPath();
+        Intent intent = getIntent();
+        techNews = (TechNews) intent.getSerializableExtra(TECHNEWS);
+        detialPath = techNews.getDetialPath();
         presenterTechNews.loadNewsDetialMessageWithPage(detialPath);
 
 //        LogUtil.logInfo(TAG,techNews.getTitle());
@@ -68,10 +70,10 @@ public class TechDetialActivity extends BaseDestoryActivity implements Consts,IV
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_tech_content_back:
                 finish();
-                overridePendingTransition(R.anim.zoom_enter,R.anim.zoom_exit);
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
         }
     }
@@ -83,18 +85,18 @@ public class TechDetialActivity extends BaseDestoryActivity implements Consts,IV
 
     @Override
     public void setTechNews(TechDetialContent content) {
-        if (content==null){
-            ToastUtil.showToast(this,"网路不好");
+        if (content == null) {
+            ToastUtil.showToast(this, "网路不好");
             return;
         }
-        String imagePath=content.getImagePath();
+        String imagePath = content.getImagePath();
 //        LogUtil.logInfo(TAG,"image: "+imagePath);
-        String text=content.getContent();
+        String text = content.getContent();
         tvContentTitle.setText(techNews.getTitle());
-        Glide.with(this).load(imagePath).into(ivContentZoom);
-        text=text.substring(0,text.indexOf("[文章纠错]"));
+        Glide.with(getApplicationContext()).load(imagePath).into(ivContentZoom);
+        text = text.substring(0, text.indexOf("[文章纠错]"));
 //        Log.i(TAG, "setTechNews: "+text);
-        text=text.replace("。", "。\n");
+        text = text.replace("。", "。\n");
 
         tvContentDetial.setText(text);
 

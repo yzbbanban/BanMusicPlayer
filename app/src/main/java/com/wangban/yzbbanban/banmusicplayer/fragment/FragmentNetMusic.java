@@ -202,17 +202,19 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
                 }
                 break;
             case R.id.ibtn_music_search:
-                lvSearchMusic.setVisibility(View.VISIBLE);
-                animation = new TranslateAnimation(0, 0, llNetFragment.getHeight(), lvSearchMusic.getHeight() + llNetFragment.getHeight());
-                animation.setDuration(300);
-                animation.start();
+
                 String songName = etSearch.getText().toString().trim();
                 if (songName != null) {
+                    lvSearchMusic.setVisibility(View.VISIBLE);
+                    animation = new TranslateAnimation(0, 0, llNetFragment.getHeight(), lvSearchMusic.getHeight() + llNetFragment.getHeight());
+                    animation.setDuration(300);
+                    animation.start();
 //                    LogUtil.logInfo(TAG, "songName: " + songName);
                     presenterNet.loadSearchMusics(songName);
+                } else if ("".equals(songName)){
+                    ToastUtil.showToast(getContext(), "请输入想听的歌曲");
                 }
                 break;
-
 
         }
         //LogUtil.logInfo(TAG, "Fragment onClick: " + type);

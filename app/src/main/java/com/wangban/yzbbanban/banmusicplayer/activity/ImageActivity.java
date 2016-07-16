@@ -2,8 +2,10 @@ package com.wangban.yzbbanban.banmusicplayer.activity;
 
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.ImageViewPageAdapter;
@@ -16,14 +18,16 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class ImageActivity extends BaseDestoryActivity implements Consts {
+public class ImageActivity extends Activity implements Consts {
     @ViewInject(R.id.vp_images)
     private ViewPager viewPager;
 
     private ImageViewPageAdapter imagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image);
         x.view().inject(this);
         setData();
@@ -51,10 +55,10 @@ public class ImageActivity extends BaseDestoryActivity implements Consts {
     }
 
     private void setData() {
-        Intent intent=getIntent();
-        int position=intent.getIntExtra(EXTRA_IMAGE_POSITION, 0);
-        List<Image> images= MusicApplication.getImageInfo().getImages();
-        imagerAdapter=new ImageViewPageAdapter(this,images);
+        Intent intent = getIntent();
+        int position = intent.getIntExtra(EXTRA_IMAGE_POSITION, 0);
+        List<Image> images = MusicApplication.getImageInfo().getImages();
+        imagerAdapter = new ImageViewPageAdapter(this, images);
         viewPager.setAdapter(imagerAdapter);
         viewPager.setCurrentItem(position);
         //先设定首次进入的位置

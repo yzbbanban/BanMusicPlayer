@@ -76,9 +76,14 @@ public class MusicSevice extends Service implements Consts {
      */
     @Override
     public void onDestroy() {
-        player.release();
-        player = null;
-        thread = null;
+        try {
+            thread = null;
+            player.release();
+            player = null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 
