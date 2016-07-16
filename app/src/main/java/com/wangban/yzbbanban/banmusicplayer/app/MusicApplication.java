@@ -39,7 +39,14 @@ public class MusicApplication extends Application {
     private static RequestQueue queue;
     private static TechMessage message;
     private static ImageInfo imageInfo;
+    public static boolean networkIsNone=false;
+    public static boolean networkIsMobile=false;
+    public static boolean networkIsWifi=false;
+    //是否发布了
+    public final static boolean ISRELEASE=false;
 
+
+    private boolean isFirstIn;
     public ArrayList<Activity> activities = new ArrayList<>();
 
     public void finishActivity() {
@@ -73,6 +80,14 @@ public class MusicApplication extends Application {
         //Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(configuration);
 
+    }
+
+    public boolean isFirstIn() {
+        return isFirstIn;
+    }
+
+    public void setIsFirstIn(boolean isFirstIn) {
+        this.isFirstIn = isFirstIn;
     }
 
     /**

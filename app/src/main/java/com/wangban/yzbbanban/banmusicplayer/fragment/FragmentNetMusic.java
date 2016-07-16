@@ -34,6 +34,7 @@ import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetImpl;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
+import com.wangban.yzbbanban.banmusicplayer.ui.bamUI.BamRelativeLayout;
 import com.wangban.yzbbanban.banmusicplayer.util.FramAnimationUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
@@ -123,7 +124,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         presenterNetDetial = new PresenterNetDetialImpl(this);
 
     }
-
 
     @Nullable
     @Override

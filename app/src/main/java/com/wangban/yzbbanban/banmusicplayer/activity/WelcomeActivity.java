@@ -24,9 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.ui.BookView;
 import com.wangban.yzbbanban.banmusicplayer.ui.SunMoonView;
 import com.wangban.yzbbanban.banmusicplayer.ui.ThirdScreenView;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 import java.util.HashMap;
 
@@ -76,12 +78,29 @@ public class WelcomeActivity extends BaseDestoryActivity {
     private Button mLetsGoButton;
     private Handler handler = new Handler();
 
+    private boolean isFirst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
         setUpViews();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isFirst = MusicApplication.getContext().isFirstIn();
+        if (isFirst) {
+            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+            finish();
+        }
+        MusicApplication.getContext().setIsFirstIn(true);
+//        LogUtil.logInfo("supergirl", "boolen" + isFirst);
 
 
     }
