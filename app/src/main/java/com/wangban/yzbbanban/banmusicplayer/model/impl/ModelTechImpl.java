@@ -8,8 +8,8 @@ import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechMessage;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelTechNews;
-import com.wangban.yzbbanban.banmusicplayer.model.ITechCallback;
 import com.wangban.yzbbanban.banmusicplayer.util.JsoupUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
@@ -31,7 +31,7 @@ public class ModelTechImpl implements IModelTechNews, Consts {
     }
 
     @Override
-    public void findTechMessage(final ITechCallback callback) {
+    public void findTechMessage(final IDataCallback callback) {
         new AsyncTask<Void, Void, List<TechNews>>() {
 
             @Override
@@ -51,14 +51,14 @@ public class ModelTechImpl implements IModelTechNews, Consts {
 
             @Override
             protected void onPostExecute(List<TechNews> techNewses) {
-                callback.findTechMessage(techNewses);
+                callback.findAllData(techNewses);
             }
         }.execute();
 
     }
 
     @Override
-    public void findTechMessageWithPage(final int page, final ITechCallback callback) {
+    public void findTechMessageWithPage(final int page, final IDataCallback callback) {
 
         new AsyncTask<Void, Void, List<TechNews>>() {
 
@@ -81,7 +81,7 @@ public class ModelTechImpl implements IModelTechNews, Consts {
 
             @Override
             protected void onPostExecute(List<TechNews> techNewses) {
-                callback.findTechMessage(techNewses);
+                callback.findAllData(techNewses);
             }
 
 
@@ -89,7 +89,7 @@ public class ModelTechImpl implements IModelTechNews, Consts {
     }
 
     @Override
-    public void findTechDetailMessageWithPage(final String detailPath, final ITechCallback callback) {
+    public void findTechDetailMessageWithPage(final String detailPath, final IDataCallback callback) {
         new AsyncTask<Void, Void, TechDetialContent>() {
 
             @Override
@@ -107,7 +107,7 @@ public class ModelTechImpl implements IModelTechNews, Consts {
             @Override
             protected void onPostExecute(TechDetialContent content) {
 
-                callback.findTechMessage(content);
+                callback.findAllData(content);
 
             }
         }.execute();

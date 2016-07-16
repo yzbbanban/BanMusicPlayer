@@ -1,7 +1,5 @@
 package com.wangban.yzbbanban.banmusicplayer.model.impl;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -13,7 +11,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.QueryResult;
 import com.wangban.yzbbanban.banmusicplayer.entity.QuestResultSearch;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
-import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelNetMusic;
 import com.wangban.yzbbanban.banmusicplayer.util.UrlFactory;
 
@@ -34,32 +32,32 @@ public class ModelNetMusicImpl implements IModelNetMusic, Consts {
     }
 
     @Override
-    public void findAllNewMusic(IMusicCallback callback) {
+    public void findAllNewMusic(IDataCallback callback) {
         String url = UrlFactory.NEW_MUSIC_LIST;
         jsonPaser(NEW, url, callback);
     }
 
     @Override
-    public void findAllHotMusic(IMusicCallback callback) {
+    public void findAllHotMusic(IDataCallback callback) {
         String url = UrlFactory.HOT_MUSIC_LIST;
         jsonPaser(HOT, url, callback);
     }
 
     @Override
-    public void findAllBillboardMusic(IMusicCallback callback) {
+    public void findAllBillboardMusic(IDataCallback callback) {
         String url = UrlFactory.BILLBOARD_MUSIC_LIST;
         jsonPaser(BILLBOARD, url, callback);
     }
 
     @Override
-    public void findAllKtvMusic(IMusicCallback callback) {
+    public void findAllKtvMusic(IDataCallback callback) {
         musics = musicPlayer.getKtvLists();
         String url = UrlFactory.KTV_MUSIC_LIST;
         jsonPaser(KTV, url, callback);
     }
 
     @Override
-    public void findAllSearchMusic(String songName, final IMusicCallback callback) {
+    public void findAllSearchMusic(String songName, final IDataCallback callback) {
         String url = UrlFactory.searchSongList(songName);
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -72,7 +70,7 @@ public class ModelNetMusicImpl implements IModelNetMusic, Consts {
                 MusicApplication.getMusicPlayer().setSongLists(songLists);
 
 //             LogUtil.logInfo(TAG, "songList: " + songLists.get(0).getTitle());
-                callback.findAllMusic(songLists);
+                callback.findAllData(songLists);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -83,7 +81,7 @@ public class ModelNetMusicImpl implements IModelNetMusic, Consts {
         MusicApplication.getQueue().add(request);
     }
 
-    private void jsonPaser(final int type, String url, final IMusicCallback callback) {
+    private void jsonPaser(final int type, String url, final IDataCallback callback) {
         StringRequest request = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -105,7 +103,7 @@ public class ModelNetMusicImpl implements IModelNetMusic, Consts {
                         musicPlayer.setKtvLists(musics);
                         break;
                 }
-                callback.findAllMusic(musics);
+                callback.findAllData(musics);
 //                LogUtil.logInfo(TAG, "onResponse: " + musics.toString());
             }
         }, new Response.ErrorListener() {

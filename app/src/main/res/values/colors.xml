@@ -7,6 +7,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackgrondLightWhite">#efffffff</color>
     <color name="colorOrage">#ff8800</color>
+    <color name="colorLightOrage">#afff8800</color>
     <color name="colorGrey">#373737</color>
     <color name="colorDarkGrey">#a0a0a0</color>
     <color name="colorOTDarkGrey">#515151</color>

@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelLrc;
-import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 import com.wangban.yzbbanban.banmusicplayer.util.HttpUtil;
 
 import java.io.BufferedReader;
@@ -19,7 +19,7 @@ import java.util.*;
 public class ModelLrcImpl implements IModelLrc {
 
     @Override
-    public void getLrc(final String lrcUrl, final IMusicCallback callback) {
+    public void getLrc(final String lrcUrl, final IDataCallback callback) {
         new AsyncTask<String, String, List<LrcLine>>() {
             //异步发送http请求
             protected List<LrcLine> doInBackground(String... params) {
@@ -56,7 +56,7 @@ public class ModelLrcImpl implements IModelLrc {
             //主线程中执行   调用回调方法  返回list
             protected void onPostExecute(java.util.List<LrcLine> result) {
                 if (result != null) {
-                    callback.findAllMusic(result);
+                    callback.findAllData(result);
                 } else {
                     return;
                 }

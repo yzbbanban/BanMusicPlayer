@@ -2,7 +2,7 @@ package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
-import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelNetMusic;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelNetMusicImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNet;
@@ -26,9 +26,9 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadNewMusics() {
-        model.findAllNewMusic(new IMusicCallback() {
+        model.findAllNewMusic(new IDataCallback() {
             @Override
-            public void findAllMusic(Object data) {
+            public void findAllData(Object data) {
                 List<Music> musics = (List<Music>) data;
                 view.setNewText(musics);
             }
@@ -37,9 +37,9 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadHotMusics() {
-        model.findAllHotMusic(new IMusicCallback() {
+        model.findAllHotMusic(new IDataCallback() {
             @Override
-            public void findAllMusic(Object data) {
+            public void findAllData(Object data) {
                 List<Music> musics = (List<Music>) data;
                 view.setHotText(musics);
             }
@@ -48,9 +48,9 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadBillboardMusics() {
-        model.findAllBillboardMusic(new IMusicCallback() {
+        model.findAllBillboardMusic(new IDataCallback() {
             @Override
-            public void findAllMusic(Object data) {
+            public void findAllData(Object data) {
                 List<Music> musics = (List<Music>) data;
                 view.setBillText(musics);
             }
@@ -59,9 +59,9 @@ public class PresenterNetImpl implements IPresenterNet {
 
     @Override
     public void loadKTVMusics() {
-        model.findAllKtvMusic(new IMusicCallback() {
+        model.findAllKtvMusic(new IDataCallback() {
             @Override
-            public void findAllMusic(Object data) {
+            public void findAllData(Object data) {
                 List<Music> musics = (List<Music>) data;
                 view.setKtvText(musics);
             }
@@ -71,9 +71,9 @@ public class PresenterNetImpl implements IPresenterNet {
     @Override
     public void loadSearchMusics(String songName) {
 //        LogUtil.logInfo("supergirl", "loadSearchMusics: " + songName);
-        model.findAllSearchMusic(songName,new IMusicCallback() {
+        model.findAllSearchMusic(songName,new IDataCallback() {
             @Override
-            public void findAllMusic(Object data) {
+            public void findAllData(Object data) {
                 ArrayList<SongList> songLists = (ArrayList<SongList>) data;
                 view.setSearchText(songLists);
             }

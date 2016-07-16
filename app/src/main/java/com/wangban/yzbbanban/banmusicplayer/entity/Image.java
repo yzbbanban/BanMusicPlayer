@@ -3,93 +3,89 @@ package com.wangban.yzbbanban.banmusicplayer.entity;
 import java.io.Serializable;
 
 /**
+ * 图片实体类
  * Created by YZBbanban on 16/6/5.
  */
 public class Image implements Serializable {
-    private String path;
-    private int width;
-    private int height;
-    private String skipPagePath;
-    private String localPath;
-    private String title;
-    private String titleType;
+    private String _id;
+    private String createdAt;
+    private String desc;
+    private String publishedAt;
+    private String source;
+    private String type;
+    private String url;
+    private boolean used;
+    private String who;
 
-    public String getTitleType() {
-        return titleType;
+    public String get_id() {
+        return _id;
     }
 
-    public void setTitleType(String titleType) {
-        this.titleType = titleType;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Image(String path, int width, int height, String skipPagePath, String localPath, String title) {
-        this.path = path;
-        this.width = width;
-        this.height = height;
-        this.skipPagePath = skipPagePath;
-        this.localPath = localPath;
-        this.title = title;
-
+    public String getDesc() {
+        return desc;
     }
 
-
-    public Image() {
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public void setSetSkipPagePath(String setSkipPagePath) {
-        this.skipPagePath = setSkipPagePath;
+    public String getPublishedAt() {
+        return publishedAt;
     }
 
-    public String getSkipPagePath() {
-        return skipPagePath;
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
-    public void setSkipPagePath(String skipPagePath) {
-        skipPagePath = skipPagePath;
+    public String getSource() {
+        return source;
     }
 
-    public String getLocalPath() {
-        return localPath;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public void setLocalPath(String localPath) {
-        this.localPath = localPath;
+    public String getType() {
+        return type;
     }
 
-    public String getPath() {
-        return path;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public String getUrl() {
+        return url;
     }
 
-    public int getWidth() {
-        return width;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public boolean isUsed() {
+        return used;
     }
 
-    public int getHeight() {
-        return height;
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public String getWho() {
+        return who;
     }
 
-    @Override
-    public String toString() {
-        return path;
+    public void setWho(String who) {
+        this.who = who;
     }
 }

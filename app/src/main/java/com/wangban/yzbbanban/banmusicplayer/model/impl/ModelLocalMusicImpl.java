@@ -11,8 +11,7 @@ import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelLocalMusic;
-import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 
 import java.util.*;
 
@@ -27,7 +26,7 @@ public class ModelLocalMusicImpl implements IModelLocalMusic, Consts {
     }
 
     @Override
-    public void findAllLocalMusic(final IMusicCallback callback) {
+    public void findAllLocalMusic(final IDataCallback callback) {
         new AsyncTask<Void, Void, List<Song>>() {
 
             @Override
@@ -82,7 +81,7 @@ public class ModelLocalMusicImpl implements IModelLocalMusic, Consts {
 
             @Override
             protected void onPostExecute(List<Song> songs) {
-                callback.findAllMusic(songs);
+                callback.findAllData(songs);
             }
         }.execute();
 

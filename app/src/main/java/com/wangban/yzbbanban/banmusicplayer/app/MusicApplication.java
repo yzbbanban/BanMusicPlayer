@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
+import com.wangban.yzbbanban.banmusicplayer.entity.ImageInfo;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechMessage;
@@ -32,7 +33,7 @@ public class MusicApplication extends Application {
     private ArrayList<DetialImage> images;
     private static RequestQueue queue;
     private static TechMessage message;
-
+    private static ImageInfo imageInfo;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -42,6 +43,7 @@ public class MusicApplication extends Application {
         musicPlayer = new MusicPlayer();
         player = new MediaPlayer();
         message = new TechMessage();
+        imageInfo=new ImageInfo();
     }
 
 
@@ -109,5 +111,13 @@ public class MusicApplication extends Application {
 
     public static MusicApplication getContext() {
         return context;
+    }
+
+    public static ImageInfo getImageInfo() {
+        return imageInfo;
+    }
+
+    public static void setImageInfo(ImageInfo imageInfo) {
+        MusicApplication.imageInfo = imageInfo;
     }
 }

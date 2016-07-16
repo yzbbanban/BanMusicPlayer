@@ -2,7 +2,7 @@ package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelLrc;
-import com.wangban.yzbbanban.banmusicplayer.model.IMusicCallback;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelLrcImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
@@ -21,9 +21,9 @@ public class PresenterLrcImpl implements IPresenterLrc{
 
     @Override
     public void loadLrc(String lrcUrl) {
-        model.getLrc(lrcUrl,new IMusicCallback() {
+        model.getLrc(lrcUrl,new IDataCallback() {
             @Override
-            public void findAllMusic(Object data) {
+            public void findAllData(Object data) {
                 List<LrcLine> lrcLines= (List<LrcLine>) data;
                 view.setLrc(lrcLines);
             }

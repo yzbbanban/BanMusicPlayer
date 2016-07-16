@@ -1,10 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wangban.yzbbanban.banmusicplayer.R;
-import com.wangban.yzbbanban.banmusicplayer.activity.TechDetialActivity;
-import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 import java.util.*;
 
@@ -25,17 +18,15 @@ import java.util.*;
  */
 public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> implements View.OnClickListener {
     private List<TechNews> newses;
-    private ViewGroup v;
-    private Context context;
+    private ViewGroup parent;
 
-    public TechAdapter(Context context, List<TechNews> newses) {
+    public TechAdapter(List<TechNews> newses) {
         this.newses = newses;
-        this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        this.v = parent;
+        this.parent = parent;
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tech_list, parent, false);
         view.setOnClickListener(this);
         ViewHolder vh = new ViewHolder(view);
@@ -47,49 +38,20 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> im
 
         TechNews news = newses.get(position);
         holder.itemView.setTag(news);
-        Glide.with(v.getContext()).load(news.getImagePath()).into(holder.ivTechPic);
+        Glide.with(parent.getContext()).load(news.getImagePath()).into(holder.ivTechPic);
         holder.tvTechTitle.setText(news.getTitle());
         holder.tvTechDetialContent.setText(news.getDetialContent());
     }
 
     @Override
     public int getItemCount() {
-        return newses.size();
-    }
-
-    /**
-     * 设置根据获取详细数据
-     *
-     * @param position
-     * @return
-     */
-    public Object getItem(int position) {
-        if (position < getItemCount()) {
-            return getItems().get(position);
+        if (newses != null) {
+            return newses.size();
+        }else {
+            return 0;
         }
-        return null;
     }
 
-    /**
-     * 直接获取集合数据
-     *
-     * @return
-     */
-    public List<TechNews> getItems() {
-        if (newses == null) {
-            newses = new ArrayList<TechNews>();
-        }
-        return newses;
-    }
-
-    /**
-     * 设置集合数据
-     *
-     * @param newses
-     */
-    public void setItems(List<TechNews> newses) {
-        this.newses = newses;
-    }
 
     @Override
     public void onClick(View v) {
@@ -118,7 +80,7 @@ public class TechAdapter extends RecyclerView.Adapter<TechAdapter.ViewHolder> im
         this.mOnItemClickListener = listener;
     }
 
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onClick(View view, TechNews doc);
     }
 /**

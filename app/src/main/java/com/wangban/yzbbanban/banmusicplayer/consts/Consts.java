@@ -42,6 +42,7 @@ public interface Consts {
      * 实体类 intent 传值（TechNews）
      */
     String TECHNEWS="techNews";
+    String IMAGE="image";
 
     int HANDLER_LOAD_BITMAP_SUCCESSS = 1;
     int HANDLER_SAVE_IMGER_TO_SD = 3;

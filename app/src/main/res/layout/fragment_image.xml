@@ -9,42 +9,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorOrage"
-        >
+        android:background="@color/colorOrage">
+
         <TextView
-            android:gravity="center"
             android:id="@+id/tv_image_name"
             android:layout_width="300dp"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             android:ellipsize="marquee"
             android:focusable="true"
-            android:layout_centerHorizontal="true"
             android:focusableInTouchMode="true"
+            android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:text="图片列表"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/id_swipe_young"
+        android:id="@+id/srl_beauty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:padding="20dp">
+        android:layout_gravity="center">
 
-        <GridView
-            android:id="@+id/gv_image"
+        <com.wangban.yzbbanban.banmusicplayer.ui.UpRefreshRecyclerView
+            android:id="@+id/rrv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:horizontalSpacing="20dp"
-
-            android:numColumns="1"
-            android:verticalSpacing="20dp"></GridView>
+            android:gravity="center"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
 
 </LinearLayout>

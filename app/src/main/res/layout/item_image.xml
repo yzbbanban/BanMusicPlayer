@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="8dp"
+        app:elevation="2dp">
+
+
+        <com.wangban.yzbbanban.banmusicplayer.ui.PhotoView
+            android:id="@+id/pv_grid"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/my_logo" />
+
+        <TextView
+            android:id="@+id/tv_image_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorLightOrage"
+            android:padding="5dp"
+            android:text="夏天很热"
+            android:gravity="center"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="14sp" />
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

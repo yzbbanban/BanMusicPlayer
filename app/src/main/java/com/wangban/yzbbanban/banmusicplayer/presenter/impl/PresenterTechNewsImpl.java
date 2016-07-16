@@ -3,8 +3,8 @@ package com.wangban.yzbbanban.banmusicplayer.presenter.impl;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechDetialContent;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
+import com.wangban.yzbbanban.banmusicplayer.model.IDataCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.IModelTechNews;
-import com.wangban.yzbbanban.banmusicplayer.model.ITechCallback;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelTechImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterTechNews;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
@@ -26,9 +26,9 @@ public class PresenterTechNewsImpl implements IPresenterTechNews, Consts {
 
     @Override
     public void loadNewsMessage() {
-        model.findTechMessage(new ITechCallback() {
+        model.findTechMessage(new IDataCallback() {
             @Override
-            public void findTechMessage(Object object) {
+            public void findAllData(Object object) {
                 List<TechNews> techNewses = (List<TechNews>) object;
 //                LogUtil.logInfo(TAG, "setTechNews: " + techNewses.get(0).getImagePath());
                 view.setTechNews(techNewses);
@@ -40,9 +40,9 @@ public class PresenterTechNewsImpl implements IPresenterTechNews, Consts {
     @Override
     public void loadNewsMessageWithPage(int page) {
 
-        model.findTechMessageWithPage(page, new ITechCallback() {
+        model.findTechMessageWithPage(page, new IDataCallback() {
             @Override
-            public void findTechMessage(Object object) {
+            public void findAllData(Object object) {
                 List<TechNews> techNewses = (List<TechNews>) object;
                 view.setTechNews(techNewses);
                 view.showTechNews();
@@ -53,9 +53,9 @@ public class PresenterTechNewsImpl implements IPresenterTechNews, Consts {
 
     @Override
     public void loadNewsDetialMessageWithPage(String detialPath) {
-        model.findTechDetailMessageWithPage(detialPath,new ITechCallback() {
+        model.findTechDetailMessageWithPage(detialPath,new IDataCallback() {
             @Override
-            public void findTechMessage(Object object) {
+            public void findAllData(Object object) {
                 TechDetialContent content= (TechDetialContent) object;
                 view.setTechNews(content);
 
