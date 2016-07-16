@@ -39,6 +39,7 @@ public class ImageActivity extends AppCompatActivity implements Consts {
 
             @Override
             public void onPageSelected(int position) {
+                //滑动位置的改变
                 imagerAdapter.setPosition(position);
             }
 
@@ -56,6 +57,8 @@ public class ImageActivity extends AppCompatActivity implements Consts {
         imagerAdapter=new ImageViewPageAdapter(this,images);
         viewPager.setAdapter(imagerAdapter);
         viewPager.setCurrentItem(position);
+        //先设定首次进入的位置
+        imagerAdapter.setPosition(position);
     }
 
 

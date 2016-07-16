@@ -30,6 +30,14 @@ public interface Consts {
     int RANDOM =2000;
     int RECYCLE=3000;
 
+    /**
+     * 保存，设置图片状态
+     */
+    int SAVE_BITMAP=101;
+    int SET_WALLPAPER=102;
+    int SET_BITMAP=103;
+
+
     String PUT_MUSIC = "put_music";
     /**
      * 广播注册
