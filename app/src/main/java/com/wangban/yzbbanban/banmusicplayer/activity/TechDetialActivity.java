@@ -17,6 +17,7 @@ import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterTechNews;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterTechNewsImpl;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewTechNews;
 
 import org.xutils.view.annotation.ViewInject;
@@ -82,6 +83,10 @@ public class TechDetialActivity extends AppCompatActivity implements Consts,IVie
 
     @Override
     public void setTechNews(TechDetialContent content) {
+        if (content==null){
+            ToastUtil.showToast(this,"网路不好");
+            return;
+        }
         String imagePath=content.getImagePath();
 //        LogUtil.logInfo(TAG,"image: "+imagePath);
         String text=content.getContent();

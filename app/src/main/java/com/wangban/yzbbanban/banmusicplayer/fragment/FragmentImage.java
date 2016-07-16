@@ -12,6 +12,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.activity.ImageActivity;
@@ -25,6 +26,7 @@ import com.wangban.yzbbanban.banmusicplayer.presenter.IPreseterImage;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterImageImpl;
 import com.wangban.yzbbanban.banmusicplayer.ui.UpRefreshRecyclerView;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
+import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewImage;
 
 import org.xutils.view.annotation.ViewInject;
@@ -85,7 +87,7 @@ public class FragmentImage extends Fragment implements IViewImage, Consts, UpRef
 
     private void setDate() {
         preseterImage.loadImageData(page);
-        swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_dark, android.R.color.holo_green_dark);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_red_light);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
     }
@@ -119,17 +121,15 @@ public class FragmentImage extends Fragment implements IViewImage, Consts, UpRef
             recyclerView.smoothScrollToPosition(0);
         }
         stopRefThe();
-        adapter.setOnItemClickListener(new ImageAdapter.OnRecyclerViewItemClickListener() {
+        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View view, Image doc) {
-
-                Intent intent = new Intent(getContext(), ImageActivity.class);
-                intent.putExtra(IMAGE, doc);
+            public void onItemClick(int position, Object object) {
+//                ToastUtil.showToast(getContext(),""+position);
+                Intent intent = new Intent(FragmentImage.this.getContext(),ImageActivity.class);
+                intent.putExtra(EXTRA_IMAGE_POSITION, position);
                 startActivity(intent);
-
             }
         });
-
     }
 
     /**

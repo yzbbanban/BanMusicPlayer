@@ -1,16 +1,15 @@
 package com.wangban.yzbbanban.banmusicplayer.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.entity.Image;
-import com.wangban.yzbbanban.banmusicplayer.entity.TechNews;
 import com.wangban.yzbbanban.banmusicplayer.ui.PhotoView;
 
 import java.util.*;
@@ -18,9 +17,10 @@ import java.util.*;
 /**
  * Created by YZBbanban on 16/7/16.
  */
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>implements View.OnClickListener {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
     private List<Image> images;
     private ViewGroup parent;
+    private OnItemClickListener listener;
 
     public ImageAdapter(List<Image> images) {
         this.images = images;
@@ -30,57 +30,57 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>i
     public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.parent = parent;
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
-        view.setOnClickListener(this);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
-        Image image=images.get(position);
+    public void onBindViewHolder(ImageAdapter.ViewHolder holder, final int position) {
+        Image image = images.get(position);
         holder.itemView.setTag(image);
         holder.textView.setText(image.getDesc());
-        Glide.with(parent.getContext()).load(image.getUrl()).into(holder.photoView);
+        Glide.with(parent.getContext()).load(image.getUrl()).into(holder.imageView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != listener)
+                    listener.onItemClick(position, images);
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        if (images != null) {
-            return images.size();
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (null != mOnItemClickListener) {
-            mOnItemClickListener.onClick(v, (Image) v.getTag());
-        }
+        return images == null ? 0 : images.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private PhotoView photoView;
+        private ImageView imageView;
         private TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            photoView = (PhotoView) itemView.findViewById(R.id.pv_grid);
+            imageView = (ImageView) itemView.findViewById(R.id.iv_grid);
             textView = (TextView) itemView.findViewById(R.id.tv_image_describe);
-
-
         }
     }
 
-    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
-
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
-        this.mOnItemClickListener = listener;
+    /**
+     * 内部接口回调方法
+     */
+    public interface OnItemClickListener {
+        void onItemClick(int position, Object object);
     }
 
-    public interface OnRecyclerViewItemClickListener {
-        void onClick(View view, Image doc);
+    /**
+     * 设置监听方法
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
+
 
 }
