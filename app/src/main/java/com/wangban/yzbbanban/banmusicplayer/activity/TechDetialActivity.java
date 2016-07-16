@@ -25,7 +25,7 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class TechDetialActivity extends AppCompatActivity implements Consts,IViewTechNews,View.OnClickListener{
+public class TechDetialActivity extends BaseDestoryActivity implements Consts,IViewTechNews,View.OnClickListener{
     @ViewInject(R.id.tv_tech_content_title)
     private TextView tvContentTitle;
     @ViewInject(R.id.btn_tech_content_back)
@@ -103,5 +103,10 @@ public class TechDetialActivity extends AppCompatActivity implements Consts,IVie
     @Override
     public void showTechNews() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

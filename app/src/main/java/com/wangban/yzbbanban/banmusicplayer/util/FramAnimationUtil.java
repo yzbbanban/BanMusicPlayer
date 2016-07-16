@@ -20,6 +20,7 @@ public class FramAnimationUtil {
         } else {
             animation = (AnimationDrawable) ibtn.getBackground();
             animation.setOneShot(true);
+            animation.start();
             ibtn.clearAnimation();
         }
     }

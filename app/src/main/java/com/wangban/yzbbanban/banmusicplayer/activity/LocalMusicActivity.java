@@ -68,6 +68,11 @@ public class LocalMusicActivity extends BaseActivity implements Consts, View.OnC
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_my_player_list_back:

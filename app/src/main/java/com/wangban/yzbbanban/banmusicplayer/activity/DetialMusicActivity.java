@@ -60,6 +60,7 @@ public class DetialMusicActivity extends BaseActivity implements Consts, View.On
         super.onNewIntent(intent);
     }
 
+
     private void setData() {
         MusicApplication.getMusicPlayer().getNewLists();
 

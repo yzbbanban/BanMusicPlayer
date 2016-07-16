@@ -6,6 +6,9 @@ package com.wangban.yzbbanban.banmusicplayer.app;
 
 import android.app.Application;
 import android.media.MediaPlayer;
+import android.app.Activity;
+import android.os.*;
+import android.os.Process;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -37,6 +40,21 @@ public class MusicApplication extends Application {
     private static TechMessage message;
     private static ImageInfo imageInfo;
 
+    public ArrayList<Activity> activities = new ArrayList<>();
+
+    public void finishActivity() {
+        try {
+            for (Activity a : activities) {
+                a.finish();
+            }
+
+        } catch (Exception e) {
+
+        }
+        android.os.Process.killProcess(Process.myPid());
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,19 +74,6 @@ public class MusicApplication extends Application {
         ImageLoader.getInstance().init(configuration);
 
     }
-
-
-//    /**
-//     * 用于设置当前音乐数据，用过播放取出数据，交给展示界面
-//     * @return
-//     */
-//    public static Music getMusic() {
-//        return music;
-//    }
-//
-//    public static void setMusic(Music music) {
-//        MusicApplication.music = music;
-//    }
 
     /**
      * 创建唯一的 MediaPlayer

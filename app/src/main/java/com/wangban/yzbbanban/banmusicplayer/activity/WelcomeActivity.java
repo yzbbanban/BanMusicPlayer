@@ -33,7 +33,7 @@ import java.util.HashMap;
 /**
  * Created by YZBbanban on 16/7/14.
  */
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseDestoryActivity {
 
     private static final int NUM_PAGES = 3;
     private ViewPager mPager;
@@ -547,4 +547,9 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

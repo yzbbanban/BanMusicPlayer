@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 
 
@@ -15,14 +16,22 @@ import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
  * Created by YZBbanban on 16/6/30.
  * 用于需要绑定 service 的 activity
  */
-public class BaseActivity extends AppCompatActivity  {
+public class BaseActivity extends AppCompatActivity {
     public MusicSevice.MusicBinder musicBinder;
     private Intent intent;
     private ServiceConnection conn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindService();
+        try {
+            MusicApplication app = (MusicApplication) getApplication();
+            app.activities.add(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -51,7 +60,12 @@ public class BaseActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         unbindService(conn);
-
+        try {
+            MusicApplication app = (MusicApplication) getApplication();
+            app.activities.remove(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
 
     }

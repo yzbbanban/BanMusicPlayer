@@ -124,14 +124,6 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
 
     }
 
-    /**
-     * 重新加载时，加载数据
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        FramAnimationUtil.framAnimationContrl(ibtnLocalMusic);
-    }
 
     @Nullable
     @Override
@@ -142,6 +134,16 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         setData();
         setListeners();
         return view;
+    }
+
+
+    /**
+     * 重新加载时，加载数据
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        FramAnimationUtil.framAnimationContrl(ibtnLocalMusic);
     }
 
     /**

@@ -65,7 +65,7 @@ import org.xutils.x;
 
 import java.util.*;
 
-public class PlayActivity extends AppCompatActivity implements IViewLrc, IViewNetDetial, AdapterView.OnItemClickListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
+public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IViewNetDetial, AdapterView.OnItemClickListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
 
     @ViewInject(R.id.ibtn_player_back_main)
     private ImageButton ibtnBackMain;

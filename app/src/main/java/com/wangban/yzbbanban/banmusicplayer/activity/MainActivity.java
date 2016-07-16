@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentTech;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentImage;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentMusicPlayer;
@@ -156,7 +157,8 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    MusicApplication app= (MusicApplication) getApplication();
+                    app.finishActivity();
                 }
             });
             builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
@@ -187,5 +189,8 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

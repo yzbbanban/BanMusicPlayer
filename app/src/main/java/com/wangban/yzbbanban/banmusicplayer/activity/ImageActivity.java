@@ -16,7 +16,7 @@ import org.xutils.x;
 
 import java.util.List;
 
-public class ImageActivity extends AppCompatActivity implements Consts {
+public class ImageActivity extends BaseDestoryActivity implements Consts {
     @ViewInject(R.id.vp_images)
     private ViewPager viewPager;
 
@@ -61,5 +61,8 @@ public class ImageActivity extends AppCompatActivity implements Consts {
         imagerAdapter.setPosition(position);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
