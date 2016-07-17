@@ -64,6 +64,7 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IViewNetDetial, AdapterView.OnItemClickListener, SeekBar.OnSeekBarChangeListener, View.OnClickListener, Consts {
@@ -146,7 +147,9 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 
     private Animation anim;
 
-
+    //设置音乐进度
+    private int progress;
+    private boolean isFromUser;
     //设置 local_list_adapter
     private LocalMusicListAdapter ladapter;
 
@@ -638,7 +641,10 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            player.seekTo(progress);
+            //关闭广播更新的数据
+            isFromUser = fromUser;
+            this.progress = progress;
+            tvCurrentTime.setText(DateFormatUtil.getDate(progress));
         }
     }
 
@@ -649,8 +655,9 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
-
+        player.seekTo(progress);
+        //开启广播更新的数据
+        isFromUser = false;
     }
 
     /**
@@ -768,9 +775,11 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
                 int currentTime = intent.getIntExtra("current", 0);
                 int totalTime = intent.getIntExtra("total", 0);
                 tvDurationTime.setText(DateFormatUtil.getDate(totalTime));
-                tvCurrentTime.setText(DateFormatUtil.getDate(currentTime));
-                sbProgress.setMax(totalTime);
-                sbProgress.setProgress(currentTime);
+                if (!isFromUser) {
+                    tvCurrentTime.setText(DateFormatUtil.getDate(currentTime));
+                    sbProgress.setMax(totalTime);
+                    sbProgress.setProgress(currentTime);
+                }
                 //更新歌词信息
                 if (musicListType != LOCAL) {
                     List<LrcLine> lines = MusicApplication.getMusicPlayer().getLrcs();
