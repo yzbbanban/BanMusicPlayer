@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
 import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.fragment.FragmentTech;
@@ -26,20 +29,21 @@ import java.util.*;
 public class MainActivity extends BaseActivity {
     @ViewInject(R.id.vp_main)
     private ViewPager viewPager;
-    @ViewInject(R.id.rg_player_bottom)
-    private RadioGroup radioGroup;
-    @ViewInject(R.id.rbtn_net_music)
-    private RadioButton rbtnNetMusic;
-    @ViewInject(R.id.rbtn_local_music)
-    private RadioButton rbtnLocalMusic;
-    @ViewInject(R.id.rbtn_image)
-    private RadioButton rbtnImage;
-    @ViewInject(R.id.rbtn_book)
-    private RadioButton rbtnTech;
+    //    @ViewInject(R.id.rg_player_bottom)
+//    private RadioGroup radioGroup;
+//    @ViewInject(R.id.rbtn_net_music)
+//    private RadioButton rbtnNetMusic;
+//    @ViewInject(R.id.rbtn_local_music)
+//    private RadioButton rbtnLocalMusic;
+//    @ViewInject(R.id.rbtn_image)
+//    private RadioButton rbtnImage;
+//    @ViewInject(R.id.rbtn_book)
+//    private RadioButton rbtnTech;
     private List<Fragment> fragments;
 
     private FragmentPagerAdapter adapter;
 
+    private BottomBar bottomBar;
 
     @Override
 
@@ -48,10 +52,49 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         x.view().inject(this);
         setData();
-
-        setListener();
+        createBottomBar(savedInstanceState);
+//        setListener();
     }
 
+    private void createBottomBar(Bundle savedInstanceState) {
+        bottomBar = BottomBar.attach(this, savedInstanceState);
+        bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
+            @Override
+            public void onMenuTabSelected(int menuItemId) {
+                switch (menuItemId) {
+                    case R.id.bb_menu_net:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.bb_menu_music:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.bb_menu_image:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.bb_menu_tech:
+                        viewPager.setCurrentItem(3);
+                        break;
+                }
+            }
+
+            @Override
+            public void onMenuTabReSelected(int menuItemId) {
+
+            }
+        });
+
+        bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorAccent));
+        bottomBar.mapColorForTab(1, 0xFF5D4037);
+        bottomBar.mapColorForTab(2, "#7B1FA2");
+        bottomBar.mapColorForTab(3, "#FF5252");
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        bottomBar.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onResume() {
@@ -69,26 +112,26 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setListener() {
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rbtn_net_music:
-                        viewPager.setCurrentItem(0);
-                        break;
-                    case R.id.rbtn_local_music:
-                        viewPager.setCurrentItem(1);
-                        break;
-                    case R.id.rbtn_image:
-                        viewPager.setCurrentItem(2);
-                        break;
-                    case R.id.rbtn_book:
-                        viewPager.setCurrentItem(3);
-                        break;
-
-                }
-            }
-        });
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.rbtn_net_music:
+//                        viewPager.setCurrentItem(0);
+//                        break;
+//                    case R.id.rbtn_local_music:
+//                        viewPager.setCurrentItem(1);
+//                        break;
+//                    case R.id.rbtn_image:
+//                        viewPager.setCurrentItem(2);
+//                        break;
+//                    case R.id.rbtn_book:
+//                        viewPager.setCurrentItem(3);
+//                        break;
+//
+//                }
+//            }
+//        });
 
 
     }
@@ -120,20 +163,21 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        rbtnNetMusic.setChecked(true);
-                        break;
-                    case 1:
-                        rbtnLocalMusic.setChecked(true);
-                        break;
-                    case 2:
-                        rbtnImage.setChecked(true);
-                        break;
-                    case 3:
-                        rbtnTech.setChecked(true);
-                        break;
-                }
+                bottomBar.selectTabAtPosition(position, true);
+//                switch (position) {
+//                    case 0:
+////                        rbtnNetMusic.setChecked(true);
+//                        break;
+//                    case 1:
+////                        rbtnLocalMusic.setChecked(true);
+//                        break;
+//                    case 2:
+////                        rbtnImage.setChecked(true);
+//                        break;
+//                    case 3:
+////                        rbtnTech.setChecked(true);
+//                        break;
+//                }
             }
 
             @Override
@@ -157,7 +201,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    MusicApplication app= (MusicApplication) getApplication();
+                    MusicApplication app = (MusicApplication) getApplication();
                     app.finishActivity();
                 }
             });

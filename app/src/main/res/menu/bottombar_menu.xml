@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bb_menu_net"
+        android:icon="@drawable/icon_net"
+        android:title="发现"></item>
+    <item
+        android:id="@+id/bb_menu_music"
+        android:icon="@drawable/icon_music"
+        android:title="音乐"></item>
+    <item
+        android:id="@+id/bb_menu_image"
+        android:icon="@drawable/icon_photo"
+        android:title="图库"></item>
+    <item
+        android:id="@+id/bb_menu_tech"
+        android:icon="@drawable/icon_book"
+        android:title="科技"></item>
+</menu>

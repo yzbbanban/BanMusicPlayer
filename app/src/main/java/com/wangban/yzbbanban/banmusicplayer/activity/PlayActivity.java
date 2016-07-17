@@ -518,7 +518,18 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
                 listShow(View.INVISIBLE, 0, llList.getHeight());
                 viewShow(View.GONE, 1, 0);
                 break;
+            //分享音乐
+            case R.id.ibtn_player_share:
+                musicShare();
+                break;
         }
+    }
+
+    /**
+     * 分享音乐
+     */
+    private void musicShare() {
+
     }
 
     /**
