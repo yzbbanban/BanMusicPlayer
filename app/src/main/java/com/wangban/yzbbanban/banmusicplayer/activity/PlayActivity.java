@@ -58,6 +58,7 @@ import com.wangban.yzbbanban.banmusicplayer.util.BluredBitmap;
 import com.wangban.yzbbanban.banmusicplayer.util.DateFormatUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewLrc;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewNetDetial;
 
@@ -585,11 +586,19 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
                 String fileLink = url.getShow_link();
 //                LogUtil.logInfo(TAG, "onClick: " + fileLink);
                 //启动 Service执行下载
-                Intent intent = new Intent(PlayActivity.this, DownloadService.class);
-                intent.putExtra("url", fileLink);
-                intent.putExtra("title", songInfo.getTitle());
-                intent.putExtra("bit", url.getFile_bitrate());
-                startService(intent);
+//
+//                Intent intent = new Intent(PlayActivity.this, DownloadService.class);
+//                intent.putExtra("url", fileLink);
+//                intent.putExtra("title", songInfo.getTitle());
+//                intent.putExtra("bit", url.getFile_bitrate());
+//                startService(intent);
+//
+                //启动 download 界面下载
+                Intent intent2=new Intent(PlayActivity.this,DownloadActivity.class);
+                intent2.putExtra("url", fileLink);
+                intent2.putExtra("title", songInfo.getTitle());
+                intent2.putExtra("bit", url.getFile_bitrate());
+                startActivity(intent2);
             }
         });
         AlertDialog dialog = builder.create();
@@ -747,6 +756,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
         MusicApplication.getMusicPlayer().setPosition(position);
         presenterNetDetial.setSong(song_id);
     }
+
 
 
     /**

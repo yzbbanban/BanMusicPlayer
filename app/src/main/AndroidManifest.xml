@@ -50,7 +50,8 @@
             android:name=".activity.TechDetialActivity"
             android:label="@string/title_activity_tech_detial"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.ImageActivity"></activity>
+        <activity android:name=".activity.ImageActivity" />
+        <activity android:name=".activity.DownloadActivity"></activity>
     </application>
 
 </manifest>
