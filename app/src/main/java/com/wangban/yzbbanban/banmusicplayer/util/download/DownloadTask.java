@@ -32,14 +32,6 @@ public class DownloadTask implements Runnable {
         }
     }
 
-    DownloadProgressListener downloadProgressListener = new DownloadProgressListener() {
-        @Override
-        public void onDownloadSize(int size) {
-            view.setProgressCurrent(size);
-
-        }
-    };
-
     @Override
     public void run() {
 
@@ -47,7 +39,12 @@ public class DownloadTask implements Runnable {
             //实例化下载器
             loader = new FileDownloader(context, path, saveDir, 3);
             view.setProgressMax(loader.getFileSize());
-            loader.download(downloadProgressListener);
+            loader.download(new DownloadProgressListener() {
+                @Override
+                public void onDownloadSize(int size) {
+                    view.setProgressCurrent(size);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
             view.sendFailureMessage();

@@ -32,6 +32,7 @@ public class DownloadActivity extends AppCompatActivity implements Consts, IView
     private Button btnDown;
     @ViewInject(R.id.btn_stop)
     private Button btnStop;
+
     private int currentProgress;
     private int maxProgress;
 
@@ -67,6 +68,11 @@ public class DownloadActivity extends AppCompatActivity implements Consts, IView
     @Override
     public void setProgressCurrent(int progress) {
         this.currentProgress = progress;
+        showProgressBar(currentProgress);
+    }
+
+    private void showProgressBar(int currentProgress) {
+        progressBar.setProgress(currentProgress);
     }
 
     //设置失败信息
