@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="com.wangban.yzbbanban.banmusicplayer.activity.DownloadActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorOrage"
@@ -22,17 +22,17 @@
             android:background="@drawable/selector" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="下载详情"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/lv_download_list"
@@ -44,18 +44,33 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
-        <ProgressBar
-            android:id="@+id/pg_download"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        <LinearLayout
+            android:id="@+id/ll_xx"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:max="100"
-            android:progress="0" />
+            android:layout_height="50dp">
+
+            <ProgressBar
+                android:id="@+id/pg_download"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="0" />
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="00%" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/pg_download">
+            android:layout_below="@id/ll_xx">
 
             <Button
                 android:id="@+id/btn_down"

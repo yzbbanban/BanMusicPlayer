@@ -37,6 +37,11 @@ public interface Consts {
     int SET_WALLPAPER=102;
     int SET_BITMAP=103;
 
+    /**
+     * 下载相关
+     */
+    int DOWNLOAD_FAILURE=120;
+    int DOWNLOAD=121;
 
     String PUT_MUSIC = "put_music";
     /**

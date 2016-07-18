@@ -17,11 +17,11 @@ public class DownloadTask implements Runnable {
     private Context context;
     private IViewDownLoad view;
 
-    public DownloadTask(Context context, File saveDir, String path) {
+    public DownloadTask(Context context, File saveDir, String path,IViewDownLoad view) {
         this.saveDir = saveDir;
         this.path = path;
         this.context = context;
-        this.view= (IViewDownLoad) context;
+        this.view= view;
     }
 
 

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorOrage"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/tv_tech_content_title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
@@ -39,7 +39,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <com.wangban.yzbbanban.banmusicplayer.ui.ZoomScrollView
