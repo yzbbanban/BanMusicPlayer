@@ -83,7 +83,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
                 setData();
             }
         });
-        btnDownloadBack.setOnClickListener(new View.OnClickListener() {
+        btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopDownLoad();
@@ -110,11 +110,11 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String title = getIntent().getStringExtra("title");
-            String path = getIntent().getStringExtra("url")+"_"+title;
+            String path = getIntent().getStringExtra("url") + "_" + title;
 
 
             File saveDir = Environment.getExternalStorageDirectory();
-            LogUtil.logInfo(TAG, "saveDir: " + saveDir);
+//            LogUtil.logInfo(TAG, "saveDir: " + saveDir);
             download(path, saveDir);
         } else {
             ToastUtil.showToast(getApplicationContext(), "SD卡内存错误");
