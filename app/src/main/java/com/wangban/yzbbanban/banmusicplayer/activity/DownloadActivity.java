@@ -69,6 +69,13 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        setData();
+        super.onNewIntent(intent);
+    }
+
     private void setListeners() {
         btnDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,26 +108,12 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 //        intent2.putExtra("title", songInfo.getTitle());
 //        intent2.putExtra("bit", url.getFile_bitrate());
 
-        String path = getIntent().getStringExtra("url");
-
-//        String filename = getIntent().getStringExtra("title") + ".mp3";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            String title = getIntent().getStringExtra("title");
+            String path = getIntent().getStringExtra("url")+"_"+title;
 
-//            File saveDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), filename);
-//            if (saveDir.exists()) { //已经下载过了
-//                LogUtil.logInfo("info", "已经下载过了....");
-//                ToastUtil.showToast(MusicApplication.getContext(), "已经下载过了");
-//                return;
-//            }
-//            父目录不存在  创建父目录
-//            if (!saveDir.getParentFile().exists()) {
-//                saveDir.getParentFile().mkdirs();
-//            }
+
             File saveDir = Environment.getExternalStorageDirectory();
-//            if (saveDir.exists()){
-//                ToastUtil.showToast(MusicApplication.getContext(), "已经下载过了");
-//                return;
-//            }
             LogUtil.logInfo(TAG, "saveDir: " + saveDir);
             download(path, saveDir);
         } else {
