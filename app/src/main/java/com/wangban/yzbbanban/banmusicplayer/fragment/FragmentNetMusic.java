@@ -314,6 +314,7 @@ public class FragmentNetMusic extends Fragment implements IViewNet, IViewNetDeti
         //LogUtil.logInfo(TAG, "playMusic:111111 ");
         String songUrl = ((List<Url>) data1).get(0).getFile_link();
         if (songUrl != null) {
+            LogUtil.logInfo(TAG,"songUrl: "+songUrl);
             MusicSevice.MusicBinder.playMusic(songUrl);
             intent = new Intent(getActivity(), PlayActivity.class);
             startActivity(intent);

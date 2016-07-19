@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
@@ -40,6 +41,8 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     @ViewInject(R.id.tv_progress)
     private TextView textView;
 
+    private DownloadTask task;
+
     private int currentProgress;
     private int maxProgress;
     private Handler handler = new Handler() {
@@ -47,7 +50,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case DOWNLOAD:
-                    int pro=msg.arg1;
+                    int pro = msg.arg1;
                     showProgressBar(pro);
                     break;
                 case DOWNLOAD_FAILURE:
@@ -76,7 +79,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         btnDownloadBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                stopDownLoad();
             }
         });
         btnDownloadBack.setOnClickListener(new View.OnClickListener() {
@@ -88,14 +91,37 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         });
     }
 
+    private void stopDownLoad() {
+        task.exit();
+    }
+
     private void setData() {
 
 //        intent2.putExtra("url", fileLink);
 //        intent2.putExtra("title", songInfo.getTitle());
 //        intent2.putExtra("bit", url.getFile_bitrate());
+
         String path = getIntent().getStringExtra("url");
+
+//        String filename = getIntent().getStringExtra("title") + ".mp3";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+
+//            File saveDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), filename);
+//            if (saveDir.exists()) { //已经下载过了
+//                LogUtil.logInfo("info", "已经下载过了....");
+//                ToastUtil.showToast(MusicApplication.getContext(), "已经下载过了");
+//                return;
+//            }
+//            父目录不存在  创建父目录
+//            if (!saveDir.getParentFile().exists()) {
+//                saveDir.getParentFile().mkdirs();
+//            }
             File saveDir = Environment.getExternalStorageDirectory();
+//            if (saveDir.exists()){
+//                ToastUtil.showToast(MusicApplication.getContext(), "已经下载过了");
+//                return;
+//            }
+            LogUtil.logInfo(TAG, "saveDir: " + saveDir);
             download(path, saveDir);
         } else {
             ToastUtil.showToast(getApplicationContext(), "SD卡内存错误");
@@ -108,13 +134,16 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     @Override
     public void setProgressMax(int progress) {
         this.maxProgress = progress;
+        progressBar.setMax(progress);
+//        LogUtil.logInfo(TAG,"MAX: "+maxProgress);
     }
 
     @Override
     public void setProgressCurrent(int progress) {
         this.currentProgress = progress;
+//        LogUtil.logInfo(TAG,"MAX: "+currentProgress);
         Message msg = Message.obtain();
-        msg.what = 100;
+        msg.what = DOWNLOAD;
         msg.arg1 = currentProgress;
         handler.sendMessage(msg);
 
@@ -122,8 +151,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 
     private void showProgressBar(int currentProgress) {
         progressBar.setProgress(currentProgress);
-        float pro = currentProgress * 100 / maxProgress;
-        int p = (int) (pro * 100);
+        int p = currentProgress * 100 / maxProgress;
         textView.setText(p + "%");
     }
 
@@ -140,7 +168,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
      * @param saveDir 下载文件存于的目录
      */
     private void download(String path, File saveDir) {
-        DownloadTask task = new DownloadTask(getApplicationContext(), saveDir, path, this);
+        task = new DownloadTask(getApplicationContext(), saveDir, path, this);
         new Thread(task).start();
     }
 

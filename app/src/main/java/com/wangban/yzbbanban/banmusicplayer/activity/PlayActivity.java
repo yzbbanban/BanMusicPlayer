@@ -584,21 +584,21 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
             public void onClick(DialogInterface dialog, int which) {
                 Url url = urls.get(which);
                 String fileLink = url.getShow_link();
-//                LogUtil.logInfo(TAG, "onClick: " + fileLink);
-                //启动 Service执行下载
-//
-//                Intent intent = new Intent(PlayActivity.this, DownloadService.class);
-//                intent.putExtra("url", fileLink);
-//                intent.putExtra("title", songInfo.getTitle());
-//                intent.putExtra("bit", url.getFile_bitrate());
-//                startService(intent);
-//
+                LogUtil.logInfo(TAG, "onClick: " + fileLink);
+//                启动 Service执行下载
+
+                Intent intent = new Intent(PlayActivity.this, DownloadService.class);
+                intent.putExtra("url", fileLink);
+                intent.putExtra("title", songInfo.getTitle());
+                intent.putExtra("bit", url.getFile_bitrate());
+                startService(intent);
+
                 //启动 download 界面下载
-                Intent intent2=new Intent(PlayActivity.this,DownloadActivity.class);
-                intent2.putExtra("url", fileLink);
-                intent2.putExtra("title", songInfo.getTitle());
-                intent2.putExtra("bit", url.getFile_bitrate());
-                startActivity(intent2);
+//                Intent intent2=new Intent(PlayActivity.this,DownloadActivity.class);
+//                intent2.putExtra("url", fileLink);
+//                intent2.putExtra("title", songInfo.getTitle());
+//                intent2.putExtra("bit", url.getFile_bitrate());
+//                startActivity(intent2);
             }
         });
         AlertDialog dialog = builder.create();
