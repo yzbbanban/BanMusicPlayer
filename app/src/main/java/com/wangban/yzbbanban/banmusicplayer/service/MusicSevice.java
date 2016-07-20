@@ -9,12 +9,9 @@ import android.support.annotation.Nullable;
 
 import java.io.IOException;
 
-import android.app.Activity;
-import android.util.Log;
 
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 
 /**
  * Created by YZBbanban on 16/6/27.
@@ -112,6 +109,11 @@ public class MusicSevice extends Service implements Consts {
             } else {
                 player.start();
             }
+        }
+
+        public static void pausePlayer() {
+            player.pause();
+
         }
 
         //播放音乐

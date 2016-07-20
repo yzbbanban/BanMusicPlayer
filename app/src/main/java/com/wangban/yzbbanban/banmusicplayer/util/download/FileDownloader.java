@@ -88,7 +88,7 @@ public class FileDownloader {
     protected synchronized void update(int threadId, int pos) {
         this.data.put(threadId, pos);
         this.fileService.update(this.downloadUrl, threadId, pos);
-        LogUtil.logInfo("supergirl", "updata_downloadUrl: " + downloadUrl);
+//        LogUtil.logInfo("supergirl", "updata_downloadUrl: " + downloadUrl);
     }
 
     /**

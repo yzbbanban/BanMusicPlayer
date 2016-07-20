@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -140,7 +141,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
     private SongInfo songInfo;
     private int positionList;
 
-    private String localMusicChangedId = "defult";
+    private String localMusicChangedId = "default";
 
     private int playState = REPEAT;
     //音乐类型（新歌、热歌。。。。搜索等）
@@ -336,6 +337,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
         ibtnMusicPrevious.setOnClickListener(this);
         ibtnPlayState.setOnClickListener(this);
         ibtnDownload.setOnClickListener(this);
+        ibtnShare.setOnClickListener(this);
         ibtnLike.setOnClickListener(this);
         ibtnMusicList.setOnClickListener(this);
         btnMusicListBack.setOnClickListener(this);
@@ -525,7 +527,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
             //分享音乐
             case R.id.ibtn_player_share:
                 String appPath = MY_APP;
-                musicShare(appPath);
+                musicShare(appPath,null);
                 break;
         }
     }
@@ -533,9 +535,13 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
     /**
      * 分享音乐
      */
-    private void musicShare(String appPat) {
+    private void musicShare(String appPat, Uri uri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/*");
+        if (uri != null) {
+            intent.setType("image/*");
+        } else {
+            intent.setType("text/plain");
+        }
         intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
         intent.putExtra(Intent.EXTRA_TEXT, appPat);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -1,10 +1,15 @@
 package com.wangban.yzbbanban.banmusicplayer.activity;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -48,7 +53,9 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
                     int pro = msg.getData().getInt("size");
                     showProgressBar(pro);
                     if (progressBar.getProgress() == progressBar.getMax()) {
-                        ToastUtil.showToast(DownloadActivity.this, "下载完成"  );
+                        ToastUtil.showToast(DownloadActivity.this, "下载完成");
+                        cancelNotification();
+                        sendNotification("音乐下载完成", "音乐下载完成", 0, 0, false);
                     }
                     break;
                 case DOWNLOAD_FAILURE:
@@ -70,7 +77,9 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        startDownload();
+        if (intent != null) {
+            startDownload();
+        }
         super.onNewIntent(intent);
     }
 
@@ -90,10 +99,14 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         btnDownloadBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DownloadActivity.this, PlayActivity.class));
-                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+                changeActivity();
             }
         });
+    }
+
+    private void changeActivity() {
+        startActivity(new Intent(DownloadActivity.this, PlayActivity.class));
+        overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     }
 
     private void stopDownLoad() {
@@ -137,12 +150,14 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         msg.what = DOWNLOAD;
         handler.sendMessage(msg);
 
+
     }
 
     private void showProgressBar(int currentProgress) {
         progressBar.setProgress(currentProgress);
         int p = currentProgress * 100 / maxProgress;
         textView.setText(p + "%");
+        sendNotification("", "", maxProgress, currentProgress, false);
     }
 
     //设置失败信息
@@ -160,6 +175,38 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     private void download(String path, File saveDir) {
         task = new DownloadTask(getApplicationContext(), saveDir, path, this);
         new Thread(task).start();
+        sendNotification("音乐开始下载", "", 100, 0, true);
     }
 
+    /**
+     * 发送通知
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void sendNotification(String ticker, String text, int max, int progress, boolean i) {
+        NotificationManager manager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setTicker(ticker)
+                .setContentTitle("音乐下载")
+                .setContentText(text)
+                .setSmallIcon(R.drawable.thanks);
+        builder.setProgress(max, progress, i);
+        manager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    //清除通知
+    public void cancelNotification() {
+        NotificationManager manager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        manager.cancel(NOTIFICATION_ID);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            changeActivity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

@@ -42,6 +42,7 @@ public interface Consts {
      */
     int DOWNLOAD_FAILURE = 120;
     int DOWNLOAD = 121;
+    int NOTIFICATION_ID = 100;
 
     String PUT_MUSIC = "put_music";
     /**

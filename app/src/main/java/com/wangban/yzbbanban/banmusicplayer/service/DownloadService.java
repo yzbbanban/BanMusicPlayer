@@ -62,7 +62,7 @@ public class DownloadService extends IntentService implements Consts {
     protected void onHandleIntent(Intent intent) {
         String url = intent.getStringExtra("url");
         String title = intent.getStringExtra("title");
-        Log.i(TAG, "onHandleIntent: " + title);
+//        Log.i(TAG, "onHandleIntent: " + title);
         String bit = intent.getStringExtra("bit");
         try {
             String filename = "_" + bit + "/" + title + ".mp3";
