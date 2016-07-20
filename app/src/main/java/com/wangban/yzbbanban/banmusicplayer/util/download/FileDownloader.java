@@ -98,7 +98,7 @@ public class FileDownloader {
                           File fileSaveDir, int threadNum) {
         try {
             this.context = context;
-//            title = downloadUrl.substring(downloadUrl.lastIndexOf("_") + 1);
+            title = downloadUrl.substring(downloadUrl.lastIndexOf("_") + 1);
             this.downloadUrl = downloadUrl.substring(0, downloadUrl.lastIndexOf("_"));
             fileService = new FileService(this.context);
             URL url = new URL(this.downloadUrl);
@@ -127,7 +127,7 @@ public class FileDownloader {
                     throw new RuntimeException("Unkown file size ");
 
 //                String filename = title+".mp3";// 获取文件名称
-                String filename = getFileName(conn);// 获取文件名称
+                String filename = getFileName(conn,title);// 获取文件名称
                 this.saveFile = new File(fileSaveDir, filename);// 构建保存文件
                 Map<Integer, Integer> logdata = fileService
                         .getData(downloadUrl);// 获取下载记录
@@ -157,8 +157,8 @@ public class FileDownloader {
     /**
      * 获取文件名
      */
-    private String getFileName(HttpURLConnection conn) {
-        String filename = this.downloadUrl+".mp3";
+    private String getFileName(HttpURLConnection conn,String title) {
+        String filename = title+".mp3";
 //        String filename = this.downloadUrl.substring(this.downloadUrl.lastIndexOf('/') + 1);
         if (filename == null || "".equals(filename.trim())) {// 如果获取不到文件名称
             for (int i = 0; ; i++) {
@@ -212,7 +212,7 @@ public class FileDownloader {
                     this.threads[i] = null;
                 }
             }
-            fileService.delete(this.downloadUrl);// 如果存在下载记录，删除它们，然后重新添加
+//            fileService.delete(this.downloadUrl);// 如果存在下载记录，删除它们，然后重新添加
             fileService.save(this.downloadUrl, this.data);
             boolean notFinish = true;// 下载未完成
             while (notFinish) {// 循环判断所有线程是否完成下载

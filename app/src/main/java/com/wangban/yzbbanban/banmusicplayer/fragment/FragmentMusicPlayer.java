@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.activity.DownloadActivity;
 import com.wangban.yzbbanban.banmusicplayer.activity.LocalMusicActivity;
 import com.wangban.yzbbanban.banmusicplayer.activity.PlayActivity;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
@@ -112,6 +113,9 @@ public class FragmentMusicPlayer extends Fragment implements Consts, IViewLocalM
 
                 break;
             case R.id.ll_my_download_music:
+                intent=new Intent(getActivity(), DownloadActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
                 break;
             case R.id.ll_my_local_music:

@@ -13,7 +13,7 @@ public interface Consts {
 
     String BEAUTY_PATH = Environment.getExternalStorageDirectory() + "/DCIM/";
 
-
+    String MY_APP = "http://a.app.qq.com/o/simple.jsp?pkgname=com.wangban.yzbbanban.banmusicplayer";
     int MAX_SIZE = 250;
 
     String TAG = "supergirl";
@@ -23,25 +23,25 @@ public interface Consts {
     int HOT = 200;
     int BILLBOARD = 300;
     int KTV = 400;
-    int SEARCH=500;
-    int LOCAL=600;
+    int SEARCH = 500;
+    int LOCAL = 600;
 
-    int REPEAT=1000;
-    int RANDOM =2000;
-    int RECYCLE=3000;
+    int REPEAT = 1000;
+    int RANDOM = 2000;
+    int RECYCLE = 3000;
 
     /**
      * 保存，设置图片状态
      */
-    int SAVE_BITMAP=101;
-    int SET_WALLPAPER=102;
-    int SET_BITMAP=103;
+    int SAVE_BITMAP = 101;
+    int SET_WALLPAPER = 102;
+    int SET_BITMAP = 103;
 
     /**
      * 下载相关
      */
-    int DOWNLOAD_FAILURE=120;
-    int DOWNLOAD=121;
+    int DOWNLOAD_FAILURE = 120;
+    int DOWNLOAD = 121;
 
     String PUT_MUSIC = "put_music";
     /**
@@ -54,8 +54,8 @@ public interface Consts {
     /**
      * 实体类 intent 传值（TechNews）
      */
-    String TECHNEWS="techNews";
-    String IMAGE="image";
+    String TECHNEWS = "techNews";
+    String IMAGE = "image";
 
     int REFRESH_COMPLETE = 2;
 

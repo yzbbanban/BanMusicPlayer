@@ -524,7 +524,8 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
                 break;
             //分享音乐
             case R.id.ibtn_player_share:
-                musicShare();
+                String appPath = MY_APP;
+                musicShare(appPath);
                 break;
         }
     }
@@ -532,8 +533,13 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
     /**
      * 分享音乐
      */
-    private void musicShare() {
-
+    private void musicShare(String appPat) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+        intent.putExtra(Intent.EXTRA_TEXT, appPat);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(Intent.createChooser(intent, getTitle()));
     }
 
     /**
@@ -594,7 +600,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 //                startService(intent);
 
                 //启动 download 界面下载
-                Intent intent2=new Intent(PlayActivity.this,DownloadActivity.class);
+                Intent intent2 = new Intent(PlayActivity.this, DownloadActivity.class);
                 intent2.putExtra("url", fileLink);
                 intent2.putExtra("title", songInfo.getTitle());
                 intent2.putExtra("bit", url.getFile_bitrate());
@@ -756,7 +762,6 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
         MusicApplication.getMusicPlayer().setPosition(position);
         presenterNetDetial.setSong(song_id);
     }
-
 
 
     /**

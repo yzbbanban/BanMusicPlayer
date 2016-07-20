@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
-import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
-import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
-import com.wangban.yzbbanban.banmusicplayer.util.download.DownloadProgressListener;
 import com.wangban.yzbbanban.banmusicplayer.util.download.DownloadTask;
-import com.wangban.yzbbanban.banmusicplayer.util.download.FileDownloader;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
 
 import org.xutils.view.annotation.ViewInject;
@@ -57,7 +52,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
                     }
                     break;
                 case DOWNLOAD_FAILURE:
-                    ToastUtil.showToast(getApplicationContext(), "下载失败");
+                    ToastUtil.showToast(getApplicationContext(), "下载失败,此歌曲不提供下载");
                     break;
             }
         }
@@ -75,7 +70,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        setData();
+        startDownload();
         super.onNewIntent(intent);
     }
 
@@ -83,7 +78,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         btnDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setData();
+                startDownload();
             }
         });
         btnStop.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +100,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         task.exit();
     }
 
-    private void setData() {
+    private void startDownload() {
 
 //        intent2.putExtra("url", fileLink);
 //        intent2.putExtra("title", songInfo.getTitle());
