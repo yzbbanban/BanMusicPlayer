@@ -107,9 +107,8 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 //        intent2.putExtra("bit", url.getFile_bitrate());
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            String title = getIntent().getStringExtra("title");
-            String path = getIntent().getStringExtra("url") + "_" + title;
-
+//            String title = getIntent().getStringExtra("title");
+            String path = getIntent().getStringExtra("url");
 
             File saveDir = Environment.getExternalStorageDirectory();
 //            LogUtil.logInfo(TAG, "saveDir: " + saveDir);

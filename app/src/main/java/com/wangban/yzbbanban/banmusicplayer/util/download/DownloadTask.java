@@ -2,6 +2,7 @@ package com.wangban.yzbbanban.banmusicplayer.util.download;
 
 import android.content.Context;
 
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
 
 import java.io.File;
@@ -37,6 +38,7 @@ public class DownloadTask implements Runnable {
 
         try {
             //实例化下载器
+//            LogUtil.logInfo("supergirl","Task_path: "+path);
             loader = new FileDownloader(context, path, saveDir, 3);
             view.setProgressMax(loader.getFileSize());
             loader.download(new DownloadProgressListener() {
