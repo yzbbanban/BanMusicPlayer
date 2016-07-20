@@ -38,6 +38,8 @@ public class FileDownloader {
     /* 下载路径 */
     private String downloadUrl;
 
+    String title;
+
     /**
      * 获取线程数
      */
@@ -96,12 +98,13 @@ public class FileDownloader {
                           File fileSaveDir, int threadNum) {
         try {
             this.context = context;
-            String title=downloadUrl.substring(downloadUrl.lastIndexOf("_")+1);
+//            title = downloadUrl.substring(downloadUrl.lastIndexOf("_") + 1);
             this.downloadUrl = downloadUrl.substring(0, downloadUrl.lastIndexOf("_"));
             fileService = new FileService(this.context);
             URL url = new URL(this.downloadUrl);
-            if (!fileSaveDir.exists()) // 判断目录是否存在，如果不存在，创建目录
-                fileSaveDir.mkdirs();
+            if (!fileSaveDir.getParentFile().exists()) { // 判断目录是否存在，如果不存在，创建目录
+                fileSaveDir.getParentFile().mkdirs();
+            }
             this.threads = new DownloadThread[threadNum];// 实例化线程数组
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5 * 1000);
@@ -123,7 +126,8 @@ public class FileDownloader {
                 if (this.fileSize <= 0)
                     throw new RuntimeException("Unkown file size ");
 
-                String filename = title+".mp3";// 获取文件名称
+//                String filename = title+".mp3";// 获取文件名称
+                String filename = getFileName(conn);// 获取文件名称
                 this.saveFile = new File(fileSaveDir, filename);// 构建保存文件
                 Map<Integer, Integer> logdata = fileService
                         .getData(downloadUrl);// 获取下载记录
@@ -154,8 +158,8 @@ public class FileDownloader {
      * 获取文件名
      */
     private String getFileName(HttpURLConnection conn) {
-        String filename = this.downloadUrl.substring(this.downloadUrl
-                .lastIndexOf('/') + 1);
+        String filename = this.downloadUrl+".mp3";
+//        String filename = this.downloadUrl.substring(this.downloadUrl.lastIndexOf('/') + 1);
         if (filename == null || "".equals(filename.trim())) {// 如果获取不到文件名称
             for (int i = 0; ; i++) {
                 String mine = conn.getHeaderField(i);
@@ -169,7 +173,7 @@ public class FileDownloader {
                         return m.group(1);
                 }
             }
-            filename = UUID.randomUUID() + ".tmp";// 默认取一个文件名
+            filename = UUID.randomUUID() + ".mp3";// 默认取一个文件名
         }
         return filename;
     }

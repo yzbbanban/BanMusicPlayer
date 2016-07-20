@@ -50,8 +50,11 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case DOWNLOAD:
-                    int pro = msg.arg1;
+                    int pro = msg.getData().getInt("size");
                     showProgressBar(pro);
+                    if (progressBar.getProgress() == progressBar.getMax()) {
+                        ToastUtil.showToast(DownloadActivity.this, "下载完成"  );
+                    }
                     break;
                 case DOWNLOAD_FAILURE:
                     ToastUtil.showToast(getApplicationContext(), "下载失败");
@@ -136,8 +139,8 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         this.currentProgress = progress;
 //        LogUtil.logInfo(TAG,"MAX: "+currentProgress);
         Message msg = Message.obtain();
+        msg.getData().putInt("size", currentProgress);
         msg.what = DOWNLOAD;
-        msg.arg1 = currentProgress;
         handler.sendMessage(msg);
 
     }
