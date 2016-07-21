@@ -17,7 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.adapter.DownloadAdapter;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.download.DownloadTask;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
@@ -26,6 +28,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.*;
 
 public class DownloadActivity extends BaseDestoryActivity implements Consts, IViewDownLoad {
     @ViewInject(R.id.lv_download_list)
@@ -42,6 +45,9 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     private TextView textView;
 
     private DownloadTask task;
+
+    private List<DownloadDoc> downloadDocs;
+    private DownloadAdapter adapter;
 
     private int currentProgress;
     private int maxProgress;
@@ -74,6 +80,10 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 
     }
 
+    private void setAdapter() {
+
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
@@ -99,7 +109,9 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         btnDownloadBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeActivity();
+//                changeActivity();
+                finish();
+                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
         });
     }
@@ -204,9 +216,14 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            changeActivity();
+//            changeActivity();
+            finish();
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+
 }

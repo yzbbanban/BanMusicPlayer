@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
+import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
 import com.wangban.yzbbanban.banmusicplayer.entity.ImageInfo;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
@@ -39,12 +40,13 @@ public class MusicApplication extends Application {
     private static RequestQueue queue;
     private static TechMessage message;
     private static ImageInfo imageInfo;
-    public static boolean networkIsNone=false;
-    public static boolean networkIsMobile=false;
-    public static boolean networkIsWifi=false;
+    public static boolean networkIsNone = false;
+    public static boolean networkIsMobile = false;
+    public static boolean networkIsWifi = false;
     //是否发布了
-    public final static boolean ISRELEASE=false;
+    public final static boolean ISRELEASE = false;
 
+    private List<DownloadDoc> downloadDocs;
 
     private boolean isFirstIn;
     public ArrayList<Activity> activities = new ArrayList<>();
@@ -73,6 +75,7 @@ public class MusicApplication extends Application {
         message = new TechMessage();
         imageInfo = new ImageInfo();
 
+        downloadDocs=new ArrayList<DownloadDoc>();
         //创建默认的ImageLoader配置参数
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration
                 .createDefault(this);
@@ -80,6 +83,14 @@ public class MusicApplication extends Application {
         //Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(configuration);
 
+    }
+
+    public List<DownloadDoc> getDownloadDoc() {
+        return downloadDocs;
+    }
+
+    public void setDownloadDoc(List<DownloadDoc> downloadDocs) {
+        this.downloadDocs = downloadDocs;
     }
 
     public boolean isFirstIn() {
