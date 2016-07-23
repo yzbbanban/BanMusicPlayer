@@ -2,50 +2,71 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="4dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp">
-        <TextView
-            android:gravity="center"
-            android:id="@+id/tv_download_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="@color/colorRed"
-            android:text="0%" />
-
-        <ProgressBar
-            android:id="@+id/pb_download_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_weight="1" />
-    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-        <TextView
-            android:id="@+id/tv_download_music_title"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:layout_height="20dp"
-            android:text="歌曲名" />
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_download_start"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="开始" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
 
-        <Button
-            android:id="@+id/btn_download_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="暂停" />
+            <TextView
+                android:id="@+id/tv_download_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="0%"
+                android:textColor="@color/colorRed" />
+
+            <ProgressBar
+                android:id="@+id/pb_download_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/tv_download_music_title"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="歌曲名" />
+
+            <Button
+                android:id="@+id/btn_download_start"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="开始" />
+
+            <Button
+                android:id="@+id/btn_download_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="暂停" />
+        </LinearLayout>
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/ibtn_download_delete"
+        android:visibility="gone"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/selctor_delete" />
+
 </LinearLayout>

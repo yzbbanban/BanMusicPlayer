@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import java.util.List;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.DOWNLOAD;
 import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.DOWNLOAD_FAILURE;
+import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.MY_APP;
 import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.NOTIFICATION_ID;
 
 /**
@@ -94,16 +96,24 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
             holer.pb_download_progress = (ProgressBar) convertView.findViewById(R.id.pb_download_progress);
             holer.btn_download_start = (Button) convertView.findViewById(R.id.btn_download_start);
             holer.btn_download_stop = (Button) convertView.findViewById(R.id.btn_download_stop);
+            holer.ibtn_download_delete= (ImageButton) convertView.findViewById(R.id.ibtn_download_delete);
+
+            holer.tv_download_progress.setTag("tv" + position);
+            holer.btn_download_start.setTag("btn_start" + position);
+            holer.btn_download_stop.setTag("btn_stop" + position);
+            holer.pb_download_progress.setTag("pb" + position);
+            holer.ibtn_download_delete.setTag("ibtn" + position);
+
+            holer.btn_download_start.setOnClickListener(myListener);
+            holer.btn_download_stop.setOnClickListener(myListener);
+            holer.ibtn_download_delete.setOnClickListener(myListener);
+
             convertView.setTag(holer);
         }
         holer = (ViewHoler) convertView.getTag();
         holer.tv_download_music_title.setText(downloadDoc.getTitle());
-        holer.tv_download_progress.setTag("tv" + position);
-        holer.btn_download_start.setTag("btn_start" + position);
-        holer.btn_download_stop.setTag("btn_stop" + position);
-        holer.pb_download_progress.setTag("pb" + position);
-        holer.btn_download_start.setOnClickListener(myListener);
-        holer.btn_download_stop.setOnClickListener(myListener);
+
+
         return convertView;
     }
 
@@ -113,6 +123,7 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
         ProgressBar pb_download_progress;
         Button btn_download_start;
         Button btn_download_stop;
+        ImageButton ibtn_download_delete;
     }
 
     class MyListener implements View.OnClickListener {
@@ -146,6 +157,9 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
                     ToastUtil.showToast(getContext(), "第" + position + "个停止");
                     btnStart.setEnabled(true);
                     btnStop.setEnabled(false);
+                    break;
+                case R.id.ibtn_download_delete:
+
                     break;
 
             }
