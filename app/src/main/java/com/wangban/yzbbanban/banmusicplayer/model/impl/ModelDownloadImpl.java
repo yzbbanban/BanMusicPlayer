@@ -27,6 +27,7 @@ public class ModelDownloadImpl implements IModelDownload {
 
     @Override
     public List<DownloadDoc> loadDownMusicMessage() {
-        return null;
+        List<DownloadDoc> docs=MusicApplication.getInfo().getDownloadDocs();
+        return docs;
     }
 }

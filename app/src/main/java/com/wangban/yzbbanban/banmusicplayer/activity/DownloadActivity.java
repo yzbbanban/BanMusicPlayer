@@ -56,25 +56,25 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 
     private int currentProgress;
     private int maxProgress;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case DOWNLOAD:
-                    int pro = msg.getData().getInt("size");
-                    showProgressBar(pro);
-                    if (progressBar.getProgress() == progressBar.getMax()) {
-                        ToastUtil.showToast(DownloadActivity.this, "下载完成");
-                        cancelNotification();
-                        sendNotification("音乐下载完成", "音乐下载完成", 0, 0, false);
-                    }
-                    break;
-                case DOWNLOAD_FAILURE:
-                    ToastUtil.showToast(getApplicationContext(), "下载失败,此歌曲不提供下载");
-                    break;
-            }
-        }
-    };
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case DOWNLOAD:
+//                    int pro = msg.getData().getInt("size");
+//                    showProgressBar(pro);
+//                    if (progressBar.getProgress() == progressBar.getMax()) {
+//                        ToastUtil.showToast(DownloadActivity.this, "下载完成");
+//                        cancelNotification();
+//                        sendNotification("音乐下载完成", "音乐下载完成", 0, 0, false);
+//                    }
+//                    break;
+//                case DOWNLOAD_FAILURE:
+//                    ToastUtil.showToast(getApplicationContext(), "下载失败,此歌曲不提供下载");
+//                    break;
+//            }
+//        }
+//    };
 
     public DownloadActivity() {
         presenter = new PresenterDownloadImpl(this);
@@ -169,12 +169,12 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
 
     @Override
     public void setProgressCurrent(int progress) {
-        this.currentProgress = progress;
-//        LogUtil.logInfo(TAG,"MAX: "+currentProgress);
-        Message msg = Message.obtain();
-        msg.getData().putInt("size", currentProgress);
-        msg.what = DOWNLOAD;
-        handler.sendMessage(msg);
+//        this.currentProgress = progress;
+////        LogUtil.logInfo(TAG,"MAX: "+currentProgress);
+//        Message msg = Message.obtain();
+//        msg.getData().putInt("size", currentProgress);
+//        msg.what = DOWNLOAD;
+//        handler.sendMessage(msg);
 
 
     }
@@ -189,7 +189,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     //设置失败信息
     @Override
     public void sendFailureMessage() {
-        handler.sendEmptyMessage(DOWNLOAD_FAILURE);
+//        handler.sendEmptyMessage(DOWNLOAD_FAILURE);
     }
 
 

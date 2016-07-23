@@ -616,10 +616,12 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 
                 //启动 download 界面下载
 //                List<DownloadDoc> downloadDocs = new ArrayList<DownloadDoc>();
-                DownloadDoc downloadDoc = new DownloadDoc();
-                downloadDoc.setUrl(fileLink);
-                downloadDoc.setTitle(title);
-                presenterDownload.sendDownLoadMessage(downloadDoc);
+                if (musicListType != LOCAL) {
+                    DownloadDoc downloadDoc = new DownloadDoc();
+                    downloadDoc.setUrl(fileLink);
+                    downloadDoc.setTitle(title);
+                    presenterDownload.sendDownLoadMessage(downloadDoc);
+                }
 //                downloadDocs.add(downloadDoc);
 
 //                MusicApplication.getContext().setDownloadDoc(downloadDocs);

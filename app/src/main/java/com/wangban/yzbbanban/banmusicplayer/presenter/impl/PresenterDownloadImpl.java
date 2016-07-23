@@ -10,6 +10,7 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
 
 import java.util.*;
 
+
 /**
  * Created by YZBbanban on 16/7/21.
  */
@@ -29,6 +30,7 @@ public class PresenterDownloadImpl implements IPresenterDownload {
     @Override
     public void findDownloadMessage() {
         List<DownloadDoc> downloadDocs = model.loadDownMusicMessage();
+        Log.i("supergirl", "findDownloadMessage: "+downloadDocs.get(0).getTitle());
         view.showMessage(downloadDocs);
     }
 
