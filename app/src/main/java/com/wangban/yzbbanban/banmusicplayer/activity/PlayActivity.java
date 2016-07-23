@@ -40,6 +40,7 @@ import com.wangban.yzbbanban.banmusicplayer.adapter.LocalMusicListAdapter;
 import com.wangban.yzbbanban.banmusicplayer.adapter.MyLocalMusicAdapter;
 import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
+import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
 import com.wangban.yzbbanban.banmusicplayer.entity.LrcLine;
 import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
@@ -47,8 +48,10 @@ import com.wangban.yzbbanban.banmusicplayer.entity.Song;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongInfo;
 import com.wangban.yzbbanban.banmusicplayer.entity.SongList;
 import com.wangban.yzbbanban.banmusicplayer.entity.Url;
+import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterDownload;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterLrc;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterNetDetial;
+import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterDownloadImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterLrcImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterNetDetialImpl;
 import com.wangban.yzbbanban.banmusicplayer.service.DownloadService;
@@ -155,10 +158,14 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
     //设置 local_list_adapter
     private LocalMusicListAdapter ladapter;
 
+    //设置传递下载数据的 presenter
+    private IPresenterDownload presenterDownload;
+
     public PlayActivity() {
         super();
         imageLoader = new ImageLoader(MusicApplication.getQueue(), new BitmapCache());
         presenterLrc = new PresenterLrcImpl(this);
+        presenterDownload = new PresenterDownloadImpl();
     }
 
 
@@ -527,7 +534,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
             //分享音乐
             case R.id.ibtn_player_share:
                 String appPath = MY_APP;
-                musicShare(appPath,null);
+                musicShare(appPath, null);
                 break;
         }
     }
@@ -580,6 +587,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 
     /**
      * 执行下载
+     * TODO
      */
     private void download() {
         String[] songData = new String[urls.size()];
@@ -596,6 +604,7 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
             public void onClick(DialogInterface dialog, int which) {
                 Url url = urls.get(which);
                 String fileLink = url.getShow_link();
+                String title = songInfo.getTitle();
 //                LogUtil.logInfo(TAG, "onClick: " + fileLink);
 //                启动 Service执行下载
 
@@ -606,11 +615,19 @@ public class PlayActivity extends BaseDestoryActivity implements IViewLrc, IView
 //                startService(intent);
 
                 //启动 download 界面下载
-                Intent intent2 = new Intent(PlayActivity.this, DownloadActivity.class);
-                intent2.putExtra("url", fileLink);
-                intent2.putExtra("title", songInfo.getTitle());
-                intent2.putExtra("bit", url.getFile_bitrate());
-                startActivity(intent2);
+//                List<DownloadDoc> downloadDocs = new ArrayList<DownloadDoc>();
+                DownloadDoc downloadDoc = new DownloadDoc();
+                downloadDoc.setUrl(fileLink);
+                downloadDoc.setTitle(title);
+                presenterDownload.sendDownLoadMessage(downloadDoc);
+//                downloadDocs.add(downloadDoc);
+
+//                MusicApplication.getContext().setDownloadDoc(downloadDocs);
+//                Intent intent2 = new Intent(PlayActivity.this, DownloadActivity.class);
+//                intent2.putExtra("url", fileLink);
+//                intent2.putExtra("title", songInfo.getTitle());
+//                intent2.putExtra("bit", url.getFile_bitrate());
+//                startActivity(intent2);
             }
         });
         AlertDialog dialog = builder.create();

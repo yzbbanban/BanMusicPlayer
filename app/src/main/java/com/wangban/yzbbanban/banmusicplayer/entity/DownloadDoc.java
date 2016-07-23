@@ -1,9 +1,11 @@
 package com.wangban.yzbbanban.banmusicplayer.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by YZBbanban on 16/7/21.
  */
-public class DownloadDoc {
+public class DownloadDoc implements Serializable {
     private String url;
     private String title;
 

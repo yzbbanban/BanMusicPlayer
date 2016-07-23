@@ -7,7 +7,6 @@ package com.wangban.yzbbanban.banmusicplayer.app;
 import android.app.Application;
 import android.media.MediaPlayer;
 import android.app.Activity;
-import android.os.*;
 import android.os.Process;
 
 import com.android.volley.RequestQueue;
@@ -15,17 +14,14 @@ import com.android.volley.toolbox.Volley;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.wangban.yzbbanban.banmusicplayer.entity.DetialImage;
-import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
+import com.wangban.yzbbanban.banmusicplayer.entity.DownloadInfo;
 import com.wangban.yzbbanban.banmusicplayer.entity.ImageInfo;
-import com.wangban.yzbbanban.banmusicplayer.entity.Music;
 import com.wangban.yzbbanban.banmusicplayer.entity.MusicPlayer;
 import com.wangban.yzbbanban.banmusicplayer.entity.TechMessage;
-import com.wangban.yzbbanban.banmusicplayer.service.MusicSevice;
 
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.*;
 
 public class MusicApplication extends Application {
     /**
@@ -45,8 +41,8 @@ public class MusicApplication extends Application {
     public static boolean networkIsWifi = false;
     //是否发布了
     public final static boolean ISRELEASE = false;
-
-    private List<DownloadDoc> downloadDocs;
+    //保存下载数据
+    private static DownloadInfo info;
 
     private boolean isFirstIn;
     public ArrayList<Activity> activities = new ArrayList<>();
@@ -75,7 +71,6 @@ public class MusicApplication extends Application {
         message = new TechMessage();
         imageInfo = new ImageInfo();
 
-        downloadDocs=new ArrayList<DownloadDoc>();
         //创建默认的ImageLoader配置参数
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration
                 .createDefault(this);
@@ -83,15 +78,14 @@ public class MusicApplication extends Application {
         //Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(configuration);
 
+        info = new DownloadInfo();
+        info = info.readDownloadDocs();
     }
 
-    public List<DownloadDoc> getDownloadDoc() {
-        return downloadDocs;
+    public static DownloadInfo getInfo() {
+        return info;
     }
 
-    public void setDownloadDoc(List<DownloadDoc> downloadDocs) {
-        this.downloadDocs = downloadDocs;
-    }
 
     public boolean isFirstIn() {
         return isFirstIn;

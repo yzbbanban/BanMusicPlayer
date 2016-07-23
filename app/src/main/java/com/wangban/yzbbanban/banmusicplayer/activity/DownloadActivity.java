@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.wangban.yzbbanban.banmusicplayer.R;
 import com.wangban.yzbbanban.banmusicplayer.adapter.DownloadAdapter;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
+import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterDownload;
+import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterDownloadImpl;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.download.DownloadTask;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
@@ -47,7 +50,9 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
     private DownloadTask task;
 
     private List<DownloadDoc> downloadDocs;
+
     private DownloadAdapter adapter;
+    private IPresenterDownload presenter;
 
     private int currentProgress;
     private int maxProgress;
@@ -71,27 +76,36 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         }
     };
 
+    public DownloadActivity() {
+        presenter = new PresenterDownloadImpl(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
         x.view().inject(this);
         setListeners();
+        presenter.findDownloadMessage();
 
     }
 
-    private void setAdapter() {
-
-    }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        if (intent != null) {
-            startDownload();
-        }
-        super.onNewIntent(intent);
+    public void showMessage(List<DownloadDoc> downloadDocs) {
+//        Log.i(TAG, "activity_showMessage: " + downloadDocs.get(0).getTitle());
+        adapter = new DownloadAdapter(this, (ArrayList<DownloadDoc>) downloadDocs);
+        listView.setAdapter(adapter);
     }
+//
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        setIntent(intent);
+//        if (intent != null) {
+//            startDownload();
+//        }
+//        super.onNewIntent(intent);
+//    }
 
     private void setListeners() {
         btnDown.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +192,7 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         handler.sendEmptyMessage(DOWNLOAD_FAILURE);
     }
 
+
     /**
      * 下载操作
      *
@@ -223,7 +238,6 @@ public class DownloadActivity extends BaseDestoryActivity implements Consts, IVi
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
 }
