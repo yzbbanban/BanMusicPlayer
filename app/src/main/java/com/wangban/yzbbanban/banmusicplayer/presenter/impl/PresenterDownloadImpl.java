@@ -7,6 +7,7 @@ import com.wangban.yzbbanban.banmusicplayer.model.IModelDownload;
 import com.wangban.yzbbanban.banmusicplayer.model.impl.ModelDownloadImpl;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterDownload;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
+import com.wangban.yzbbanban.banmusicplayer.view.IViewShowDownloadList;
 
 import java.util.*;
 
@@ -17,10 +18,17 @@ import java.util.*;
 public class PresenterDownloadImpl implements IPresenterDownload {
     private IViewDownLoad view;
     private IModelDownload model;
+    private IViewShowDownloadList viewList;
 
     public PresenterDownloadImpl() {
         model = new ModelDownloadImpl();
     }
+
+    public PresenterDownloadImpl(IViewShowDownloadList viewlist) {
+        this.viewList = viewlist;
+        model = new ModelDownloadImpl();
+    }
+
 
     public PresenterDownloadImpl(IViewDownLoad view) {
         this.view = view;
@@ -30,8 +38,8 @@ public class PresenterDownloadImpl implements IPresenterDownload {
     @Override
     public void findDownloadMessage() {
         List<DownloadDoc> downloadDocs = model.loadDownMusicMessage();
-        Log.i("supergirl", "findDownloadMessage: "+downloadDocs.get(0).getTitle());
-        view.showMessage(downloadDocs);
+        Log.i("supergirl", "findDownloadMessage: " + downloadDocs.get(0).getTitle());
+        viewList.showMessage(downloadDocs);
     }
 
     @Override

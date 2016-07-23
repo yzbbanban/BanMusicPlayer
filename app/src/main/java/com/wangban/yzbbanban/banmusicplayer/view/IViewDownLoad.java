@@ -9,6 +9,5 @@ public interface IViewDownLoad {
     void setProgressMax(int progress);
     void setProgressCurrent(int progress);
     void sendFailureMessage();
-    void showMessage(List<DownloadDoc> downloadDocs);
 }
 
