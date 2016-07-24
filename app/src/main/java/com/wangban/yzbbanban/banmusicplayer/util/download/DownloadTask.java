@@ -15,6 +15,7 @@ public class DownloadTask implements Runnable {
     private String path;
     private File saveDir;
     private FileDownloader loader;
+
     private Context context;
     private IViewDownLoad view;
 
@@ -40,10 +41,12 @@ public class DownloadTask implements Runnable {
             //实例化下载器
             LogUtil.logInfo("supergirl","Task_path: "+path);
             loader = new FileDownloader(context, path, saveDir, 3);
+//            LogUtil.logInfo("supergirl","max: "+loader.getFileSize());
             view.setProgressMax(loader.getFileSize());
             loader.download(new DownloadProgressListener() {
                 @Override
                 public void onDownloadSize(int size) {
+//                    LogUtil.logInfo("supergirl","Download_size: "+size);
                     view.setProgressCurrent(size);
                 }
             });

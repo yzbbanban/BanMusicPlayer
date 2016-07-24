@@ -14,9 +14,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
+import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
+import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterDownload;
 import com.wangban.yzbbanban.banmusicplayer.presenter.impl.PresenterDownloadImpl;
+import com.wangban.yzbbanban.banmusicplayer.util.LogUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.ToastUtil;
 import com.wangban.yzbbanban.banmusicplayer.util.download.DownloadTask;
 import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
@@ -30,7 +33,7 @@ import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.DOWNLOAD_FAILUR
 /**
  * Created by YZBbanban on 16/7/21.
  */
-public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDownLoad {
+public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDownLoad ,Consts{
     private Context context;
     private IPresenterDownload presenter;
     private DownloadTask task;
@@ -76,7 +79,6 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
     public View getView(int position, View convertView, ViewGroup parent) {
         DownloadDoc downloadDoc = (DownloadDoc) getItem(position);
 
-        StopListener stopListener = null;
         if (convertView == null) {
             convertView = getLayoutInflater().inflate(R.layout.item_download, null);
             holer = new ViewHoler();
@@ -86,7 +88,6 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
             holer.pb_download_progress = (ProgressBar) convertView.findViewById(R.id.pb_download_progress);
             holer.btn_download_start = (Button) convertView.findViewById(R.id.btn_download_start);
             holer.btn_download_stop = (Button) convertView.findViewById(R.id.btn_download_stop);
-            holer.ibtn_download_delete = (ImageButton) convertView.findViewById(R.id.ibtn_download_delete);
 
 
             convertView.setTag(holer);
@@ -98,11 +99,9 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
         holer.btn_download_start.setTag("btn_start" + position);
         holer.btn_download_stop.setTag("btn_stop" + position);
         holer.pb_download_progress.setTag("pb" + position);
-        holer.ibtn_download_delete.setTag("ibtn" + position);
 
-        holer.btn_download_start.setOnClickListener(new MyListener(position,1));
-        holer.btn_download_stop.setOnClickListener(new MyListener(position,2));
-        holer.ibtn_download_delete.setOnClickListener(new MyListener(position,3));
+        holer.btn_download_start.setOnClickListener(new MyListener(position, 1));
+        holer.btn_download_stop.setOnClickListener(new MyListener(position, 2));
 
 
         return convertView;
@@ -114,7 +113,6 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
         ProgressBar pb_download_progress;
         Button btn_download_start;
         Button btn_download_stop;
-        ImageButton ibtn_download_delete;
     }
 
     class MyListener implements View.OnClickListener {
@@ -124,15 +122,15 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
         public MyListener(int position, int type) {
             this.position = position;
             currentPosition = position;
-            this.type=type;
+            this.type = type;
         }
 
         //TODO
         @Override
         public void onClick(View v) {
 
-            Button btnStart = (Button) listView.findViewWithTag("btn_start" + currentPosition);
-            Button btnStop = (Button) listView.findViewWithTag("btn_stop" + currentPosition);
+//            Button btnStart = (Button) listView.findViewWithTag("btn_start" + currentPosition);
+//            Button btnStop = (Button) listView.findViewWithTag("btn_stop" + currentPosition);
             switch (type) {
                 case 1:
 //                    ToastUtil.showToast(getContext(), "第" + position + "个");
@@ -142,38 +140,23 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
                     ToastUtil.showToast(context, doc.getTitle() + "\n" + doc.getUrl());
 //
 //                  Log.i("supergirl", "onClick: "+doc.getUrl());
-                    btnStart.setEnabled(false);
-                    btnStop.setEnabled(true);
+//                    btnStart.setEnabled(false);
+//                    btnStop.setEnabled(true);
                     break;
 
                 case 2:
                     stopDownLoad();
                     ToastUtil.showToast(getContext(), "第" + position + "个停止");
-                    btnStart.setEnabled(true);
-                    btnStop.setEnabled(false);
-                    break;
-                case 3:
-
+//                    btnStart.setEnabled(true);
+//                    btnStop.setEnabled(false);
                     break;
             }
 
         }
+
     }
 
-    class StopListener implements View.OnClickListener {
-        int position;
 
-        public StopListener(int position) {
-            this.position = position;
-            currentPosition = position;
-        }
-
-        //TODO
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
 
     public void setPresenter(IPresenterDownload presenter) {
         this.presenter = presenter;
@@ -214,7 +197,7 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
      * @param saveDir 下载文件存于的目录
      */
     private void download(String path, File saveDir) {
-        Log.i("supergirl", "download: "+saveDir.getAbsolutePath());
+        Log.i("supergirl", "download: " + saveDir.getAbsolutePath());
         task = new DownloadTask(context, saveDir, path, this);
         new Thread(task).start();
 //        sendNotification("音乐开始下载", "", 100, 0, true);
@@ -224,8 +207,9 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
     @Override
     public void setProgressMax(int progress) {
         this.maxProgress = progress;
+        LogUtil.logInfo(TAG,"MAX: "+maxProgress);
+        pb = (ProgressBar) listView.findViewWithTag("pb" + currentPosition);
         pb.setMax(progress);
-//        LogUtil.logInfo(TAG,"MAX: "+maxProgress);
     }
 
     @Override

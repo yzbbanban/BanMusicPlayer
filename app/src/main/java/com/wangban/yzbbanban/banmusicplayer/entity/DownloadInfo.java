@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Created by YZBbanban on 16/7/22.
  */
-public class DownloadInfo implements Serializable{
+public class DownloadInfo implements Serializable {
     private List<DownloadDoc> docs = new ArrayList<DownloadDoc>();
 
     public DownloadInfo() {
@@ -81,5 +81,12 @@ public class DownloadInfo implements Serializable{
             e.printStackTrace();
         }
         return new DownloadInfo();
+    }
+
+    public void deleteData(int position) {
+        if (docs.size() > position) {
+            docs.remove(position);
+            saveDownloadDoc();
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.wangban.yzbbanban.banmusicplayer.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
