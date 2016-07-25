@@ -8,6 +8,15 @@ import java.io.Serializable;
 public class DownloadDoc implements Serializable {
     private String url;
     private String title;
+    private int progress;
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
 
     public String getUrl() {
         return url;

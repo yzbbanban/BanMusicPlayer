@@ -8,13 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wangban.yzbbanban.banmusicplayer.R;
-import com.wangban.yzbbanban.banmusicplayer.app.MusicApplication;
 import com.wangban.yzbbanban.banmusicplayer.consts.Consts;
 import com.wangban.yzbbanban.banmusicplayer.entity.DownloadDoc;
 import com.wangban.yzbbanban.banmusicplayer.presenter.IPresenterDownload;
@@ -27,17 +25,14 @@ import com.wangban.yzbbanban.banmusicplayer.view.IViewDownLoad;
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.DOWNLOAD;
-import static com.wangban.yzbbanban.banmusicplayer.consts.Consts.DOWNLOAD_FAILURE;
-
 /**
  * Created by YZBbanban on 16/7/21.
  */
-public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDownLoad ,Consts{
+public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDownLoad, Consts {
     private Context context;
     private IPresenterDownload presenter;
     private DownloadTask task;
-    private ViewHoler holer;
+    private ViewHolder holer;
 
     private ListView listView;
     private int currentProgress;
@@ -54,8 +49,9 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
             switch (msg.what) {
                 case DOWNLOAD:
                     int pro = msg.getData().getInt("size");
+                    LogUtil.logInfo(TAG, "pro: " + pro);
                     showProgressBar(pro, currentPosition);
-                    if (pb.getProgress() == pb.getMax()) {
+                    if (pro == maxProgress) {
                         ToastUtil.showToast(context, "下载完成");
 //                        cancelNotification();
 //                        sendNotification("音乐下载完成", "音乐下载完成", 0, 0, false);
@@ -81,7 +77,7 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
 
         if (convertView == null) {
             convertView = getLayoutInflater().inflate(R.layout.item_download, null);
-            holer = new ViewHoler();
+            holer = new ViewHolder();
 
             holer.tv_download_music_title = (TextView) convertView.findViewById(R.id.tv_download_music_title);
             holer.tv_download_progress = (TextView) convertView.findViewById(R.id.tv_download_progress);
@@ -92,22 +88,20 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
 
             convertView.setTag(holer);
         }
-        holer = (ViewHoler) convertView.getTag();
+        holer = (ViewHolder) convertView.getTag();
         holer.tv_download_music_title.setText(downloadDoc.getTitle());
 
-        holer.tv_download_progress.setTag("tv" + position);
+//        holer.tv_download_progress.setTag("tv" + position);
         holer.btn_download_start.setTag("btn_start" + position);
         holer.btn_download_stop.setTag("btn_stop" + position);
-        holer.pb_download_progress.setTag("pb" + position);
 
         holer.btn_download_start.setOnClickListener(new MyListener(position, 1));
         holer.btn_download_stop.setOnClickListener(new MyListener(position, 2));
 
-
         return convertView;
     }
 
-    class ViewHoler {
+    class ViewHolder {
         TextView tv_download_music_title;
         TextView tv_download_progress;
         ProgressBar pb_download_progress;
@@ -157,7 +151,6 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
     }
 
 
-
     public void setPresenter(IPresenterDownload presenter) {
         this.presenter = presenter;
     }
@@ -175,17 +168,28 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
 
     }
 
+    /**
+     * 暂停下载线程
+     */
     private void stopDownLoad() {
         task.exit();
     }
 
-    //TODO
+    /**
+     * 显示进度条的进度
+     *
+     * @param currentPosition 当前下载的位置
+     * @param currentProgress 当前更新位置
+     */
     private void showProgressBar(int currentPosition, int currentProgress) {
-        pb = (ProgressBar) listView.findViewWithTag("pb" + currentPosition);
+//        LogUtil.logInfo(TAG, "currentpos: " + currentPosition + "\ncurrentPro: " + currentProgress);
+//        pb = (ProgressBar) listView.findViewWithTag("pb" + currentPosition);
         holer.pb_download_progress.setProgress(currentProgress);
+//        pb.setProgress(currentProgress);
         int p = currentProgress * 100 / maxProgress;
-        TextView tv = (TextView) listView.findViewWithTag("tv" + currentPosition);
-        tv.setText(p + "%");
+//        TextView tv = (TextView) listView.findViewWithTag("tv" + currentPosition);
+//        tv.setText(p + "%");
+        holer.tv_download_progress.setText(p + "%");
 //        sendNotification("", "", maxProgress, currentProgress, false);
     }
     //TODO
@@ -203,15 +207,24 @@ public class DownloadAdapter extends BaseAdapter<DownloadDoc> implements IViewDo
 //        sendNotification("音乐开始下载", "", 100, 0, true);
     }
 
-    //设置进度
+    /**
+     * progressBar 最大值
+     *
+     * @param progress
+     */
     @Override
     public void setProgressMax(int progress) {
         this.maxProgress = progress;
-        LogUtil.logInfo(TAG,"MAX: "+maxProgress);
-        pb = (ProgressBar) listView.findViewWithTag("pb" + currentPosition);
-        pb.setMax(progress);
+//        LogUtil.logInfo(TAG, "MAX: " + maxProgress);
+//        pb = (ProgressBar) listView.findViewWithTag("pb" + currentPosition);
+        holer.pb_download_progress.setMax(progress);
+//        pb.setMax(progress);
     }
 
+
+    /**
+     * @param progress 当前进度
+     */
     @Override
     public void setProgressCurrent(int progress) {
         this.currentProgress = progress;
